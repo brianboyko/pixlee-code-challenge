@@ -7,6 +7,7 @@ Versioning: "MAJOR.MINOR.PATCH";
 
 ## [Unreleased]
 <!-- ### Changed, Fixed, Removed, etc.-->
+- Can grab an arbitrary number of photos from Instagram API by tag name.
 
 ## 0.1.3 - 21-OCT-2016
 ### Added
