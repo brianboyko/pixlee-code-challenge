@@ -8,6 +8,9 @@ Versioning: "MAJOR.MINOR.PATCH";
 ## [Unreleased]
 <!-- ### Changed, Fixed, Removed, etc.-->
 
+## 0.1.1 - 20-OCT-2016
+### Added
+- Initialized NPM package.json
 
 ## 0.1.1 - 20-OCT-2016
 ### Changed
