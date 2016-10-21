@@ -15,3 +15,42 @@ export const getFromIGByTag = (tagName) => new Promise(function(resolve, reject)
     }
   })
 });
+
+export const getFromFullURL = (fullURL) => new Promise(function(resolve, reject) {
+  request.get(fullURL, (err, response, body) => {
+    if(err){
+      reject(err);
+    } else {
+      resolve(JSON.parse(body));
+    }
+  })
+});
+
+export const consolidate = (firstData, nextData) => {
+  let smushObj = firstData;
+  smushObj.pagination.next_max_id = nextData.pagination.next_max_id;
+  smushObj.pagination.next_url = nextData.pagination.next_url;
+  smushObj.data = firstData.data.concat(nextData.data);
+  return smushObj;
+}
+
+export const getThisManyPhotos = (numPhotos, tagName, previous) => new Promise((resolve, reject) => {
+  if (!previous) {
+    getFromIGByTag(tagName).then((igResp) => {
+      if (igResp.data.length < numPhotos || igResp.data.length === 20) {
+        resolve(getThisManyPhotos(numPhotos, tagName, igResp));
+      } else {
+        resolve(igResp);
+      }
+    }).catch((err) => reject(err));
+  } else {
+    getFromFullURL(previous.pagination.next_url).then((igResp) => {
+      let bundle = consolidate(previous, igResp);
+      if (bundle.data.length >= numPhotos || igResp.data.length < 20 || bundle.pagination.next_url === null) {
+        resolve(bundle);
+      } else {
+        resolve(getThisManyPhotos(numPhotos, tagName, bundle));
+      }
+    }).catch((err) => reject(err));
+  }
+})
