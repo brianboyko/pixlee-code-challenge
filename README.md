@@ -86,3 +86,27 @@ Having created a deadline freeze branch, continue working on the project resolvi
 * Data should be stored in a permanent data store, at the discretion of the applicant.
 
 ---
+
+## Tech Stack & Decisions (initial)
+
+* Language: ES6/Babel - Javascript.
+  * JS is my strongest language.
+  * ES6 also allows me to use the native "Promises" library, and with additional babel presets, also use the experimental async/await syntax.
+* Backend: Node.js
+  * While Rails or Sinatra is perfectly fine here, truth is I've used Express more and am more familiar with it's quirks.  Additionally, keeping the entire application in one language (which happens to be my strongest) makes it a bit easier.
+* API: Express.js
+  * Express.js is the default choice, with testing via Postman, and database integration via the Knex.js library.
+* Front End Server:
+  * Express.js also works well to serve the front-end content as well.
+* Bundling / Automation: Webpack
+  * While less simple than Browserify/Gulp, Webpack's feature list is second to none, and React Hot Loader would allow me to spend less time waiting for refreshes.  
+* Test Suite: Mocha/Chai/Enzyme
+  * Chai's "chai-as-promised" library makes testing asynchronous code easy; Mocha's a solid tool for JS and can test both front and back-end components. Enzyme works great for React components
+* Front-End: React/Redux/ReactRouter
+  * My favorite framework - not as lightweight as, say, Mithryl or Vue, but I like how it works and I'm comfortable with it.  Redux seems to be the go-to for state managers as well.  ReactRouter makes sense for managing multiple pages.
+* UI Library: Grommet
+  * Grommet has a lot of out-of-the-box components that work well together and many of these components are image-based.  
+* Deployment: Heroku
+  * It's free, fast, and I've used it a lot.
+* Database: Postgresql
+  * I might be tempted to go with MongoDB here - not sure how relational our dataset is - but Postgresql is supported by Heroku, it's relatively easy to use, and it was requested in the brief.  

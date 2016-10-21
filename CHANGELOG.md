@@ -6,8 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/)
 Versioning: "MAJOR.MINOR.PATCH";
 
 ## [Unreleased]
-
 <!-- ### Changed, Fixed, Removed, etc.-->
+
+
+## 0.1.1 - 20-OCT-2016
+### Changed
+- Added tech stack to Readme.md
 
 ## 0.1.0 - 20-OCT-2016
 ### Added
