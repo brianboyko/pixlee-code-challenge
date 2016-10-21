@@ -1,22 +1,25 @@
-// src/backend/server.js
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import http from 'http';
+import request from 'request';
+import router from './router';
 
-import lib_request from 'request';
+const PORT = process.env.PORT || 3000;
 
-export default (testDeps = {}) => {
-  let request = testDeps.request || lib_request;
-  const TEST_ROOT = 'https://jsonplaceholder.typicode.com';
+const app = express();
+app.use(cors());
+app.use(bodyParser.json({
+  limit: '100mb',
+}));
+app.use(bodyParser.urlencoded({
+  limit: '100mb',
+  extended: true,
+}))
+const server = http.Server(app);
 
-  const getTest = () => new Promise((resolve, reject) => {
-    request.get(TEST_ROOT + '/posts/1', (err, response, body) => {
-      if(err){
-        reject(err);
-        return;
-      }
-      resolve(JSON.parse(body));
-    })
-  });
+server.listen(PORT, () => {
+  console.log("Server is listening on port " + PORT)
+})
 
-  return {
-    getTest,
-  }
-}
+router(server, app);
