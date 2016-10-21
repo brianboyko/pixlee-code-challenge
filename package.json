@@ -1,6 +1,6 @@
 {
   "name": "pixlee-code-challenge",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Code challenge for Pixlee",
   "main": "index.js",
   "scripts": {

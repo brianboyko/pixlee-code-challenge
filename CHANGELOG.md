@@ -8,7 +8,15 @@ Versioning: "MAJOR.MINOR.PATCH";
 ## [Unreleased]
 <!-- ### Changed, Fixed, Removed, etc.-->
 
-## 0.1.1 - 20-OCT-2016
+## 0.1.3 - 21-OCT-2016
+### Added
+- Added mocha test framework
+- Added Babel transpiler
+- Added Webpack
+- Added Express server for API.
+- Added connections to the Instagram API
+
+## 0.1.2 - 20-OCT-2016
 ### Added
 - Initialized NPM package.json
 
