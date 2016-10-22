@@ -1,15 +1,14 @@
 import request from 'request'
 
 const ITOKEN = '272855367.b6f7db4.27aee70b486a4fd7b1b5546c1da0453d';
-
-export const makeEndpoint = (tagName) => 'https://api.instagram.com/v1/tags/' + tagName.toLowerCase() + '/media/recent';
+const ROOT_URL = 'https://api.instagram.com/v1/tags/'
 
 // note. Instagram will only return 33 photos, no matter what you need.
 // This is why the recursive "get this many photos" is needed.
 export const getFromIGByTag = (tagName) => new Promise(function(resolve, reject) {
 
   request.get({
-    url: makeEndpoint(tagName),
+    url: ROOT_URL + tagName.toLowerCase() + '/media/recent',
     qs: {
       access_token: ITOKEN
     },
@@ -60,3 +59,18 @@ export const getThisManyPhotos = (numPhotos, tagName, previous) => new Promise((
     }).catch((err) => reject(err));
   }
 })
+
+export const getTagData = (tagName) => new Promise(function(resolve, reject) {
+  request.get({
+    url: ROOT_URL + tagName,
+    qs: {
+      access_token: ITOKEN
+    },
+  }, (err, response, body) => {
+    if(err){
+      reject(err);
+    } else {
+      resolve(JSON.parse(body));
+    }
+  })
+});

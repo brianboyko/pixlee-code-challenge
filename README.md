@@ -110,3 +110,32 @@ Having created a deadline freeze branch, continue working on the project resolvi
   * It's free, fast, and I've used it a lot.
 * Database: Postgresql
   * I might be tempted to go with MongoDB here - not sure how relational our dataset is - but Postgresql is supported by Heroku, it's relatively easy to use, and it was requested in the brief.  
+
+## Tech Stack & Decisions (Followup, 21 Oct 2016)
+
+One problem that I'm running into is that searching by tag and date range is a condition of the brief.  However, Instagram does not allow for searches by tag and date. Even professional applications have not been able to offer this feature.
+
+There is one possibility for solving this problem: simply brute force it. That is, given a date and time, step back from the most recent photos *until we get the date range we're looking for.*  This could take hours, especially given the 500 api requests/hr limit of a sandbox account.  But hours is *not impossible.*
+
+Here's one approach:
+
+* Upon getting a date/time/tag query, first search for results in the application's database.  
+* If the appropriate tag is *not* in the database:
+  * Estimate the amount of time it would take to get the information.
+  * Get the user's email.
+  * Run the query in the backend until we have the correct date time.
+    * Save the date-time range, as well as the last "next_url" from pagination in the database, so that future queries can search from that point, instead of having to do the search all over again.  
+    * Email the user and tell them that their query has completed, sending them a link.
+* If the appropriate tag is in the database:
+  * If we have the data for that date-time range, immediately serve that date/time range.
+  * If we do not have the date for that date-time range:
+    * If date/time range start is *earlier* than the earliest date we have*
+      * Start querying the API *from the latest next_url* stored in the database.
+    * if date/time range end is *later* than the latest date we have:
+      * Start querying the API from the beginning, and stop querying when we either reach the target end time, or we start to overlap with items we have in the database.
+    * This may leave gaps in our record, and they must be handled.
+    * It is also possible that a date-time range is *later* than our latest query and *earlier* than our earliest query.  That needs to be handled.  
+
+Needless to say, this can present a lot of problems, especially with the 500 request/hr limit on sandbox token accounts with Instagram.  Throttling will almost certainly be needed.
+
+This will be tricky.
