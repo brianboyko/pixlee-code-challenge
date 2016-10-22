@@ -6,7 +6,7 @@ import request from 'request';
 import moment from 'moment';
 import bigInt from 'big-integer';
 
-import {getFromIGByTag, getThisManyPhotos, getTagData} from '../../src/backend/instagramInterface';
+import {estimateNumberOfRequestsNeeded, getFromIGByTag, getThisManyPhotos, getTagData} from '../../src/backend/instagramInterface';
 
 describe("./src/backend/instagramInterface", function(){
 
@@ -25,7 +25,6 @@ describe("./src/backend/instagramInterface", function(){
     it('gets photos', function(done){
       this.timeout(20000)
       expect(getTagData("nootnoot").then((igResp) => {
-        console.log(igResp);
         return {
           success: igResp.meta.code === 200,
           name: igResp.data.name === "nootnoot",
@@ -36,6 +35,20 @@ describe("./src/backend/instagramInterface", function(){
         name: true,
         media_count: true,
       }).notify(done);
+    })
+  })
+  describe('estimateNumberOfRequestsNeeded()', function(){
+    it('estimates the number of requests needed', function(done){
+      this.timeout(20000)
+      const HOUR = 3600000;
+      expect(
+        estimateNumberOfRequestsNeeded(
+          'nootnoot',
+          {
+            startDate: Date.now() - (2 * HOUR),
+            endDate: Date.now()
+          })
+      ).to.eventually.be.above(100).notify(done);
     })
   })
 });
