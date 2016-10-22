@@ -13,9 +13,8 @@ const throttledAPI = (currentLoad = 1) => {
 
   const throttle = (fn, args) => new Promise(function(resolve) {
     setTimeout(() => {
-      console.log("...", ...args)
       resolve(fn.apply(null, args));
-    }, HOUR/(REQ_LIMIT * currentLoad));
+    }, HOUR / (REQ_LIMIT * currentLoad));
   });
 
   let throttled = {}; // will add methods as we go.
@@ -25,9 +24,9 @@ const throttledAPI = (currentLoad = 1) => {
       url: ROOT_URL + tagName + '/media/recent',
       qs: {
         access_token: ITOKEN
-      },
+      }
     }, (err, response, body) => {
-      if(err){
+      if (err) {
         reject(err);
       } else {
         resolve(JSON.parse(body));
@@ -39,7 +38,7 @@ const throttledAPI = (currentLoad = 1) => {
 
   const getFromFullURL = (fullURL) => new Promise(function(resolve, reject) {
     request.get(fullURL, (err, response, body) => {
-      if(err){
+      if (err) {
         reject(err);
       } else {
         resolve(JSON.parse(body));
@@ -48,7 +47,6 @@ const throttledAPI = (currentLoad = 1) => {
   });
 
   throttled.getFromFullURL = (...args) => throttle(getFromFullURL, args);
-
 
   const consolidate = (firstData, nextData) => {
     let smushObj = firstData;
@@ -86,9 +84,9 @@ const throttledAPI = (currentLoad = 1) => {
       url: ROOT_URL + tagName,
       qs: {
         access_token: ITOKEN
-      },
+      }
     }, (err, response, body) => {
-      if(err){
+      if (err) {
         reject(err);
       } else {
         resolve(JSON.parse(body));
@@ -101,22 +99,19 @@ const throttledAPI = (currentLoad = 1) => {
   const estimateNumberOfRequestsNeeded = (tagName, {startDate, endDate}) => new Promise(function(resolve, reject) {
     Promise.all([
       throttled.getTagData(tagName),
-      throttled.getThisManyPhotos(100, tagName),
-    ])
-    .then((v) => ({tagData: v[0], last100Photos: v[1]}))
-    .then(({tagData, last100Photos}) => {
+      throttled.getThisManyPhotos(100, tagName)
+    ]).then((v) => ({tagData: v[0], last100Photos: v[1]})).then(({tagData, last100Photos}) => {
       let number = last100Photos.data.length;
-      if(number < 100){
-        resolve(Math.ceil(number/20));
-      } else{
+      if (number < 100) {
+        resolve(Math.ceil(number / 20));
+      } else {
         let latest = last100Photos.data[0].created_time;
-        let oldest = last100Photos.data[last100Photos.data.length -1].created_time;
+        let oldest = last100Photos.data[last100Photos.data.length - 1].created_time;
         let timespan = (latest - oldest) / 5;
         let timeLength = Date.now() - startDate;
-        resolve(Math.ceil(timeLength/timespan));
+        resolve(Math.ceil(timeLength / timespan));
       }
-    })
-    .catch((err) => reject(err));
+    }).catch((err) => reject(err));
   });
 
   throttled.estimateNumberOfRequestsNeeded = estimateNumberOfRequestsNeeded;
@@ -124,19 +119,46 @@ const throttledAPI = (currentLoad = 1) => {
   // will eventually get currentLoad from database;
   const estimateTimeForRequest = (tagName, {startDate, endDate}) => new Promise(function(resolve, reject) {
 
-
-    estimateNumberOfRequestsNeeded(tagName, {startDate, endDate})
-    .then((numReq) => (HOUR * numReq)/(REQ_LIMIT * currentLoad))
-    .then((milliseconds) => resolve(moment.duration(milliseconds)))
-    .catch((err) => reject(err));
+    estimateNumberOfRequestsNeeded(tagName, {startDate, endDate}).then((numReq) => (HOUR * numReq) / (REQ_LIMIT * currentLoad)).then((milliseconds) => resolve(moment.duration(milliseconds))).catch((err) => reject(err));
 
   });
 
   throttled.estimateTimeForRequest = estimateTimeForRequest;
 
+  const getPhotosInDateRange = (tagName, {
+    startDate,
+    endDate
+  }, previous) => new Promise(function(resolve, reject) {
+    if (!previous) {
+      throttled.getFromIGByTag(tagName).then((igResp) => {
+        if (igResp.data[igResp.data.length - 1].created_time * 1000 <= endDate || igResp.data.length < 20) {
+
+          resolve(igResp);
+        } else {
+          resolve(getPhotosInDateRange(tagName, {
+            startDate,
+            endDate
+          }, igResp));
+        }
+      }).catch((err) => reject(err));
+    } else {
+      throttled.getFromFullURL(previous.pagination.next_url).then((igResp) => {
+        let bundle = consolidate(previous, igResp);
+        if (bundle.data[bundle.data.length - 1].created_time * 1000 <= endDate || bundle.data.length === 0) {
+          resolve(bundle);
+        } else {
+          resolve(getPhotosInDateRange(tagName, {
+            startDate,
+            endDate
+          }, bundle));
+        }
+      }).catch((err) => reject(err));
+    }
+  })
+
+  throttled.getPhotosInDateRange = getPhotosInDateRange;
+
   return throttled;
 };
 
-export {
-  throttledAPI as default,
-}
+export {throttledAPI as default}

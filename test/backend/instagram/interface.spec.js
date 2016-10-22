@@ -11,7 +11,8 @@ const {
   estimateNumberOfRequestsNeeded,
   getFromIGByTag,
   getThisManyPhotos,
-  getTagData
+  getTagData,
+  getPhotosInDateRange
 } = throttledAPI(1);
 
 describe("./src/backend/instagramInterface", function(){
@@ -64,7 +65,6 @@ describe("./src/backend/instagramInterface", function(){
       const HOUR = 3600000;
       expect(
         estimateTimeForRequest(
-          1,
           'nootnoot',
           {
             startDate: Date.now() - (2 * HOUR),
@@ -72,6 +72,23 @@ describe("./src/backend/instagramInterface", function(){
           })
           .then((mTime) => mTime.humanize())
       ).to.eventually.be.a("string").notify(done);
+    })
+  })
+  describe('getPhotosInDateRange()', function(){
+    it('gets all the photos from the end of the date range', function(done){
+      const HOUR = 3600000;
+      this.timeout(HOUR / 12);
+      expect(
+        getPhotosInDateRange(
+          'cats',
+          {
+            startDate: Date.now(),
+            endDate: Date.now() - (HOUR / 30)
+          })
+          .then((bundle) => {
+            return bundle.data
+          })
+          .catch((err) => err)).to.eventually.have.length.within(15, 300).notify(done);
     })
   })
 });
