@@ -14,7 +14,7 @@ export default(knex) => {
         latest_date: endDate,
         completed: false,
       })
-      .returning('id');
+      .returning('id'));
 
   const read = {
     byId: (id) => knex('queries').where({id}).select(),
@@ -27,7 +27,7 @@ export default(knex) => {
   const complete = (id) => knex('queries').where({id}).update({completed: true});
 
 
-  export {
+  return {
     create, read, complete
   }
 };

@@ -12,7 +12,7 @@ export default (knex) => {
     byId: (id) => knex('tags').where({id}).del(),
   }
 
-  const getOrAdd(tag_name) => new Promise(function(resolve, reject) {
+  const getOrAdd = (tag_name) => new Promise(function(resolve, reject) {
     read.byName(tag_name).then((record) => {
       if(record.length > 0){
         resolve(record[0])

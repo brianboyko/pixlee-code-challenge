@@ -36,8 +36,8 @@ const createTable_queries = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('queries', (table) => {
     table.increments();
     table.integer("tag_id").references("id").inTable('tags')
-    table.timestamp("earliest_date");
-    table.timestamp("latest_date");
+    table.integer("earliest_date");
+    table.integer("latest_date");
     table.boolean("completed");
   }).then(() => resolve()).catch((e) => reject(e))
 });
@@ -45,10 +45,11 @@ const createTable_queries = (knex) => new Promise(function(resolve, reject) {
 const createTable_media = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('media', (table) => {
     table.increments();
-    table.timestamp("created_time");
+    table.integer("created_time");
     table.integer("ig_users_id").references('id').inTable('ig_users');
     table.integer("image_id").references('id').inTable('images');
-    table.timestamp("caption_created_time");
+    table.integer("caption_created_time");
+    table.string("type");
     table.string("caption_text");
     table.integer("number_likes");
     table.integer("number_comments");

@@ -4,9 +4,10 @@ import IgUsers from './IgUsers';
 import {MediaTags, QueriesMedia} from './Intermediates';
 
 export default (knex) => {
-
+  const images = Images(knex);
+  const igUsers = IgUsers(knex);
   const mediaTags = MediaTags(knex);
-  const queriesMedia = queriesMedia(knex);
+  const queriesMedia = QueriesMedia(knex);
 
   const create = (media) => {
 
@@ -30,13 +31,13 @@ export default (knex) => {
         caption_text: media.caption.text,
         caption_created_time: media.caption.created_time,
         image_id: ids[0],
-        ig_user_id: ids[1],
-    }).returning('id');
+        ig_users_id: ids[1],
+      }).returning('id'));
   }
 
   const read = {
     byId: (id) => knex('media').where({id}).select(),
-    byCreatedTime: (range) => knex.('media').whereBetween('votes', [range.startDate, range.endDate]),
+    byCreatedTime: (range) => knex('media').whereBetween('votes', [range.startDate, range.endDate]),
   }
   // 'delete' is a reserved keyword.
   const del = {
