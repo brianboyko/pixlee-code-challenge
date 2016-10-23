@@ -1,7 +1,8 @@
 const createTable_tags = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('tags', (table) => {
     table.increments();
-    table.string("tag_name");
+    table.string("tag_name")
+    table.unique(["tag_name"])
   }).then(() => resolve()).catch((e) => reject(e))
 });
 
@@ -36,6 +37,7 @@ const createTable_queries = (knex) => new Promise(function(resolve, reject) {
     table.integer("tag_id").references("id").inTable('tags')
     table.timestamp("earliest_date");
     table.timestamp("latest_date");
+    table.boolean("completed");
   }).then(() => resolve()).catch((e) => reject(e))
 });
 
