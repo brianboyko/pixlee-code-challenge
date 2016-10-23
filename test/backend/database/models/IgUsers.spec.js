@@ -4,11 +4,7 @@ import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-import config from '../../../../knexfile.js';
-import Knex from 'knex';
-const ENV = "test";
-const knex = Knex(config[ENV]);
-knex.migrate.latest([config]);
+import knex from '../setup';
 
 import IgUsers from '../../../../src/backend/database/models/IgUsers';
 const igUsers = IgUsers(knex);
@@ -16,7 +12,13 @@ const igUsers = IgUsers(knex);
 describe('./src/backend/database/models/IgUsers.js', function() {
 
   describe('create and read', function() {
-
+    before(function(done){
+      knex('ig_users').select()
+        .then((records) => Promise.all(
+          records.map((record) => igUsers.del.byId(record.id)
+        ))
+        .then(() => done()))
+    })
     it('creates a record', function(done) {
       this.timeout(4000);
       expect(igUsers.create({
@@ -51,7 +53,19 @@ describe('./src/backend/database/models/IgUsers.js', function() {
         .notify(done);
     });
 
-
+    it('gets records by user name', function(done){
+      expect(igUsers.read.byUsername("kyleSimpson").then((records) => {
+          console.log('records')
+          return _.omit(records[0], ['id'])
+        }))
+        .to.eventually.eql({
+          ig_user_id: 8675309,
+          ig_username: 'kyleSimpson',
+          ig_profilepic: 'http://www.hackreactor.com/kyle.jpg',
+          ig_fullname: 'Simpson, Kyle'
+        })
+        .notify(done);
+    })
   });
 
 });

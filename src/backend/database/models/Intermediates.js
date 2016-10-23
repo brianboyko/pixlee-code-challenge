@@ -7,9 +7,7 @@ const makeIntermediate = (tableName) => (knex) => {
     by: (selectorObj) => knex(tableName).where(selectorObj).select(),
   }
   const del = (id) => knex(tableName).where({id}).del();
-  export{
-    create, read, del
-  }
+  return { create, read, del }
 }
 
 export const TagsQueries = makeIntermediate('tags_queries')

@@ -28,6 +28,7 @@ const createTable_ig_users = (knex) => new Promise(function(resolve, reject) {
     table.string("ig_username");
     table.string("ig_profilepic");
     table.string("ig_fullname");
+    table.unique(["ig_user_id"]);
   }).then(() => resolve()).catch((e) => reject(e))
 });
 
