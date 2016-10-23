@@ -4,6 +4,7 @@ import cors from 'cors';
 import http from 'http';
 import request from 'request';
 import router from './router';
+import db from './database/db';
 
 const PORT = process.env.PORT || 3000;
 

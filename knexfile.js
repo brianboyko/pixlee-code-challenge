@@ -1,15 +1,12 @@
 // knexfile.js must go in / (root);
 
-var databasehost = process.env.POSTGRES_HOST || 'http://localhost';
-var databaseport = process.env.POSTGRES_PORT || 5432;
-
 module.exports = {
   development: {
     client: 'pg',
     connection: {
-      host     : databaseHost + ":" + databasePort,
+      host     : '127.0.0.1',
       user     : 'postgres',
-      password : '',
+      password : 'postgres',
       database : 'pixlee_dev'
     },
     migrations: {
@@ -20,18 +17,18 @@ module.exports = {
   production: {
     client: 'pg',
     connection: {
-      host     : databaseHost + ":" + databasePort,
+      host     : '127.0.0.1',
       user     : 'postgres',
-      password : '',
+      password : 'postgres',
       database : 'pixlee_production'
     }
   },
   test: {
     client: 'pg',
     connection: {
-      host     : databaseHost + ":" + databasePort,
+      host     : '127.0.0.1',
       user     : 'postgres',
-      password : '',
+      password : 'postgres',
       database : 'pixlee_test'
     },
     migrations: {
