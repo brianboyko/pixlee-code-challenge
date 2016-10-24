@@ -14,23 +14,20 @@ Code challenge for Pixlee, started 20 Oct. 2016.
 
 ##### Pre-production: Evening of 21 Oct. 2016 (Friday):
 
-* Write readme document explaining the task as set out in the brief
-* Write initial plan of attack, including stack choices and guides
-* Get clarification for any unfamiliar phrasing.  
-* Write backup plan for any unfamiliar technologies that the plan requires.
-  * i.e.: This looks like it might be a job for Docker, but I've yet to use it. If Docker takes too much time to learn/configure and I start slipping past schedule, I should have a default backup plan.
-* Explain any differences between the suggested technological stack defined in the brief and technology choices.
-* Set up directory structure, define testing tools, and clearly define aims.  
-* Start Changelog.
+* ✓ Write readme document explaining the task as set out in the brief
+* ✓ Write initial plan of attack, including stack choices and guides
+* ✓ Get clarification for any unfamiliar phrasing.  
+* ✓ Write backup plan for any unfamiliar technologies that the plan requires.
+* ✓ Explain any differences between the suggested technological stack defined in the brief and technology choices.
+* ✓ Set up directory structure, define testing tools, and clearly define aims.  
+* ✓ Start Changelog.
 
 ##### Console-based MVP: Evening of 22 October 2016: (Saturday):
 
-* Application should take a hashtag, start-date, and end-date, and collect submissions from the Instagram API.
-* Application should paginate(?) through the endpoint and collect content whose tag time is between the start and end dates.
-  * **Question:** Paginate, as a verb, seems strange to use in this context. I'm assuming that it simply means that the application should, if needed, make multiple connections to get all the data.
+* ✓ Application should take a hashtag, start-date, and end-date, and collect submissions from the Instagram API.
+* ✓ Application should paginate(?) through the endpoint and collect content whose tag time is between the start and end dates.
 * The photo's "tag time" is defined as the time the hashtag was tagged with the photo, OR the time the submitter of the comment posts a comment on the photo with the desired hashtag.  
-* If the caption does not contain the desired hashtag, but the submitter of the photo posts a comment with the desired hashtag afterwards, the photo will be included in the pagination.
-  * **Question:** I'm not sure what the pagination refers to here. It could be interpreted two ways: that Instagram's API will automatically add photos who have been tagged in the comments, or that the application should also be sure to include photos whose have been tagged in the comments, even if that means making a second request.  
+* If the caption does not contain the desired hashtag, but the submitter of the photo posts a comment with the desired hashtag afterwards, the photo will be included in the pagination. 
 * The app should be available as a web service.
   * Backend: Provide an API that acceps a POST request to create a collection, and GET request to retrieve content.
   * Frontend: Create a web page that provides users with an interface to create collections and view them.  

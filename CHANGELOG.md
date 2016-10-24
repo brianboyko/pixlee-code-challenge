@@ -7,7 +7,12 @@ Versioning: "MAJOR.MINOR.PATCH";
 
 ## [Unreleased]
 <!-- ### Changed, Fixed, Removed, etc.-->
+
+
+## 0.2.0 - 24-OCT-2016
 - Can grab an arbitrary number of photos from Instagram API by tag name.
+- Added postgresql database support (Models only).
+- Added unit tests for postgresql
 
 ## 0.1.3 - 21-OCT-2016
 ### Added
