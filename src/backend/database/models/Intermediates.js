@@ -10,6 +10,5 @@ const makeIntermediate = (tableName) => (knex) => {
   return { create, read, del }
 }
 
-export const TagsQueries = makeIntermediate('tags_queries')
 export const QueriesMedia = makeIntermediate('queries_media')
 export const MediaTags = makeIntermediate('media_tags')

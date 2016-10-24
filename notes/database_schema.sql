@@ -26,13 +26,9 @@ CREATE TABLE "queries" (
 "tag_id" INTEGER ,
 "earliest_date" TIMESTAMP ,
 "latest_date" TIMESTAMP ,
-PRIMARY KEY ("id")
-);
-
-CREATE TABLE "tags_queries" (
-"id"  SERIAL ,
-"tag_id" INTEGER ,
-"query_id" INTEGER ,
+"completed" BOOLEAN ,
+"time_requested" TIMESTAMP ,
+"time_completed" TIMESTAMP ,
 PRIMARY KEY ("id")
 );
 
@@ -76,8 +72,6 @@ PRIMARY KEY ("id")
 ALTER TABLE "media" ADD FOREIGN KEY ("image_id") REFERENCES "images" ("id");
 ALTER TABLE "media" ADD FOREIGN KEY ("ig_users_id") REFERENCES "ig_users" ("id");
 ALTER TABLE "queries" ADD FOREIGN KEY ("tag_id") REFERENCES "tags" ("id");
-ALTER TABLE "tags_queries" ADD FOREIGN KEY ("tag_id") REFERENCES "tags" ("id");
-ALTER TABLE "tags_queries" ADD FOREIGN KEY ("query_id") REFERENCES "queries" ("id");
 ALTER TABLE "queries_media" ADD FOREIGN KEY ("query_id") REFERENCES "queries" ("id");
 ALTER TABLE "queries_media" ADD FOREIGN KEY ("media_id") REFERENCES "media" ("id");
 ALTER TABLE "media_tags" ADD FOREIGN KEY ("tag_id") REFERENCES "tags" ("id");

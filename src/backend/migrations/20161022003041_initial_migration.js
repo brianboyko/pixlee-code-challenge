@@ -62,14 +62,6 @@ const createTable_media = (knex) => new Promise(function(resolve, reject) {
   }).then(() => resolve()).catch((e) => reject(e))
 });
 
-const createTable_tags_queries = (knex) => new Promise(function(resolve, reject) {
-  knex.schema.createTable('tags_queries', (table) => {
-    table.increments();
-    table.integer("tag_id").references('id').inTable('tags').onDelete('CASCADE');;
-    table.integer("query_id").references('id').inTable('queries').onDelete('CASCADE');;
-  }).then(() => resolve()).catch((e) => reject(e))
-});
-
 const createTable_queries_media = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('queries_media', (table) => {
     table.increments();
