@@ -48,10 +48,10 @@ describe('./src/backend/database/models/Media.js', function() {
           attribution: sampleRecord.attribution,
           location: JSON.stringify(sampleRecord.location),
           filter: sampleRecord.filter,
-          created_time: sampleRecord.created_time,
+          created_time: parseInt(sampleRecord.created_time),
           link_url: sampleRecord.link,
           caption_text: sampleRecord.caption.text,
-          caption_created_time: sampleRecord.caption.created_time,
+          caption_created_time: parseInt(sampleRecord.caption.created_time),
         })
         .notify(done);
     });
@@ -59,9 +59,9 @@ describe('./src/backend/database/models/Media.js', function() {
     it('correctly writes to the image table', function(done) {
       this.timeout(4000);
       expect(media.read.byId(test_ID)
-        .then((records) => _.pick(records[0], ['image_id']))
+        .then((records) => records[0].image_id)
         .then((image_id) => images.read.byId(image_id))
-        .then((record) => _.omit(records[0], ['id'])))
+        .then((record) => _.omit(record[0], ['id'])))
         .to.eventually.eql({
           low_url: sampleRecord.images.low_resolution.url,
           low_width: sampleRecord.images.low_resolution.width,
@@ -79,12 +79,12 @@ describe('./src/backend/database/models/Media.js', function() {
 
     it('correctly writes to the ig_users table', function(done) {
       this.timeout(4000);
-      expect(media.read.byId(test_id)
-      .then((records) => _.pick(records[0], ['ig_users_id']))
+      expect(media.read.byId(test_ID)
+      .then((records) => records[0].ig_users_id)
       .then((id) => igUsers.read.byId(id))
-      .then((record) => _.omit(records[0], ['id'])))
+      .then((record) => _.omit(record[0], ['id'])))
       .to.eventually.eql({
-        ig_user_id: sampleRecord.user.id,
+        ig_user_id: parseInt(sampleRecord.user.id),
         ig_username: sampleRecord.user.username,
         ig_profilepic: sampleRecord.user.profile_picture,
         ig_fullname: sampleRecord.user.full_name,

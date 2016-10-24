@@ -30,8 +30,8 @@ export default (knex) => {
         link_url: media.link,
         caption_text: media.caption.text,
         caption_created_time: media.caption.created_time,
-        image_id: ids[0],
-        ig_users_id: ids[1],
+        image_id: ids[0][0],
+        ig_users_id: ids[1][0],
       }).returning('id'));
   }
 

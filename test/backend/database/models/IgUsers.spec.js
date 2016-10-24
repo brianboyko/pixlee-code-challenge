@@ -13,6 +13,7 @@ describe('./src/backend/database/models/IgUsers.js', function() {
 
   describe('create and read', function() {
     before(function(done){
+      this.timeout(6000);
       knex('ig_users').select()
         .then((records) => Promise.all(
           records.map((record) => igUsers.del.byId(record.id)
