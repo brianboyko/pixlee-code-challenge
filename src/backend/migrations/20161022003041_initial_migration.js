@@ -35,11 +35,11 @@ const createTable_ig_users = (knex) => new Promise(function(resolve, reject) {
 const createTable_queries = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('queries', (table) => {
     table.increments();
-    table.integer("tag_id").references("id").inTable('tags')
-    table.integer("earliest_date");
-    table.integer("latest_date");
-    table.integer("time_requested");
-    table.integer("time_completed");
+    table.integer("tag_id").references("id").inTable('tags').onDelete('CASCADE');
+    table.timestamp("earliest_date");
+    table.timestamp("latest_date");
+    table.timestamp("time_requested");
+    table.timestamp("time_completed");
     table.boolean("completed");
   }).then(() => resolve()).catch((e) => reject(e))
 });
@@ -47,10 +47,10 @@ const createTable_queries = (knex) => new Promise(function(resolve, reject) {
 const createTable_media = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('media', (table) => {
     table.increments();
-    table.integer("created_time");
-    table.integer("ig_users_id").references('id').inTable('ig_users');
-    table.integer("image_id").references('id').inTable('images');
-    table.integer("caption_created_time");
+    table.timestamp("created_time");
+    table.integer("ig_users_id").references('id').inTable('ig_users').onDelete('CASCADE');
+    table.integer("image_id").references('id').inTable('images').onDelete('CASCADE');
+    table.timestamp("caption_created_time");
     table.string("type");
     table.string("caption_text");
     table.integer("number_likes");
@@ -65,24 +65,24 @@ const createTable_media = (knex) => new Promise(function(resolve, reject) {
 const createTable_tags_queries = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('tags_queries', (table) => {
     table.increments();
-    table.integer("tag_id").references('id').inTable('tags');
-    table.integer("query_id").references('id').inTable('queries');
+    table.integer("tag_id").references('id').inTable('tags').onDelete('CASCADE');;
+    table.integer("query_id").references('id').inTable('queries').onDelete('CASCADE');;
   }).then(() => resolve()).catch((e) => reject(e))
 });
 
 const createTable_queries_media = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('queries_media', (table) => {
     table.increments();
-    table.integer("query_id").references('id').inTable('queries');
-    table.integer("media_id").references('id').inTable('media');
+    table.integer("query_id").references('id').inTable('queries').onDelete('CASCADE');
+    table.integer("media_id").references('id').inTable('media').onDelete('CASCADE');
   }).then(() => resolve()).catch((e) => reject(e))
 });
 
 const createTable_media_tags = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('media_tags', (table) => {
     table.increments();
-    table.integer("tag_id").references('id').inTable('tags');
-    table.integer("media_id").references('id').inTable('media');
+    table.integer("tag_id").references('id').inTable('tags').onDelete('CASCADE');
+    table.integer("media_id").references('id').inTable('media').onDelete('CASCADE');
   }).then(() => resolve()).catch((e) => reject(e))
 });
 

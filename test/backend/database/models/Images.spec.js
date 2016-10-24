@@ -13,14 +13,7 @@ describe('./src/backend/database/models/Images.js', function() {
 
   describe('create and read', function() {
     var test_ID;
-    before(function(done){
-      // clear all records from the test database (if any);
-      knex('images').select()
-        .then((records) => Promise.all(
-          records.map((record) => images.del.byId(record.id)
-        ))
-        .then(() => done()))
-    })
+
     it('creates a record', function(done) {
       this.timeout(4000);
       expect(images.create(sampleRecord.images)

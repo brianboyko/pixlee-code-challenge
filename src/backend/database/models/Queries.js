@@ -1,4 +1,5 @@
 // Tags model
+import moment from 'moment';
 import Tags from './Tags';
 
 export default(knex) => {
@@ -10,10 +11,10 @@ export default(knex) => {
     .then(({id}) => knex('queries')
       .insert({
         tag_id: id,
-        earliest_date: startDate,
-        latest_date: endDate,
+        earliest_date: moment.unix(parseInt(startDate)).toISOString(),
+        latest_date: moment.unix(parseInt(endDate)).toISOString(),
         completed: false,
-        time_requested: Date.now(),
+        time_requested: moment(new Date()).toISOString(),
       })
       .returning('id'));
 
@@ -25,7 +26,7 @@ export default(knex) => {
     completed: () => knex('queries').where({completed: true}),
   }
 
-  const complete = (id) => knex('queries').where({id}).update({completed: true, time_completed: Date.now()});
+  const complete = (id) => knex('queries').where({id}).update({completed: true, time_completed: moment(new Date()).toISOString()});
 
 
   return {

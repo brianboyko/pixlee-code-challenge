@@ -5,4 +5,6 @@ const ENV = "test";
 const knex = Knex(config[ENV]);
 knex.migrate.latest([config]);
 
+
+
 export default knex

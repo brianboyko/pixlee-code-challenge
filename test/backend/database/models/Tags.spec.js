@@ -12,14 +12,6 @@ const tags = Tags(knex);
 describe('./src/backend/database/models/Tags.js', function() {
   describe('create and read', function() {
     var test_ID;
-    before(function(done){
-      // clear all records from the test database (if any);
-      knex('tags').select()
-        .then((records) => Promise.all(
-          records.map((record) => tags.del.byId(record.id)
-        ))
-        .then(() => done()))
-    })
     it('getOrAdd() creates a new record', function(done) {
       this.timeout(4000);
       expect(tags.getOrAdd("yolo")

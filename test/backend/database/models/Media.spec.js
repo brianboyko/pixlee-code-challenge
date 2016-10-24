@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import moment from 'moment';
+
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised);
@@ -18,14 +20,7 @@ describe('./src/backend/database/models/Media.js', function() {
 
   describe('create and read', function() {
     var test_ID;
-    before(function(done){
-      // clear all records from the test database (if any);
-      knex('media').select()
-        .then((records) => Promise.all(
-          records.map((record) => media.del.byId(record.id)
-        ))
-        .then(() => done()))
-    })
+
     it('creates a record', function(done) {
       this.timeout(4000);
       expect(media.create(sampleRecord)
@@ -48,10 +43,10 @@ describe('./src/backend/database/models/Media.js', function() {
           attribution: sampleRecord.attribution,
           location: JSON.stringify(sampleRecord.location),
           filter: sampleRecord.filter,
-          created_time: parseInt(sampleRecord.created_time),
+          created_time: moment.unix(sampleRecord.created_time).toDate(),
           link_url: sampleRecord.link,
           caption_text: sampleRecord.caption.text,
-          caption_created_time: parseInt(sampleRecord.caption.created_time),
+          caption_created_time: moment.unix(sampleRecord.caption.created_time).toDate(),
         })
         .notify(done);
     });

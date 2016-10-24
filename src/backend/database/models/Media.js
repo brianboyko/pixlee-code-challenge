@@ -1,4 +1,5 @@
 // Tags model
+import moment from 'moment';
 import Images from './Images';
 import IgUsers from './IgUsers';
 import {MediaTags, QueriesMedia} from './Intermediates';
@@ -26,10 +27,10 @@ export default (knex) => {
         attribution: media.attribution,
         location: JSON.stringify(media.location),
         filter: media.filter,
-        created_time: media.created_time, // be careful, this is Unix, not JS time.
+        created_time: moment.unix(parseInt(media.created_time)).toISOString(), // be careful, this is Unix, not JS time.
         link_url: media.link,
         caption_text: media.caption.text,
-        caption_created_time: media.caption.created_time,
+        caption_created_time: moment.unix(parseInt(media.caption.created_time)).toISOString(),
         image_id: ids[0][0],
         ig_users_id: ids[1][0],
       }).returning('id'));
