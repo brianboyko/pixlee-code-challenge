@@ -1,9 +1,6 @@
 // src/backend/api.js
 
-import throttledAPI from './instagram/interface';
-
-const getLatestTags = throttledAPI().getFromIGByTag;
-
+import {getFromIGByTag} from './instagram/interface';
 
 export default (server, app) => {
 
@@ -11,8 +8,8 @@ export default (server, app) => {
     res.send("I'm in L.A. My highlights look okay.")
   })
 
-  app.get('/api/getLatestTags/:tagname', function (req, res) {
-    getLatestTags(req.params.tagname)
+  app.get('/api/getLatest/:tagname', function (req, res) {
+    getFromIGByTag(req.params.tagname)
       .then((data) => JSON.stringify(data))
       .then((jsonData) => res.send(jsonData))
   });

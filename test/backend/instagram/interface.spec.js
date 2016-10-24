@@ -5,31 +5,34 @@ const expect = chai.expect;
 import request from 'request';
 import moment from 'moment';
 
-import throttledAPI from '../../../src/backend/instagram/interface'
+import Interface from '../../../src/backend/instagram/interface'
+
 const {
-  estimateTimeForRequest,
   estimateNumberOfRequestsNeeded,
   getFromIGByTag,
   getThisManyPhotos,
   getTagData,
-  getPhotosInDateRange
-} = throttledAPI(1);
+  getPhotosInDateRange,
+  throttled,
+} = Interface;
 
-xdescribe("./src/backend/instagramInterface", function(){
+const { estimateTimeForRequest } = throttled;
 
-  xdescribe('getFromIGByTag()', function() {
+describe("./src/backend/instagramInterface", function(){
+
+  describe('getFromIGByTag()', function() {
     it('gets data from the Instagram API', function(done){
       this.timeout(20000)
       expect(getFromIGByTag("eighthdoctor").then((igResp) => Object.keys(igResp))).to.eventually.eql(["pagination", "meta", "data"]).notify(done);
     })
   })
-  xdescribe('getThisManyPhotos()', function(){
+  describe('getThisManyPhotos()', function(){
     it('gets a number of photos', function(done){
       this.timeout(40000)
       expect(getThisManyPhotos(60, "furball").then((bunch) => bunch.data)).to.eventually.have.length(60).notify(done);
     })
   })
-  xdescribe('getTagData()', function(){
+  describe('getTagData()', function(){
     it('gets photos', function(done){
       this.timeout(40000)
       expect(getTagData("nootnoot").then((igResp) => {
@@ -45,7 +48,7 @@ xdescribe("./src/backend/instagramInterface", function(){
       }).notify(done);
     })
   })
-  xdescribe('estimateNumberOfRequestsNeeded()', function(){
+  describe('estimateNumberOfRequestsNeeded()', function(){
     it('estimates the number of requests needed', function(done){
       this.timeout(80000)
       const HOUR = 3600000;
@@ -59,7 +62,7 @@ xdescribe("./src/backend/instagramInterface", function(){
       ).to.eventually.be.above(0).notify(done);
     })
   })
-  xdescribe('estimateTimeForRequest()', function(){
+  describe('estimateTimeForRequest()', function(){
     it('estimates the time for requests needed', function(done){
       this.timeout(80000)
       const HOUR = 3600000;
@@ -74,7 +77,7 @@ xdescribe("./src/backend/instagramInterface", function(){
       ).to.eventually.be.a("string").notify(done);
     })
   })
-  xdescribe('getPhotosInDateRange()', function(){
+  describe('getPhotosInDateRange()', function(){
     it('gets all the photos from the end of the date range', function(done){
       const HOUR = 3600000;
       this.timeout(HOUR / 12);
