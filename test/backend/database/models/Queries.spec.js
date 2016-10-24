@@ -56,5 +56,14 @@ describe('./src/backend/database/models/Queries.js', function(){
           latest_date: moment.unix(1477181800).toDate(),
         }).notify(done);
     })
+    var sandis_id;
+    it('can retrieve queries by tagName', function(done) {
+      expect(queries.create("SandiToksvig", 1477181705, 1477181800)
+        .then((idResponse) => {
+          sandis_id = idResponse[0]
+          return queries.read.byTagName("SandiToksvig")
+        }).then((resp) => resp.id))
+        .to.eventually.equal(sandis_id).notify(done);
+    })
   })
 })
