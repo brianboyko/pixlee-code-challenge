@@ -38,6 +38,8 @@ const createTable_queries = (knex) => new Promise(function(resolve, reject) {
     table.integer("tag_id").references("id").inTable('tags')
     table.integer("earliest_date");
     table.integer("latest_date");
+    table.integer("time_requested");
+    table.integer("time_completed");
     table.boolean("completed");
   }).then(() => resolve()).catch((e) => reject(e))
 });

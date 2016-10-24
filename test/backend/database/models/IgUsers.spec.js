@@ -55,10 +55,7 @@ describe('./src/backend/database/models/IgUsers.js', function() {
     });
 
     it('gets records by user name', function(done){
-      expect(igUsers.read.byUsername("kyleSimpson").then((records) => {
-          console.log('records')
-          return _.omit(records[0], ['id'])
-        }))
+      expect(igUsers.read.byUsername("kyleSimpson").then((records) => _.omit(records[0], ['id'])))
         .to.eventually.eql({
           ig_user_id: 8675309,
           ig_username: 'kyleSimpson',

@@ -13,6 +13,7 @@ export default(knex) => {
         earliest_date: startDate,
         latest_date: endDate,
         completed: false,
+        time_requested: Date.now(),
       })
       .returning('id'));
 
@@ -24,7 +25,7 @@ export default(knex) => {
     completed: () => knex('queries').where({completed: true}),
   }
 
-  const complete = (id) => knex('queries').where({id}).update({completed: true});
+  const complete = (id) => knex('queries').where({id}).update({completed: true, time_completed: Date.now()});
 
 
   return {

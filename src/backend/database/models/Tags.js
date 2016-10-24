@@ -18,7 +18,7 @@ export default (knex) => {
         resolve(record[0])
       } else {
         create(tag_name).then((id) => {
-          resolve({id: id, tag_name: tag_name})
+          resolve({id: id[0], tag_name: tag_name})
         })
       }
     })
