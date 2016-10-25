@@ -9,18 +9,18 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
-      }
+      },
     ]
   },
   plugins: [new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      output: {
-        comments: false
-      }
-    })]
+    compress: {
+      warnings: false
+    },
+    output: {
+      comments: false
+    }
+  })]
 };
