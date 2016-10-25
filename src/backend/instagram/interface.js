@@ -113,13 +113,27 @@ const getPhotosInDateRange = (tagName, {
     startDate,
     endDate
   }, previous, isThrottled = false) => new Promise(function(resolve, reject) {
+    // in a range of 0 time, answer will be null.
+    if (startDate === endDate){
+      console.log("Start Date equals End Date");
+      console.log(startDate, endDate);
+      return null;
+    }
+    // the start date is the EARLIEST point in time. This prevents infinite loops
+    // especially when testing with Postman.
+    if (startDate > endDate){
+      console.log("Start Date and end date are reversed");
 
+      let temp = endDate;
+      endDate = startDate,
+      startDate = temp;
+    }
     let getInit = isThrottled ? (...args) => throttle(getFromIGByTag, args) : getFromIGByTag;
     let getNext = isThrottled ? (...args) => throttle(getFromFullURL, args) : getFromFullURL;
-
     if (!previous) {
       getInit(tagName).then((igResp) => {
-        if (igResp.data[igResp.data.length - 1].created_time * 1000 <= endDate || igResp.data.length < 20) {
+        console.log("igResp.data.length:", igResp.data.length)
+        if (igResp.data[igResp.data.length - 1].created_time * 1000 <= startDate || igResp.data.length < 20) {
           resolve(igResp);
         } else {
           resolve(getPhotosInDateRange(tagName, {
@@ -131,7 +145,9 @@ const getPhotosInDateRange = (tagName, {
     } else {
       getNext(previous.pagination.next_url).then((igResp) => {
         let bundle = consolidate(previous, igResp);
-        if (bundle.data[bundle.data.length - 1].created_time * 1000 <= endDate || bundle.data.length === 0) {
+        console.log("bundle.data.length:", bundle.data.length)
+
+        if (bundle.data[bundle.data.length - 1].created_time * 1000 <= startDate || bundle.data.length === 0) {
           resolve(bundle);
         } else {
           resolve(getPhotosInDateRange(tagName, {
