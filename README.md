@@ -27,7 +27,7 @@ Code challenge for Pixlee, started 20 Oct. 2016.
 * ✓ Application should take a hashtag, start-date, and end-date, and collect submissions from the Instagram API.
 * ✓ Application should paginate(?) through the endpoint and collect content whose tag time is between the start and end dates.
 * The photo's "tag time" is defined as the time the hashtag was tagged with the photo, OR the time the submitter of the comment posts a comment on the photo with the desired hashtag.  
-* If the caption does not contain the desired hashtag, but the submitter of the photo posts a comment with the desired hashtag afterwards, the photo will be included in the pagination. 
+* If the caption does not contain the desired hashtag, but the submitter of the photo posts a comment with the desired hashtag afterwards, the photo will be included in the pagination.
 * The app should be available as a web service.
   * Backend: Provide an API that acceps a POST request to create a collection, and GET request to retrieve content.
   * Frontend: Create a web page that provides users with an interface to create collections and view them.  
@@ -101,8 +101,8 @@ Having created a deadline freeze branch, continue working on the project resolvi
   * Chai's "chai-as-promised" library makes testing asynchronous code easy; Mocha's a solid tool for JS and can test both front and back-end components. Enzyme works great for React components
 * Front-End: React/Redux/ReactRouter
   * My favorite framework - not as lightweight as, say, Mithryl or Vue, but I like how it works and I'm comfortable with it.  Redux seems to be the go-to for state managers as well.  ReactRouter makes sense for managing multiple pages.
-* UI Library: Grommet
-  * Grommet has a lot of out-of-the-box components that work well together and many of these components are image-based.  
+* UI Library: Material-UI
+  * While alternatives such as Grommet were considered, Grommet in particular was a bit too opinionated to be a quick install. Material-UI is probably the best bet. 
 * Deployment: Heroku
   * It's free, fast, and I've used it a lot.
 * Database: Postgresql

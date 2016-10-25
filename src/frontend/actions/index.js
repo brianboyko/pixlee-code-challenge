@@ -1,6 +1,4 @@
-import * as language from './language';
-import * as currency from './currency';
-import * as processing from './processing';
 import { push } from 'react-router-redux';
+import appStatus from './appStatus';
 
-export default Object.assign({}, language, currency, processing, { push });
+export default Object.assign({}, appStatus, { push });

@@ -2,12 +2,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import http from 'http';
-import request from 'request';
 import router from './router';
 import api from './api';
-import db from './database/db';
 
+const konsole = console;
 const PORT = process.env.PORT || 3000;
+process.env.NODE_ENV = "development";
 
 const app = express();
 app.use(cors());
@@ -17,12 +17,12 @@ app.use(bodyParser.json({
 app.use(bodyParser.urlencoded({
   limit: '100mb',
   extended: true,
-}))
+}));
 const server = http.Server(app);
 
 server.listen(PORT, () => {
-  console.log("Server is listening on port " + PORT)
-})
+  konsole.log(`Server is listening on port ${PORT}`);
+});
 
 router(server, app);
 api(server, app);
