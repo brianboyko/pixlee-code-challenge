@@ -3,6 +3,7 @@ import { routerMiddleware, push } from 'react-router-redux';
 // import { HYDRATE } from '../constants/index';
 import createLogger from 'redux-logger';
 import { browserHistory } from 'react-router';
+import thunk from 'redux-thunk';
 import rootReducer from '../reducers/index';
 
 const logger = createLogger({
@@ -11,7 +12,7 @@ const logger = createLogger({
   collapsed: true,
 });
 
-const enhancer = compose(applyMiddleware(routerMiddleware(browserHistory), logger));
+const enhancer = compose(applyMiddleware(routerMiddleware(browserHistory), thunk, logger));
 
 function configureStore(initialState) {
   // Note: only Redux >= 3.1.0 supports passing enhancer as third argument.

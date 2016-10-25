@@ -12,11 +12,19 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
-      },
+      }, {
+        test: /\.json$/,
+        loader: 'json-loader'
+      }
     ]
   },
-  plugins: [
-    // new webpack.optimize.UglifyJsPlugin({
+  node: {
+    console: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
+  plugins: [// new webpack.optimize.UglifyJsPlugin({
     //   compress: {
     //     warnings: false
     //   },
@@ -26,6 +34,5 @@ module.exports = {
     // }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-    }),
-  ]
+    })]
 };

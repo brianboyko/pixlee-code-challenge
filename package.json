@@ -7,7 +7,7 @@
     "start": "npm run build:frontend && npm run serve",
     "serve": "npm run build:backend && node ./bin/server/server.js",
     "build:backend": "./node_modules/.bin/babel src/backend -d bin/server",
-    "build:frontend": "node node_modules/.bin/webpack --display-error-details",
+    "build:frontend": "node node_modules/.bin/webpack",
     "test": "mocha --compilers js:babel-core/register --recursive"
   },
   "repository": {
@@ -35,10 +35,12 @@
     "eslint-config-standard": "^6.2.0",
     "eslint-config-standard-react": "^4.2.0",
     "eslint-plugin-babel": "^3.3.0",
-    "eslint-plugin-import": "^2.0.1",
+    "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-promise": "^3.3.0",
     "eslint-plugin-react": "^6.4.1",
+    "eslint-plugin-standard": "^2.0.1",
+    "json-loader": "^0.5.4",
     "mocha": "^3.1.2"
   },
   "dependencies": {
@@ -52,7 +54,6 @@
     "babel-register": "^6.16.3",
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
-    "eslint-plugin-standard": "^2.0.1",
     "express": "^4.14.0",
     "knex": "^0.12.6",
     "lodash": "^4.16.4",
@@ -67,8 +68,9 @@
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.6.0",
     "redux-logger": "^2.7.0",
+    "redux-thunk": "^2.1.0",
     "reduxify": "^1.0.2",
-    "request": "^2.75.0",
+    "request": "^2.76.0",
     "webpack": "^1.13.2"
   }
 }
