@@ -29,6 +29,14 @@ const clearImages = () => ({
 const getLatest = (tagName) => new Promise((resolve, reject) => {
   request.get({
     url: `${ROOT_URL}/api/getLatest/${tagName}`,
+    withCredentials: false,
+    headers: {
+      "Access-Control-Allow-Credentials": false,
+      "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+      "Access-Control-Allow-Methods": 'GET,PUT,POST,DELETE',
+      "Content-Type": "application/json",
+      "Accept": "*/*",
+    }
   }, (err, response, body) => {
     if (err) {
       reject(err);
