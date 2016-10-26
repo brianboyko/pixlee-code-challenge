@@ -2,6 +2,7 @@ import {
   LOAD_IMAGES,
   CONCAT_IMAGES,
   CLEAR_IMAGES,
+  HYDRATE,
 } from '../constants/index';
 
 const images = (state = [], action = {}) => {
@@ -12,6 +13,8 @@ const images = (state = [], action = {}) => {
       return action.images;
     case CONCAT_IMAGES:
       return state.concat(action.images);
+    case HYDRATE:
+      return action.images ? action.images : state;
     default: return state;
   }
 };
