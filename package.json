@@ -8,7 +8,7 @@
     "serve": "npm run build:backend && node ./bin/server/server.js",
     "build:backend": "./node_modules/.bin/babel src/backend -d bin/server",
     "build:frontend": "node node_modules/.bin/webpack",
-    "webpackdev": "npm run build:frontend && ./node_modules/.bin/webpack-dev-server",
+    "webpackdev": "npm run build:frontend && ./node_modules/.bin/webpack-dev-server --output-public-path=/bin/app/ --progress --colors",
     "test": "mocha --compilers js:babel-core/register --recursive"
   },
   "repository": {

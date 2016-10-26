@@ -40,6 +40,7 @@ class Hero extends Component {
           onChange={this.handleHashtag} />
         <RaisedButton onClick={this.getSearch} label="Search" />
         <br />
+        This is sample text
         <PhotoGrid photos={this.props.images} />
         {this.state.tagName}
         {this.props.isLoading ? <CircularProgress /> : null}
