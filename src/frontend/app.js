@@ -5,7 +5,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import store, { routeTo } from './store/configureStore';
 import App from './containers/App';
-import Hero from './containers/Hero';
+import Main from './components/Main';
 
 const history = syncHistoryWithStore(browserHistory, store);
 const MOUNT_NODE = document.getElementById('root');
@@ -14,7 +14,7 @@ const Root = (props) => (
   <Provider routeTo={routeTo} store={props.store}>
     <Router history={history}>
       <Route path='/' component={App}>
-        <IndexRoute component={Hero} />
+        <IndexRoute component={Main} />
       </Route>
     </Router>
   </Provider>);
