@@ -31,7 +31,7 @@ export default {
   addQuery,
   removeQuery,
   completeQuery,
-}
+};
 
 
 // what do I need to do here?

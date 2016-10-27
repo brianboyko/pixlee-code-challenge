@@ -25,4 +25,9 @@ export default (server, app) => {
         req.body.userEmail,
         res);
   });
+
+  app.get('/api/getCollection/:queryId', function (req, res) {
+    QueryController(knex)
+      .retrieveQuery(req.params.queryId, res);
+  });
 };

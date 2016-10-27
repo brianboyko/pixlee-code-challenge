@@ -57,10 +57,18 @@ export default (knex) => {
     });
   };
 
-  const retrieveQuery = (id, startDate, endDate, res) => new Promise(function(resolve, reject) {
+  const retrieveQuery = (id, res) => new Promise(function(resolve, reject) {
+    let queryId;
+    let startDate;
+    let endDate;
     queries.read.byId(id)
-      .then((records) => records[0])
-      .then((record) => queriesMedia.read.by({ query_id: id }))
+      .then((records) => {
+        queryId = records[0].id;
+        startDate = records[0].earliest_date;
+        endDate = recores[0].latest_date;
+        return records[0];
+      })
+      .then((record) => queriesMedia.read.by({ query_id: queryId }))
       .then((qmRecords) => qmRecords.filter((record) => {
         return (record.created_time >= startDate && record.created_time <= endDate) ||
           (record.caption_created_time >= startDate && record.caption_created_time <= endDate);
@@ -82,6 +90,7 @@ export default (knex) => {
   });
 
   return {
-    startQuery
+    startQuery,
+    retrieveQuery,
   };
 };
