@@ -41,6 +41,7 @@ const createTable_queries = (knex) => new Promise(function(resolve, reject) {
     table.timestamp("time_requested");
     table.timestamp("time_completed");
     table.boolean("completed");
+    table.string("user_email");
   }).then(() => resolve()).catch((e) => reject(e))
 });
 

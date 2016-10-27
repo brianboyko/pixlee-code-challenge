@@ -112,7 +112,7 @@ const estimateNumberOfRequestsNeeded = (tagName, {startDate, endDate}, isThrottl
 const getPhotosInDateRange = (tagName, {
     startDate,
     endDate
-  }, previous, isThrottled = false) => new Promise(function(resolve, reject) {
+  }, previous = null, isThrottled = false) => new Promise(function(resolve, reject) {
     // in a range of 0 time, answer will be null.
     if (startDate === endDate){
       console.log("Start Date equals End Date");

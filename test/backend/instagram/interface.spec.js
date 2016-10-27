@@ -5,7 +5,7 @@ const expect = chai.expect;
 import request from 'request';
 import moment from 'moment';
 
-import Interface from '../../../src/backend/instagram/interface'
+import Interface from '../../../src/backend/instagram/Interface'
 
 const {
   estimateNumberOfRequestsNeeded,
