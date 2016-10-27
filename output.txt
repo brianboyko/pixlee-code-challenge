@@ -1,0 +1,10 @@
+
+> pixlee-code-challenge@0.2.0 test /home/brianboyko/source/pixlee-code-challenge
+> mocha --compilers js:babel-core/register --recursive
+
+
+
+  api
+    ✓ should GET to the test
+    ✓ should POST and get back data to the test
+    /api/getLatest/:tagname

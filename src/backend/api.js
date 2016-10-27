@@ -1,5 +1,5 @@
 // src/backend/api.js
-
+import moment from 'moment';
 import knex from './database/db';
 import Interface from './instagram/Interface';
 import QueryController from './database/controllers/query';
@@ -7,8 +7,13 @@ import QueryController from './database/controllers/query';
 const { getFromIGByTag, getPhotosInDateRange } = Interface;
 
 export default (server, app) => {
+  const queryController = QueryController(knex);
   app.get('/api/test', (req, res) => {
     res.send("I'm in L.A. My highlights look okay.");
+  });
+
+  app.post('/api/testpost', (req, res) => {
+    res.send(req.body.data.toUpperCase());
   });
 
   app.get('/api/getLatest/:tagname', function (req, res) {
@@ -18,12 +23,13 @@ export default (server, app) => {
   });
 
   app.post('/api/createcollection', function (req, res) {
-    QueryController(knex)
-      .startQuery(
+    console.log('creating collection')
+    console.log(req.body);
+    queryController.startQuery(
         req.body.tagName,
         { startDate: req.body.startDate, endDate: req.body.endDate },
         req.body.userEmail,
-        res);
+        res)
   });
 
   app.get('/api/getCollection/:queryId', function (req, res) {

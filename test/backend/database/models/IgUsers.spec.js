@@ -13,11 +13,10 @@ describe('./src/backend/database/models/IgUsers.js', function() {
 
   describe('create and read', function() {
     before(function(done) {
-      knex.raw('truncate table ' + 'ig_users' + ' cascade').then(() => {
-        console.log("clearing ig_users data")
-        done()
-      });
-    })
+      // clear the data in 'ig_users'
+      knex.raw('truncate table ' + 'ig_users' + ' cascade').then(() => done());
+    });
+
     it('creates a record', function(done) {
       this.timeout(4000);
       expect(igUsers.create({
@@ -61,7 +60,7 @@ describe('./src/backend/database/models/IgUsers.js', function() {
           ig_fullname: 'Simpson, Kyle'
         })
         .notify(done);
-    })
+    });
   });
 
 });

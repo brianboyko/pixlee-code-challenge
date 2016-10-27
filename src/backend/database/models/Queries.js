@@ -6,17 +6,26 @@ export default(knex) => {
 
   const tags = Tags(knex);
 
-  const create = (tag_name, startDate, endDate, userEmail) => tags.getOrAdd(tag_name)
-      .then(({ id }) => knex('queries')
-        .insert({
-          tag_id: id,
-          earliest_date: moment.unix(parseInt(startDate)).toISOString(),
-          latest_date: moment.unix(parseInt(endDate)).toISOString(),
-          completed: false,
-          user_email: userEmail,
-          time_requested: moment(new Date()).toISOString(),
-        })
-        .returning('id'));
+  const create = (tag_name, { startDate, endDate }, userEmail) => {
+    console.log("arguments"),
+    console.log({ tag_name, startDate, endDate, userEmail })
+    return tags.getOrAdd(tag_name)
+    .then(({ id }) => {
+      let insertable = {
+        tag_id: id,
+        earliest_date: moment.unix(startDate).toISOString(),
+        latest_date: moment.unix(endDate).toISOString(),
+        completed: false,
+        user_email: userEmail,
+        time_requested: moment(new Date()).toISOString(),
+      };
+      console.log("insertable", insertable);
+      return knex('queries')
+        .insert(insertable)
+        .returning('id')
+      });
+  }
+
 
 
   const read = {

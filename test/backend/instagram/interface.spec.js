@@ -70,7 +70,7 @@ describe("./src/backend/instagramInterface", function(){
     });
   });
 
-  describe('estimateTimeForRequest()', function(){
+  xdescribe('estimateTimeForRequest()', function(){
     it('estimates the time for requests needed', function(done){
       this.timeout(80000);
       const HOUR = 3600000;
@@ -85,7 +85,7 @@ describe("./src/backend/instagramInterface", function(){
       ).to.eventually.be.a("string").notify(done);
     });
   });
-  
+
   describe('getPhotosInDateRange()', function(){
     it('gets all the photos from the end of the date range', function(done){
       const HOUR = 3600000;

@@ -14,15 +14,16 @@ export default (knex) => {
 
 
   const read = {
-    byId: (id) => knex('images').where({id}).select(),
-  }
+    byId: (id) => knex('images').where({ id }).select(),
+  };
   // 'delete' is a reserved keyword.
   const del = {
-    byId: (id) => knex('images').where({id}).del(),
-  }
+    byId: (id) => knex('images').where({ id }).del(),
+  };
+
   return {
     create,
     read,
     del,
-  }
+  };
 };

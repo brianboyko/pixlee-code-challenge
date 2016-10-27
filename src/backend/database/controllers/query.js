@@ -2,7 +2,7 @@ import knex from '../db';
 
 import Tags from '../models/Tags';
 import Queries from '../models/Queries';
-import Intermediates from '../models/Intermediates';
+import { QueriesMedia } from '../models/Intermediates';
 import Interface from '../../instagram/Interface';
 import { sendConfirmationEmail, sendResultsEmail } from '../../mailer/mailer';
 
@@ -11,36 +11,37 @@ const { getPhotosInDateRange } = Interface;
 export default (knex) => {
   const tags = Tags(knex);
   const queries = Queries(knex);
-  const queriesMedia = Intermediates.QueriesMedia(knex);
+  const queriesMedia = QueriesMedia(knex);
 
   const startQuery = (tagName, { startDate, endDate }, userEmail, res) => {
+    console.log("Running query controller");
     let queryId; // closure ensures we have access to this throughout the "then" chain.
     // create the query in the database
     queries.create(tagName, { startDate: startDate, endDate: endDate }, userEmail)
-    // get the ID of the query and store it in the closure variable.
     .then((ids) => {
       queryId = ids[0];
+      console.log("got id", queryId)
       return queryId;
     })
-    // get the load
     .then((id) => {
       return queries.countInProgress();
     })
-    // Notify the user that their query had been processed.
     .then((inProg) => {
+      console.log("queriesInProgress", inProg)
+
       let placement = inprog.length + 1;
       res.send({
         placement: placement,
         email: userEmail,
         id: queryId,
       });
+      console.log("Just got Res.send");
+
       sendConfirmationEmail(tagName, startDate, endDate, userEmail);
       // tell the API to grab the photos
       return getPhotosInDateRange(tagName, startDate, endDate, null, (inProg.length > 2));
     })
-    // create database entries for each photo
     .then((photos) => Promise.all(photos.map((photo) => media.create(photo))))
-    // create a relation between the query and the photo
     .then((mediaIds) => Promise.all(
       mediaIds.map(
         (mediaId) => queriesMedia.create({
@@ -49,11 +50,12 @@ export default (knex) => {
         })
       )
     ))
-    // when the query completes, send the results email.
-    // the user will be able to access the results directly through the API.
     .then(() => {
       queries.complete(queryId);
-      sendResultsEmail(tagName, startDate, endDate, userEmail, queryId);
+      return sendResultsEmail(tagName, startDate, endDate, userEmail, queryId);
+    })
+    .catch((e) => {
+      res.send({ error: e });
     });
   };
 
