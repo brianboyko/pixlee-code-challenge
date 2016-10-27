@@ -1,9 +1,11 @@
 const createTable_tags = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('tags', (table) => {
     table.increments();
-    table.string("tag_name")
-    table.unique(["tag_name"])
-  }).then(() => resolve()).catch((e) => reject(e))
+    table.string("tag_name");
+    table.unique(["tag_name"]);
+  })
+  .then(() => resolve())
+  .catch((e) => reject(e));
 });
 
 const createTable_images = (knex) => new Promise(function(resolve, reject) {
@@ -18,7 +20,9 @@ const createTable_images = (knex) => new Promise(function(resolve, reject) {
     table.integer("low_height");
     table.integer("standard_height");
     table.integer("thumb_height");
-  }).then(() => resolve()).catch((e) => reject(e))
+  })
+  .then(() => resolve())
+  .catch((e) => reject(e));
 });
 
 const createTable_ig_users = (knex) => new Promise(function(resolve, reject) {
@@ -29,7 +33,9 @@ const createTable_ig_users = (knex) => new Promise(function(resolve, reject) {
     table.string("ig_profilepic");
     table.string("ig_fullname");
     table.unique(["ig_user_id"]);
-  }).then(() => resolve()).catch((e) => reject(e))
+  })
+  .then(() => resolve())
+  .catch((e) => reject(e));
 });
 
 const createTable_queries = (knex) => new Promise(function(resolve, reject) {
@@ -42,7 +48,9 @@ const createTable_queries = (knex) => new Promise(function(resolve, reject) {
     table.timestamp("time_completed");
     table.boolean("completed");
     table.string("user_email");
-  }).then(() => resolve()).catch((e) => reject(e))
+  })
+  .then(() => resolve())
+  .catch((e) => reject(e));
 });
 
 const createTable_media = (knex) => new Promise(function(resolve, reject) {
@@ -60,7 +68,9 @@ const createTable_media = (knex) => new Promise(function(resolve, reject) {
     table.string("location");
     table.string("filter");
     table.string("link_url");
-  }).then(() => resolve()).catch((e) => reject(e))
+  })
+  .then(() => resolve())
+  .catch((e) => reject(e));
 });
 
 const createTable_queries_media = (knex) => new Promise(function(resolve, reject) {
@@ -68,7 +78,9 @@ const createTable_queries_media = (knex) => new Promise(function(resolve, reject
     table.increments();
     table.integer("query_id").references('id').inTable('queries').onDelete('CASCADE');
     table.integer("media_id").references('id').inTable('media').onDelete('CASCADE');
-  }).then(() => resolve()).catch((e) => reject(e))
+  })
+  .then(() => resolve())
+  .catch((e) => reject(e));
 });
 
 const createTable_media_tags = (knex) => new Promise(function(resolve, reject) {
@@ -76,7 +88,9 @@ const createTable_media_tags = (knex) => new Promise(function(resolve, reject) {
     table.increments();
     table.integer("tag_id").references('id').inTable('tags').onDelete('CASCADE');
     table.integer("media_id").references('id').inTable('media').onDelete('CASCADE');
-  }).then(() => resolve()).catch((e) => reject(e))
+  })
+  .then(() => resolve())
+  .catch((e) => reject(e));
 });
 
 exports.up = (knex) => Promise.all([
@@ -84,11 +98,12 @@ exports.up = (knex) => Promise.all([
       createTable_images(knex),
       createTable_ig_users(knex),
       createTable_queries(knex),
-      createTable_tags_queries(knex),
       createTable_media(knex),
       createTable_media_tags(knex),
       createTable_queries_media(knex)
     ])
+    .then(() => console.log("Database up"))
+    .catch((err) => console.log(err));
 
 exports.down = (knex) => Promise.all([
     'media',
@@ -101,3 +116,5 @@ exports.down = (knex) => Promise.all([
     'ig_users',
     'captions'
   ].map((table) => knex.schema.dropTableIfExists(table)))
+    .then(() => console.log("Database down"))
+    .catch((err) => console.log(err));

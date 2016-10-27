@@ -3,8 +3,8 @@ import knex from '../db';
 import Tags from '../models/Tags';
 import Queries from '../models/Queries';
 import Intermediates from '../models/Intermediates';
-import Interface from '../instagram/Interface';
-import { sendConfirmationEmail, sendResultsEmail } from '../mailer/mailer';
+import Interface from '../../instagram/Interface';
+import { sendConfirmationEmail, sendResultsEmail } from '../../mailer/mailer';
 
 const { getPhotosInDateRange } = Interface;
 
