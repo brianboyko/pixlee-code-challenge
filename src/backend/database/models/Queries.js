@@ -7,23 +7,21 @@ export default(knex) => {
   const tags = Tags(knex);
 
   const create = (tag_name, { startDate, endDate }, userEmail) => {
-    console.log("arguments"),
-    console.log({ tag_name, startDate, endDate, userEmail })
+    console.log("arguments");
     return tags.getOrAdd(tag_name)
-    .then(({ id }) => {
-      let insertable = {
-        tag_id: id,
-        earliest_date: moment.unix(startDate).toISOString(),
-        latest_date: moment.unix(endDate).toISOString(),
-        completed: false,
-        user_email: userEmail,
-        time_requested: moment(new Date()).toISOString(),
-      };
-      console.log("insertable", insertable);
-      return knex('queries')
-        .insert(insertable)
-        .returning('id')
-      });
+      .then(({ id }) => {
+        let insertable = {
+          tag_id: id,
+          earliest_date: moment.unix(startDate).toISOString(),
+          latest_date: moment.unix(endDate).toISOString(),
+          completed: false,
+          user_email: userEmail,
+          time_requested: moment(new Date()).toISOString(),
+        };
+        return knex('queries')
+          .insert(insertable)
+          .returning('id')
+        });
   }
 
 
@@ -37,8 +35,11 @@ export default(knex) => {
     completed: () => knex('queries').where({ completed: true }),
   };
 
-  const countInProgress = () => knex('queries').where({ completed: false }).count()
-    .then((c) => parseInt(c));
+  const countInProgress = () => new Promise(function(resolve, reject) {
+    console.log("Count in progress");
+    knex('queries').where({ completed: false }).count()
+      .then((count) => resolve(count))
+    });
 
   const complete = (id) =>
     knex('queries')

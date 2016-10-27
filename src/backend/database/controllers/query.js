@@ -1,5 +1,3 @@
-import knex from '../db';
-
 import Tags from '../models/Tags';
 import Queries from '../models/Queries';
 import { QueriesMedia } from '../models/Intermediates';
@@ -12,6 +10,7 @@ export default (knex) => {
   const tags = Tags(knex);
   const queries = Queries(knex);
   const queriesMedia = QueriesMedia(knex);
+  const LOAD = Infinity;
 
   const startQuery = (tagName, { startDate, endDate }, userEmail, res) => {
     console.log("Running query controller");
@@ -20,15 +19,10 @@ export default (knex) => {
     queries.create(tagName, { startDate: startDate, endDate: endDate }, userEmail)
     .then((ids) => {
       queryId = ids[0];
-      console.log("got id", queryId)
-      return queryId;
-    })
-    .then((id) => {
+      console.log("got id", queryId);
       return queries.countInProgress();
     })
     .then((inProg) => {
-      console.log("queriesInProgress", inProg)
-
       let placement = inprog.length + 1;
       res.send({
         placement: placement,
@@ -39,7 +33,7 @@ export default (knex) => {
 
       sendConfirmationEmail(tagName, startDate, endDate, userEmail);
       // tell the API to grab the photos
-      return getPhotosInDateRange(tagName, startDate, endDate, null, (inProg.length > 2));
+      return getPhotosInDateRange(tagName, startDate, endDate, null, (inProg.length > LOAD));
     })
     .then((photos) => Promise.all(photos.map((photo) => media.create(photo))))
     .then((mediaIds) => Promise.all(
