@@ -1,4 +1,4 @@
-// Tags model
+// images model
 export default (knex) => {
   const create = (image) => knex('images').insert({
     low_url: image.low_resolution.url,
@@ -12,7 +12,7 @@ export default (knex) => {
     thumb_height: image.thumbnail.height,
   }).returning('id');
 
-  
+
   const read = {
     byId: (id) => knex('images').where({id}).select(),
   }

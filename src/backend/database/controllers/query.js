@@ -2,41 +2,86 @@ import knex from '../db';
 
 import Tags from '../models/Tags';
 import Queries from '../models/Queries';
+import Intermediates from '../models/Intermediates';
 import Interface from '../instagram/Interface';
+import { sendConfirmationEmail, sendResultsEmail } from '../mailer/mailer';
 
-const tags = Tags(knex);
-const queries = Queries(knex);
 const { getPhotosInDateRange } = Interface;
 
-// the statefulCallback is a callback function that
-// allows for communication along the entire process.
-// essentially, it can be called multiple times, and
-// depending on the parameter, execute different functions.
-// much like Flux Dispatch.
+export default (knex) => {
+  const tags = Tags(knex);
+  const queries = Queries(knex);
+  const queriesMedia = Intermediates.QueriesMedia(knex);
 
-
-
-const query = (tagName, { startDate, endDate }, dispatcher) => new Promise(function(resolve, reject) {
-  tags.getOrAdd(tag_name)
-    .then((data) => queries.read.byID(data.id))
-    .then((records) => {
-      if(!records.length){
-        dispatcher({
-          type: "NO_RECORDS_FOUND",
-          message: `We don't have any queries associated with ${tagName}, however, we will create a new query for you.`,
-        });
-        queries.create(tagName, startDate, endDate)
-          .then((ids) => ids[0])
-          .then((id) => {
-            dispatch({
-              type: "STARTING_QUERY",
-              queryID: id,
-              message: `We are starting a query for your request. Please be advised that this may take anywhere from a few minutes to a few hours. We will send you an e-mail when the query completes.`
-            })
-           return queries.read.inProgress()
-              .then()
-            getPhotosInDateRange(tagName, startDate, endDate)
-              .then()
-      }
+  const startQuery = (tagName, { startDate, endDate }, userEmail, res) => {
+    let queryId; // closure ensures we have access to this throughout the "then" chain.
+    // create the query in the database
+    queries.create(tagName, { startDate: startDate, endDate: endDate }, userEmail)
+    // get the ID of the query and store it in the closure variable.
+    .then((ids) => {
+      queryId = ids[0];
+      return queryId;
     })
-});
+    // get the load
+    .then((id) => {
+      return queries.countInProgress();
+    })
+    // Notify the user that their query had been processed.
+    .then((inProg) => {
+      let placement = inprog.length + 1;
+      res.send({
+        placement: placement,
+        email: userEmail,
+        id: queryId,
+      });
+      sendConfirmationEmail(tagName, startDate, endDate, userEmail);
+      // tell the API to grab the photos
+      return getPhotosInDateRange(tagName, startDate, endDate, null, (inProg.length > 2));
+    })
+    // create database entries for each photo
+    .then((photos) => Promise.all(photos.map((photo) => media.create(photo))))
+    // create a relation between the query and the photo
+    .then((mediaIds) => Promise.all(
+      mediaIds.map(
+        (mediaId) => queriesMedia.create({
+          query_id: queryId,
+          media_id: mediaId
+        })
+      )
+    ))
+    // when the query completes, send the results email.
+    // the user will be able to access the results directly through the API.
+    .then(() => {
+      queries.complete(queryId);
+      sendResultsEmail(tagName, startDate, endDate, userEmail, queryId);
+    });
+  };
+
+  const retrieveQuery = (id, startDate, endDate, res) => new Promise(function(resolve, reject) {
+    queries.read.byId(id)
+      .then((records) => records[0])
+      .then((record) => queriesMedia.read.by({ query_id: id }))
+      .then((qmRecords) => qmRecords.filter((record) => {
+        return (record.created_time >= startDate && record.created_time <= endDate) ||
+          (record.caption_created_time >= startDate && record.caption_created_time <= endDate);
+      }))
+      .then((qmfRecords) => qmfRecords.map((record) => media.read.byId(record.mediaId)))
+      .then((mRecords) => Promise.all(mRecords.map((mRecord) => Promise.all([
+          mRecord,
+          images.read.byId(mRecord.media_id),
+          igUsers.read.byId(mRecord.ig_users_id)
+      ]))))
+      .then((results) => results.map((result) => ({
+        queries_media: result[0],
+        images: result[1],
+        user: result[2]
+      })))
+      .then((data) => {
+        res.send(data);
+      });
+  });
+
+  return {
+    startQuery
+  };
+};

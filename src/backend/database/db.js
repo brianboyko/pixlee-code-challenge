@@ -6,4 +6,4 @@ const knex = Knex(config[ENV]);
 
 export default knex;
 
-knex.migrate.latest([config])
+knex.migrate.latest([config]);

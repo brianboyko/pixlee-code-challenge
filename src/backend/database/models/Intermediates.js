@@ -1,14 +1,14 @@
-// Tags model
+// models for intermediat tables: queries_media and media_tags
 
 const makeIntermediate = (tableName) => (knex) => {
   const create = (obj) => knex(tableName).insert(obj).returning('id');
   const read = {
-    byId: (id) => knex(tableName).where({id}).select(),
+    byId: (id) => knex(tableName).where({ id }).select(),
     by: (selectorObj) => knex(tableName).where(selectorObj).select(),
-  }
-  const del = (id) => knex(tableName).where({id}).del();
-  return { create, read, del }
-}
+  };
+  const del = (id) => knex(tableName).where({ id }).del();
+  return { create, read, del };
+};
 
-export const QueriesMedia = makeIntermediate('queries_media')
-export const MediaTags = makeIntermediate('media_tags')
+export const QueriesMedia = makeIntermediate('queries_media');
+export const MediaTags = makeIntermediate('media_tags');

@@ -1,10 +1,12 @@
-// Tags model
+// media model
+
 import moment from 'moment';
 import Images from './Images';
 import IgUsers from './IgUsers';
-import {MediaTags, QueriesMedia} from './Intermediates';
+import { MediaTags, QueriesMedia } from './Intermediates';
 
 export default (knex) => {
+
   const images = Images(knex);
   const igUsers = IgUsers(knex);
   const mediaTags = MediaTags(knex);
@@ -16,7 +18,7 @@ export default (knex) => {
       resolve(images.create(media.images));
     });
     const addUser = () => new Promise(function(resolve, reject) {
-      resolve(igUsers.create(media.user))
+      resolve(igUsers.create(media.user));
     });
 
     return Promise.all([addImage(), addUser()])
@@ -34,19 +36,22 @@ export default (knex) => {
         image_id: ids[0][0],
         ig_users_id: ids[1][0],
       }).returning('id'));
-  }
+
+  };
 
   const read = {
-    byId: (id) => knex('media').where({id}).select(),
-    byCreatedTime: (range) => knex('media').whereBetween('votes', [range.startDate, range.endDate]),
-  }
+    byId: (id) => knex('media').where({ id }).select(),
+    byCreatedTime: (range) => knex('media').whereBetween('creted_time', [range.startDate, range.endDate]),
+  };
+
   // 'delete' is a reserved keyword.
   const del = {
-    byId: (id) => knex('media').where({id}).del(),
-  }
+    byId: (id) => knex('media').where({ id }).del(),
+  };
+  
   return {
     create,
     read,
     del,
-  }
+  };
 };
