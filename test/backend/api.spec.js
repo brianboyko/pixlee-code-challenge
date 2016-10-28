@@ -21,6 +21,7 @@ describe("api", function() {
       .to.eventually.equal("I'm in L.A. My highlights look okay.")
       .notify(done);
   });
+
   it('should POST and get back data to the test', function(done) {
     const poster = (string) => new Promise(function(resolve, reject) {
       let options = {

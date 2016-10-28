@@ -4,7 +4,8 @@ import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-import knex from '../setup';
+import knex from '../../../../src/backend/database/db';
+
 import Tags from '../../../../src/backend/database/models/Tags';
 
 const tags = Tags(knex);

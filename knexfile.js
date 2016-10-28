@@ -23,17 +23,8 @@ module.exports = {
       database : 'pixlee_production'
     }
   },
-  test: {
-    client: 'pg',
-    connection: {
-      host     : '127.0.0.1',
-      user     : 'postgres',
-      password : 'postgres',
-      database : 'pixlee_test'
-    },
-    migrations: {
-      directory: "./bin/server/migrations",
-      tableName: "version"
-    }
-  }
-}
+  migrations: {
+    directory: "./bin/server/migrations",
+    tableName: "version"
+  },
+};
