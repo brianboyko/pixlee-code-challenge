@@ -93,9 +93,9 @@ describe("api", function(){
             reject(error);
           }
           else {
-            console.log("body", body);
             resolve(body);
           }
+          console.log("body", body);
         });
 
       });

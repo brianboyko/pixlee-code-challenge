@@ -2,7 +2,8 @@ import Tags from '../models/Tags';
 import Queries from '../models/Queries';
 import { QueriesMedia } from '../models/Intermediates';
 import Interface from '../../instagram/Interface';
-import { sendConfirmationEmail, sendResultsEmail } from '../../mailer/mailer';
+import Mailer from '../../mailer/mailer';
+const { sendConfirmationEmail, sendResultsEmail } = Mailer;
 
 const { getPhotosInDateRange } = Interface;
 
@@ -23,17 +24,28 @@ export default (knex) => {
       return queries.countInProgress();
     })
     .then((inProg) => {
-      let placement = inprog.length + 1;
-      res.send({
+      console.log("inProg", inProg);
+      let placement = parseInt(inProg[0].count) + 1;
+      console.log("placement", placement);
+      let sendable = {
         placement: placement,
         email: userEmail,
         id: queryId,
-      });
+      }
+      console.log(sendable);
+      res.send(sendable);
       console.log("Just got Res.send");
+      console.log('sendConfirmationEmail', sendConfirmationEmail)
 
-      sendConfirmationEmail(tagName, startDate, endDate, userEmail);
+      sendConfirmationEmail(tagName, startDate, endDate, userEmail)
+        .then((info) => {
+          console.log(info);
+        })
+        .catch((err) => {
+          console.log("ERR", err)
+        });
       // tell the API to grab the photos
-      return getPhotosInDateRange(tagName, startDate, endDate, null, (inProg.length > LOAD));
+      return getPhotosInDateRange(tagName, startDate, endDate, null, (inprog[0].count > LOAD));
     })
     .then((photos) => Promise.all(photos.map((photo) => media.create(photo))))
     .then((mediaIds) => Promise.all(
