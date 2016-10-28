@@ -41,7 +41,6 @@ export default(knex) => {
 
   const complete = (id) => {
     let updatedata = { completed: true, time_completed: moment(new Date()).toISOString() }
-    console.log(id, updatedata);
     return knex('queries')
       .where({ id: id })
       .update(updatedata);

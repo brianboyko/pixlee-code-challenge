@@ -1,0 +1,12 @@
+
+> pixlee-code-challenge@0.2.0 serve /home/brianboyko/source/pixlee-code-challenge
+> npm run build:backend && node ./bin/server/server.js
+
+
+> pixlee-code-challenge@0.2.0 build:backend /home/brianboyko/source/pixlee-code-challenge
+> babel src/backend -d bin/server
+
+src/backend/api.js -> bin/server/api.js
+src/backend/database/controllers/query.js -> bin/server/database/controllers/query.js
+src/backend/database/controllers/tags.js -> bin/server/database/controllers/tags.js
+src/backend/database/db.js -> bin/server/database/db.js

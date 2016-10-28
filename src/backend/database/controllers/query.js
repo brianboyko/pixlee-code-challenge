@@ -1,6 +1,9 @@
+import moment from 'moment';
 import Tags from '../models/Tags';
 import Queries from '../models/Queries';
 import Media from '../models/Media';
+import Images from '../models/Images';
+import IgUsers from '../models/IgUsers';
 import { QueriesMedia } from '../models/Intermediates';
 import Interface from '../../instagram/Interface';
 import Mailer from '../../mailer/mailer';
@@ -13,6 +16,8 @@ export default (knex) => {
   const queries = Queries(knex);
   const queriesMedia = QueriesMedia(knex);
   const media = Media(knex);
+  const images = Images(knex);
+  const igUsers = IgUsers(knex);
   const LOAD = Infinity;
 
   const startQuery = (tagName, { startDate, endDate }, userEmail, res) => new Promise(function(resolve, reject) {
@@ -24,8 +29,7 @@ export default (knex) => {
 
     queries.create(tagName, { startDate, endDate }, userEmail)
       .then((ids) => {
-        queryId = ids[0]
-        console.log("queryId", queryId)
+        queryId = ids[0];
         return queries.countInProgress();
       })
       .then((count) => {
@@ -42,9 +46,7 @@ export default (knex) => {
         confirmationEmailInfo = info;
         return getPhotosInDateRange(tagName, { startDate, endDate }, (inProg[0].count > LOAD));
       })
-      .then((photos) => {
-        return Promise.all(photos.data.map((photo) => media.create(photo)))
-      })
+      .then((photos) =>Promise.all(photos.data.map((photo) => media.create(photo))))
       .then((ids) => {
         mediaIds = ids.map((id) => id[0]);
         return Promise.all(mediaIds.map(
@@ -75,28 +77,36 @@ export default (knex) => {
       .then((records) => {
         queryId = records[0].id;
         startDate = records[0].earliest_date;
-        endDate = recores[0].latest_date;
+        endDate = records[0].latest_date;
         return records[0];
       })
       .then((record) => queriesMedia.read.by({ query_id: queryId }))
-      .then((qmRecords) => qmRecords.filter((record) => {
-        return (record.created_time >= startDate && record.created_time <= endDate) ||
-          (record.caption_created_time >= startDate && record.caption_created_time <= endDate);
-      }))
-      .then((qmfRecords) => qmfRecords.map((record) => media.read.byId(record.mediaId)))
-      .then((mRecords) => Promise.all(mRecords.map((mRecord) => Promise.all([
+      .then((qmfRecords) => Promise.all(qmfRecords.map((record) => media.read.byId(record.media_id))))
+      .then((rawRecords) => rawRecords.map((r) => r[0]))
+      .then((qmRecords) => qmRecords.filter((record) => ((
+          moment(record.created_time).isSameOrBefore(endDate) &&
+          moment(record.created_time).isSameOrAfter(startDate)
+        ) || (
+          moment(record.caption_created_time).isSameOrBefore(endDate) &&
+          moment(record.caption_created_time).isSameOrAfter(startDate)
+      ))))
+      .then((mRecords) => {
+        return Promise.all(mRecords.map((mRecord) => Promise.all([
           mRecord,
-          images.read.byId(mRecord.media_id),
-          igUsers.read.byId(mRecord.ig_users_id)
-      ]))))
+          images.read.byId(mRecord.image_id),
+          igUsers.read.byId(mRecord.ig_users_id),
+        ])));
+      })
       .then((results) => results.map((result) => ({
-        queries_media: result[0],
+        media: result[0],
         images: result[1],
         user: result[2]
       })))
       .then((data) => {
         res.send(data);
-      });
+        resolve(data);
+      })
+      .catch((e) => reject(e));
   });
 
   return {

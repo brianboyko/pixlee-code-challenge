@@ -1,12 +1,12 @@
-import request from 'request'
+import request from 'request';
 import moment from 'moment';
 
 const ITOKEN = '272855367.b6f7db4.27aee70b486a4fd7b1b5546c1da0453d';
-const ROOT_URL = 'https://api.instagram.com/v1/tags/'
+const ROOT_URL = 'https://api.instagram.com/v1/tags/';
 const REQ_LIMIT = 450;
 const HOUR = 3600000;
 
-let currentLoad = 1 // this is going to be a system-level variable eventually that we will get from the server.
+let currentLoad = 1; // this is going to be a system-level variable eventually that we will get from the server.
 
 const throttle = (fn, args) => new Promise(function(resolve) {
   setTimeout(() => {
