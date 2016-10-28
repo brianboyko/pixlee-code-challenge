@@ -7,7 +7,6 @@ export default(knex) => {
   const tags = Tags(knex);
 
   const create = (tag_name, { startDate, endDate }, userEmail) => {
-    console.log("arguments");
     return tags.getOrAdd(tag_name)
       .then(({ id }) => {
         let insertable = {
@@ -36,7 +35,6 @@ export default(knex) => {
   };
 
   const countInProgress = () => new Promise(function(resolve, reject) {
-    console.log("Count in progress");
     knex('queries').where({ completed: false }).count()
       .then((count) => resolve(count))
     });

@@ -15,10 +15,6 @@ class Hero extends Component {
     };
     this.getSearch = this.getSearch.bind(this);
     this.handleHashtag = this.handleHashtag.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
-  }
-  componentDidMount () {
-    console.log(this.props);
   }
   getSearch () {
     this.props.actions.setLoading(!this.props.isLoading);

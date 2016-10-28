@@ -23,13 +23,12 @@ export default (server, app) => {
   });
 
   app.post('/api/createcollection', function (req, res) {
-    console.log('creating collection')
-    console.log(req.body);
     queryController.startQuery(
         req.body.tagName,
         { startDate: req.body.startDate, endDate: req.body.endDate },
         req.body.userEmail,
-        res)
+        res
+      );
   });
 
   app.get('/api/getCollection/:queryId', function (req, res) {

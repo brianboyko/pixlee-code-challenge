@@ -14,29 +14,19 @@ export default (knex) => {
   const LOAD = Infinity;
 
   const startQuery = (tagName, { startDate, endDate }, userEmail, res) => {
-    console.log("Running query controller");
     let queryId; // closure ensures we have access to this throughout the "then" chain.
     // create the query in the database
     queries.create(tagName, { startDate: startDate, endDate: endDate }, userEmail)
     .then((ids) => {
-      queryId = ids[0];
-      console.log("got id", queryId);
       return queries.countInProgress();
     })
     .then((inProg) => {
-      console.log("inProg", inProg);
       let placement = parseInt(inProg[0].count) + 1;
-      console.log("placement", placement);
-      let sendable = {
+      res.send({
         placement: placement,
         email: userEmail,
         id: queryId,
-      }
-      console.log(sendable);
-      res.send(sendable);
-      console.log("Just got Res.send");
-      console.log('sendConfirmationEmail', sendConfirmationEmail)
-
+      });
       sendConfirmationEmail(tagName, startDate, endDate, userEmail)
         .then((info) => {
           console.log(info);
@@ -44,6 +34,7 @@ export default (knex) => {
         .catch((err) => {
           console.log("ERR", err)
         });
+      // THIS IS WHERE I AM IN THE CHAIN.
       // tell the API to grab the photos
       return getPhotosInDateRange(tagName, startDate, endDate, null, (inprog[0].count > LOAD));
     })

@@ -7,7 +7,7 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 const PORT = process.env.PORT || 3000;
 
-describe("api", function(){
+describe("api", function() {
   it('should GET to the test', function(done) {
     const getter = () => new Promise(function(resolve, reject) {
       request.get('http://localhost:' + PORT + "/api/test", (err, response, body) => {
@@ -36,15 +36,18 @@ describe("api", function(){
         json: true
       };
 
-      request(options, function (error, response, body) {
+      request(options, function(error, response, body) {
         if (error) {
           reject(error);
-        } else {
+        }
+        else {
           resolve(body);
         }
       });
     });
-    expect(poster("this_should_be_uppercase")).to.eventually.equal("THIS_SHOULD_BE_UPPERCASE").notify(done);
+    expect(poster("this_should_be_uppercase"))
+      .to.eventually.equal("THIS_SHOULD_BE_UPPERCASE")
+      .notify(done);
   });
 
   describe('/api/getLatest/:tagname', function() {
@@ -59,15 +62,15 @@ describe("api", function(){
         });
       });
       // expect all entries to have the tag "whiteboard";
-      expect(getter().then((body) => JSON.parse(body))
-        .then((body) => body.data
-          .reduce((pv, cv) => (pv && _.includes(cv.tags, 'whiteboard')), true)))
+      expect(getter()
+        .then((body) => JSON.parse(body))
+        .then((body) => body.data.reduce((pv, cv) => (pv && _.includes(cv.tags, 'whiteboard')), true)))
         .to.eventually.equal(true)
         .notify(done);
     });
   });
 
-  describe('/api/createcollection', function(){
+  describe('/api/createcollection', function() {
     this.timeout(20000);
     it('creates a collection', function(done) {
       const poster = (string) => new Promise(function(resolve, reject) {
@@ -86,7 +89,6 @@ describe("api", function(){
           },
           json: true,
         };
-        console.log("options", options);
         request(options, function(error, response, body) {
           if (error) {
             console.log("error", error);
@@ -95,16 +97,19 @@ describe("api", function(){
           else {
             resolve(body);
           }
-          console.log("body", body);
         });
 
       });
       expect(poster("cats")
-        .then((result) => {
-          console.log("result", result);
-          return result;
-        }))
-        .to.eventually.eql({})
+          .then((result) => Object.assign(_.omit(result, ['id', 'placement']), {
+            idIsNaN: Number.isNaN(result.id),
+            placementIsNaN: Number.isNaN(result.placement)
+          })))
+        .to.eventually.eql({
+          email: 'brian.boyko@gmail.com',
+          idIsNaN: false,
+          placementIsNaN: false,
+        })
         .notify(done);
     });
   });

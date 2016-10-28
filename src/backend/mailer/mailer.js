@@ -5,7 +5,19 @@ import moment from 'moment';
 const transporter = nodemailer
   .createTransport('smtps://whichlang.challenge%40gmail.com:whichlangchallenge@smtp.gmail.com');
 
-const sendConfirmationEmail = (tagName, startDate, endDate, userEmail) => new Promise(function(resolve, reject) {
+const sendMail = (options) => new Promise(function(resolve, reject) {
+  transporter.sendMail(options, (err, info) => {
+    if(err){
+      console.log("ERR", err);
+      reject(err);
+    } else {
+      resolve(info);
+    }
+  });
+});
+
+
+const sendConfirmationEmail = (tagName, startDate, endDate, userEmail) => {
   let mailText = `Hello! We are sending this e-mail to let you know that we are ` +
     `currently processing your query for photos tagged with #${tagName} between ` +
     moment.unix(startDate).format('Do MMMM YYYY, h:mm:ss a') + " and " +
@@ -19,21 +31,8 @@ const sendConfirmationEmail = (tagName, startDate, endDate, userEmail) => new Pr
     subject: `Confirmation of your query for #${tagName}`,
     text: mailText,
   };
-
-  console.log("sending mail");
-
-  transporter.sendMail(mailOptions, (err, info) => {
-    if(err){
-      console.log("ERR", err);
-      reject(err);
-    } else {
-      console.log(info);
-      resolve(info);
-    }
-    console.log(`Message set: ${info.response}`);
-  });
-
-})
+  return sendMail(mailOptions);
+};
 
 
 const sendResultsEmail = (tagName, startDate, endDate, userEmail, queryId) => {
@@ -49,14 +48,9 @@ const sendResultsEmail = (tagName, startDate, endDate, userEmail, queryId) => {
     text: mailText,
   };
 
-  trapsorter.sendMail(mailOptions, (err, info) => {
-    if(err){
-      return console.log(err);
-    }
-    console.log(`Message set: ${info.response}`);
-  });
-
+  return sendMail(mailOptions);
 };
+
 
 export default {
   sendConfirmationEmail,
