@@ -116,46 +116,49 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
       .catch((err) => reject(err));
     });
 
-  const getPhotosInDateRange = (tagName, { startDate, endDate }, previous = null, isThrottled = false) =>
-    new Promise(function(resolve, reject) {
-      // in a range of 0 time, answer will be null.
-      if (startDate === endDate){
-        return null;
-      }
-      // the start date is the EARLIEST point in time. This prevents infinite loops
-      // especially when testing with Postman.
-      if (startDate > endDate){
-        let temp = endDate;
-        endDate = startDate,
-        startDate = temp;
-      }
-      let getInit = isThrottled ? (...args) => throttle(getFromIGByTag, args) : getFromIGByTag;
-      let getNext = isThrottled ? (...args) => throttle(getFromFullURL, args) : getFromFullURL;
-      if (!previous) {
+  const getPhotosInDateRange = (tagName, { startDate, endDate }, isThrottled = false) => {
+    // don't run this if there's no change in the date.
+    if (startDate === endDate){
+      return null;
+    }
+    // the start date is the EARLIEST point in time. This prevents infinite loops
+    // especially when testing with Postman.
+    if (startDate > endDate){
+      let temp = endDate;
+      endDate = startDate,
+      startDate = temp;
+    }
+
+    // throttle the functions if we need to.
+    let getInit = isThrottled ? (...args) => throttle(getFromIGByTag, args) : getFromIGByTag;
+    let getNext = isThrottled ? (...args) => throttle(getFromFullURL, args) : getFromFullURL;
+
+    const recGetPhotos = (prev) => new Promise(function(resolve, reject) {
+      if (!prev) {
         getInit(tagName).then((igResp) => {
-          if (igResp.data[igResp.data.length - 1].created_time * 1000 <= startDate || igResp.data.length < 20) {
+          if (igResp.data[igResp.data.length - 1].created_time <= startDate || igResp.data.length < 20) {
             resolve(igResp);
+            return;
           } else {
-            resolve(getPhotosInDateRange(tagName, {
-              startDate,
-              endDate
-            }, igResp, isThrottled));
+            resolve(recGetPhotos(igResp));
           }
         }).catch((err) => reject(err));
       } else {
-        getNext(previous.pagination.next_url).then((igResp) => {
-          let bundle = consolidate(previous, igResp);
-          if (bundle.data[bundle.data.length - 1].created_time * 1000 <= startDate || bundle.data.length === 0) {
+        getNext(prev.pagination.next_url).then((igResp) => {
+          let bundle = consolidate(prev, igResp);
+          if (bundle.data[bundle.data.length - 1].created_time <= startDate || bundle.data.length === 0) {
             resolve(bundle);
           } else {
-            resolve(getPhotosInDateRange(tagName, {
-              startDate,
-              endDate
-            }, bundle, isThrottled));
+            resolve(recGetPhotos(bundle));
           }
         }).catch((err) => reject(err));
       }
     });
+
+    return recGetPhotos();
+
+  };
+
 
 const estimateTimeForRequest = (tagName, { startDate, endDate }) => new Promise(function(resolve, reject) {
   estimateNumberOfRequestsNeeded(tagName, { startDate, endDate }, true).then((numReq) => {
@@ -179,7 +182,7 @@ export default {
     getThisManyPhotos: (numPhotos, tagName, previous) => getThisManyPhotos(numPhotos, tagName, previous, true),
     estimateNumberOfRequestsNeeded: (tagName, { startDate, endDate }) =>
       estimateNumberOfRequestsNeeded(tagName, { startDate, endDate }, true),
-    getPhotosInDateRange: (tagName, { startDate, endDate }, previous) =>
-      getPhotosInDateRange(tagName, { startDate, endDate }, previous, true),
+    getPhotosInDateRange: (tagName, { startDate, endDate }) =>
+      getPhotosInDateRange(tagName, { startDate, endDate }, true),
   }
 };

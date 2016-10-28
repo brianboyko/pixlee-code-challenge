@@ -39,10 +39,13 @@ export default(knex) => {
       .then((count) => resolve(count))
     });
 
-  const complete = (id) =>
-    knex('queries')
-      .where({ id })
-      .update({ completed: true, time_completed: moment(new Date()).toISOString() });
+  const complete = (id) => {
+    let updatedata = { completed: true, time_completed: moment(new Date()).toISOString() }
+    console.log(id, updatedata);
+    return knex('queries')
+      .where({ id: id })
+      .update(updatedata);
+  }
 
 
   return {

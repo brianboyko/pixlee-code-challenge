@@ -1,5 +1,6 @@
 import Tags from '../models/Tags';
 import Queries from '../models/Queries';
+import Media from '../models/Media';
 import { QueriesMedia } from '../models/Intermediates';
 import Interface from '../../instagram/Interface';
 import Mailer from '../../mailer/mailer';
@@ -11,50 +12,60 @@ export default (knex) => {
   const tags = Tags(knex);
   const queries = Queries(knex);
   const queriesMedia = QueriesMedia(knex);
+  const media = Media(knex);
   const LOAD = Infinity;
 
-  const startQuery = (tagName, { startDate, endDate }, userEmail, res) => {
+  const startQuery = (tagName, { startDate, endDate }, userEmail, res) => new Promise(function(resolve, reject) {
     let queryId; // closure ensures we have access to this throughout the "then" chain.
-    // create the query in the database
-    queries.create(tagName, { startDate: startDate, endDate: endDate }, userEmail)
-    .then((ids) => {
-      return queries.countInProgress();
-    })
-    .then((inProg) => {
-      let placement = parseInt(inProg[0].count) + 1;
-      res.send({
-        placement: placement,
-        email: userEmail,
-        id: queryId,
-      });
-      sendConfirmationEmail(tagName, startDate, endDate, userEmail)
-        .then((info) => {
-          console.log(info);
-        })
-        .catch((err) => {
-          console.log("ERR", err)
+    let confirmationEmailInfo;
+    let resultsEmailInfo;
+    let mediaIds;
+    let inProg;
+
+    queries.create(tagName, { startDate, endDate }, userEmail)
+      .then((ids) => {
+        queryId = ids[0]
+        console.log("queryId", queryId)
+        return queries.countInProgress();
+      })
+      .then((count) => {
+        inProg = count;
+        let placement = parseInt(inProg[0].count) + 1;
+        res.send({
+          placement: placement,
+          email: userEmail,
+          id: queryId,
         });
-      // THIS IS WHERE I AM IN THE CHAIN.
-      // tell the API to grab the photos
-      return getPhotosInDateRange(tagName, startDate, endDate, null, (inprog[0].count > LOAD));
-    })
-    .then((photos) => Promise.all(photos.map((photo) => media.create(photo))))
-    .then((mediaIds) => Promise.all(
-      mediaIds.map(
-        (mediaId) => queriesMedia.create({
-          query_id: queryId,
-          media_id: mediaId
-        })
-      )
-    ))
-    .then(() => {
-      queries.complete(queryId);
-      return sendResultsEmail(tagName, startDate, endDate, userEmail, queryId);
-    })
-    .catch((e) => {
-      res.send({ error: e });
-    });
-  };
+        return sendConfirmationEmail(tagName, { startDate, endDate }, userEmail);
+      })
+      .then((info) => {
+        confirmationEmailInfo = info;
+        return getPhotosInDateRange(tagName, { startDate, endDate }, (inProg[0].count > LOAD));
+      })
+      .then((photos) => {
+        return Promise.all(photos.data.map((photo) => media.create(photo)))
+      })
+      .then((ids) => {
+        mediaIds = ids.map((id) => id[0]);
+        return Promise.all(mediaIds.map(
+          (mediaId) => queriesMedia.create({
+            query_id: queryId,
+            media_id: mediaId
+          })));
+      })
+      .then(() => queries.complete(queryId))
+      .then(() => sendResultsEmail(tagName, { startDate, endDate }, userEmail, queryId))
+      .then((info) => {
+        resultsEmailInfo = info;
+        resolve({
+          resultsEmailInfo,
+          confirmationEmailInfo,
+          queryId,
+          mediaIds,
+        });
+      })
+      .catch((err) => reject(err));
+});
 
   const retrieveQuery = (id, res) => new Promise(function(resolve, reject) {
     let queryId;

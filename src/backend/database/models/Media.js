@@ -21,21 +21,23 @@ export default (knex) => {
       resolve(igUsers.create(media.user));
     });
 
+
     return Promise.all([addImage(), addUser()])
       .then((ids) => knex('media').insert({
-        number_likes: media.likes.count,
-        number_comments: media.comments.count,
-        type: media.type,
-        attribution: media.attribution,
-        location: JSON.stringify(media.location),
-        filter: media.filter,
-        created_time: moment.unix(parseInt(media.created_time)).toISOString(), // be careful, this is Unix, not JS time.
-        link_url: media.link,
-        caption_text: media.caption.text,
-        caption_created_time: moment.unix(parseInt(media.caption.created_time)).toISOString(),
-        image_id: ids[0][0],
-        ig_users_id: ids[1][0],
-      }).returning('id'));
+          number_likes: media.likes.count,
+          number_comments: media.comments.count,
+          type: media.type,
+          attribution: media.attribution,
+          location: JSON.stringify(media.location),
+          filter: media.filter,
+          created_time: moment.unix(parseInt(media.created_time)).toISOString(),
+          link_url: media.link,
+          image_id: ids[0][0],
+          ig_users_id: ids[1][0],
+          caption_text: media.caption ? media.caption.text : null,
+          caption_created_time: media.caption ? moment.unix(parseInt(media.caption.created_time)).toISOString() : null,
+        })
+      .returning('id'));
 
   };
 
@@ -48,7 +50,7 @@ export default (knex) => {
   const del = {
     byId: (id) => knex('media').where({ id }).del(),
   };
-  
+
   return {
     create,
     read,

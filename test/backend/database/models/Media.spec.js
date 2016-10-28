@@ -79,7 +79,7 @@ describe('./src/backend/database/models/Media.js', function() {
       .then((id) => igUsers.read.byId(id))
       .then((record) => _.omit(record[0], ['id'])))
       .to.eventually.eql({
-        ig_user_id: parseInt(sampleRecord.user.id),
+        ig_user_id: sampleRecord.user.id,
         ig_username: sampleRecord.user.username,
         ig_profilepic: sampleRecord.user.profile_picture,
         ig_fullname: sampleRecord.user.full_name,

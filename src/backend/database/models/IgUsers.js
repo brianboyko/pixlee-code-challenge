@@ -1,12 +1,20 @@
 // ig_users model
 export default (knex) => {
 
-  const create = (user) => knex('ig_users').insert({
-    ig_user_id: user.id,
-    ig_username: user.username,
-    ig_profilepic: user.profile_picture,
-    ig_fullname: user.full_name,
-  }).returning('id');
+  const create = (user) => {
+    console.log("parseInt(user.id)", parseInt(user.id));
+
+    return knex('ig_users').insert({
+      ig_user_id: parseInt(user.id),
+      ig_username: user.username,
+      ig_profilepic: user.profile_picture,
+      ig_fullname: user.full_name,
+    }).returning('id');
+
+  };
+
+
+
 
   const read = {
     byUsername: (username) => knex('ig_users').where({ ig_username: username }).select(),

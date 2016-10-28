@@ -17,7 +17,7 @@ const sendMail = (options) => new Promise(function(resolve, reject) {
 });
 
 
-const sendConfirmationEmail = (tagName, startDate, endDate, userEmail) => {
+const sendConfirmationEmail = (tagName, { startDate, endDate }, userEmail) => {
   let mailText = `Hello! We are sending this e-mail to let you know that we are ` +
     `currently processing your query for photos tagged with #${tagName} between ` +
     moment.unix(startDate).format('Do MMMM YYYY, h:mm:ss a') + " and " +
@@ -35,7 +35,7 @@ const sendConfirmationEmail = (tagName, startDate, endDate, userEmail) => {
 };
 
 
-const sendResultsEmail = (tagName, startDate, endDate, userEmail, queryId) => {
+const sendResultsEmail = (tagName, { startDate, endDate }, userEmail, queryId) => {
   let mailText = `Thanks for waiting! Your query for photos tagged with #${tagName} between ` +
     moment.unix(startDate).format('Do MMMM YYYY, h:mm:ss a') + " and " +
     moment.unix(endDate).format('Do MMMM YYYY, h:mm:ss a') + "has completed. \n\n " +
