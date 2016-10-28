@@ -3,7 +3,7 @@ import moment from 'moment';
 import knex from './database/db';
 import Interface from './instagram/Interface';
 import QueryController from './database/controllers/query';
-
+const queryController = QueryController(knex);
 const { getFromIGByTag, getPhotosInDateRange } = Interface;
 
 export default (server, app) => {
@@ -32,7 +32,7 @@ export default (server, app) => {
   });
 
   app.get('/api/getCollection/:queryId', function (req, res) {
-    QueryController(knex)
-      .retrieveQuery(req.params.queryId, res);
+    console.log("req.params.queryId", req.params.queryId)
+    queryController.retrieveQuery(req.params.queryId, res);
   });
 };

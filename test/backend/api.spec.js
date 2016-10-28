@@ -70,7 +70,7 @@ describe("api", function() {
         .notify(done);
     });
   });
-
+  let collectionID;
   describe('/api/createcollection', function() {
     this.timeout(20000);
     it('creates a collection', function(done) {
@@ -102,7 +102,10 @@ describe("api", function() {
 
       });
       expect(poster("cats")
-          .then((result) => Object.assign(_.omit(result, ['id', 'placement']), {
+          .then((result) => {
+            collectionID = result.id;
+            return result;
+          }).then((result) => Object.assign(_.omit(result, ['id', 'placement']), {
             idIsNaN: Number.isNaN(result.id),
             placementIsNaN: Number.isNaN(result.placement)
           })))
@@ -111,6 +114,36 @@ describe("api", function() {
           idIsNaN: false,
           placementIsNaN: false,
         })
+        .notify(done);
+    });
+  });
+
+  describe('/api/getcollection', function() {
+    this.timeout(20000);
+    it('gets a collection', function(done) {
+      const getter = () => new Promise(function(resolve, reject) {
+        let options = {
+          method: 'GET',
+          url: 'http://localhost:' + PORT + '/api/getCollection/' + collectionID,
+          headers: {
+            'cache-control': 'no-cache',
+            'content-type': 'application/json'
+          },
+          json: true,
+        };
+        request(options, function(error, response, body) {
+          if (error) {
+            console.log("error", error);
+            reject(error);
+          }
+          else {
+            resolve(body);
+          }
+        });
+
+      });
+      expect(getter())
+        .to.eventually.be.an('Array')
         .notify(done);
     });
   });

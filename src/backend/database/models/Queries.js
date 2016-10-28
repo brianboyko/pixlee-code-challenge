@@ -19,9 +19,9 @@ export default(knex) => {
         };
         return knex('queries')
           .insert(insertable)
-          .returning('id')
+          .returning('id');
         });
-  }
+  };
 
 
 
