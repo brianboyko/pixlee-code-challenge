@@ -23,7 +23,7 @@ export default (server, app) => {
   });
 
   app.post('/api/createcollection', function (req, res) {
-    console.log("req.body", req.body)
+    console.log("req.body", req.body);
     queryController.startQuery(
         req.body.tagName,
         { startDate: req.body.startDate, endDate: req.body.endDate },

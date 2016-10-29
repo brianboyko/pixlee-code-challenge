@@ -21,7 +21,7 @@ export default (knex) => {
   const LOAD = Infinity;
 
   const startQuery = (tagName, { startDate, endDate }, userEmail, res) => new Promise(function(resolve, reject) {
-    console.log("arguments", tagName, { startDate, endDate }, userEmail)
+    console.log("startQuery", tagName, { startDate, endDate }, userEmail)
     let queryId; // closure ensures we have access to this throughout the "then" chain.
     let confirmationEmailInfo;
     let resultsEmailInfo;
@@ -30,6 +30,7 @@ export default (knex) => {
 
     queries.create(tagName, { startDate, endDate }, userEmail)
       .then((ids) => {
+        console.log("inside queries.create then")
         queryId = ids[0];
         return queries.countInProgress();
       })

@@ -6,14 +6,19 @@ export default(knex) => {
 
   const tags = Tags(knex);
 
-  const create = (tag_name, { startDate, endDate }, userEmail) => {
+  const create = (tagName, { startDate, endDate }, userEmail) => {
+    console.log("inside creates in the model")
+
+    console.log("tagName", tagName);
+    console.log("startDate", startDate);
+    console.log("endDate", endDate);
     console.log("getting here")
-    return tags.getOrAdd(tag_name)
+    return tags.getOrAdd(tagName)
       .then(({ id }) => {
         let insertable = {
           tag_id: id,
-          earliest_date: startDate,
-          latest_date: endDate,
+          earliest_date: moment(startDate).toISOString(),
+          latest_date: moment(endDate).toISOString(),
           completed: false,
           user_email: userEmail,
           time_requested: moment(new Date()).toISOString(),

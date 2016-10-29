@@ -26,8 +26,8 @@ class Hero extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tagName: "",
-      email: "",
+      tagName: "bacon",
+      email: "brian.boyko@gmail.com",
       status: "",
     };
     this.getSearch = this.getSearch.bind(this);
@@ -96,6 +96,8 @@ class Hero extends Component {
             hintText="bacon"
             floatingLabelText="Search for Hashtag"
             onChange={this.handleHashtag}
+            value={this.state.tagName}
+
           />
           <Divider />
 
@@ -109,6 +111,7 @@ class Hero extends Component {
             hintText="Email"
             floatingLabelText="Type your e-mail for notification (required)"
             onChange={this.handleEmail}
+            value={this.state.email}
           />
         <RaisedButton onClick={this.queueSearch} label="Make a request to search for dates" />
         {this.state.status}
