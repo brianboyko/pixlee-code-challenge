@@ -4,7 +4,9 @@ import {
   ADD_QUERY,
   REMOVE_QUERY,
   COMPLETE_QUERY,
-  HYDRATE
+  HYDRATE,
+  SET_MIN_DATE,
+  SET_MAX_DATE,
 } from '../constants/index';
 import _ from 'lodash';
 
@@ -26,6 +28,30 @@ const queries = (state = [], action = {}) => {
   }
 };
 
+const minDate = (state = null, action = {}) => {
+  switch(action.type){
+    case SET_MIN_DATE:
+      return action.date;
+    case HYDRATE:
+      return action.minDate ? action.minDate : state;
+    default:
+      return state;
+  }
+};
+
+const maxDate = (state = null, action = {}) => {
+  switch(action.type){
+    case SET_MAX_DATE:
+      return action.date;
+    case HYDRATE:
+      return action.maxDate ? action.maxDate : state;
+    default:
+      return state;
+  }
+};
+
 export default {
-  queries
+  queries,
+  minDate,
+  maxDate,
 };

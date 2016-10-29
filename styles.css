@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Catamaran:400,700|Roboto:400,400i,700');
 
 body {
-  font-family: "Catamaran", "Roboto", "Helvetica", "Arial", sans
+  font-family: "Catamaran", "Roboto", "Helvetica", "Arial", sans;
+  margin: 0;
+  background-color: rgba(121, 233, 249, 0.86);
+}
+
+#root {
+  margin: 0;
 }

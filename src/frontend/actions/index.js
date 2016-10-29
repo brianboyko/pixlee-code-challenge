@@ -4,4 +4,4 @@ import images from './images';
 import queries from './queries';
 
 
-export default Object.assign({}, appStatus, images, { push });
+export default Object.assign({}, appStatus, images, queries, { push });

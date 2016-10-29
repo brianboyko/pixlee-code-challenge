@@ -1,5 +1,5 @@
 import {
-  LOADING, SET_MODE, HYDRATE,
+  LOADING, SET_MODE, HYDRATE, OPEN_DRAWER, CLOSE_DRAWER, TOGGLE_DRAWER
 } from '../constants/index';
 
 const isLoading = (state = false, action = {}) => {
@@ -22,7 +22,22 @@ const mode = (state = "latest", action = {}) => {
   }
 };
 
+const draweropen = (state = false, action = {}) => {
+  switch(action.type){
+    case OPEN_DRAWER:
+      return true;
+    case CLOSE_DRAWER:
+      return false;
+    case TOGGLE_DRAWER:
+      return !state;
+    case HYDRATE:
+      return action.draweropen ? action.draweropen : state;
+    default: return state;
+  }
+};
+
 export default {
   isLoading,
-  mode
+  mode,
+  draweropen,
 };

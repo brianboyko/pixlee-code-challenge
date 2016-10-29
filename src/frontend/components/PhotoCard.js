@@ -29,7 +29,7 @@ const PhotoCard = (props) => (
         </CardMedia>
         {props.data.caption ? <CardTitle title={"Caption by " + props.data.caption.from.username} subtitle={"at " + moment.unix(props.data.caption.created_time).format("dddd, MMMM Do YYYY, h:mm:ss a") } /> : null }
         <CardText>
-          <div style={styles.wrapper}>{props.data.tags.map((tag) => <Chip style={styles.chip}>{tag}</Chip>)}</div>
+          <div style={styles.wrapper}>{props.data.tags.map((tag, i) => <Chip key={"chip" + i} style={styles.chip}>{tag}</Chip>)}</div>
           <div>{props.data.caption.text}</div>
         </CardText>
         <CardActions>

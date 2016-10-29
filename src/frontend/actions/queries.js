@@ -4,7 +4,10 @@ import {
   ADD_QUERY,
   REMOVE_QUERY,
   COMPLETE_QUERY,
-  HYDRATE
+  HYDRATE,
+  SET_MIN_DATE,
+  SET_MAX_DATE,
+
 } from '../constants/index';
 
 const insertQuery = (tagName, startDate, endDate) => {
@@ -27,17 +30,20 @@ const completeQuery = (id) => ({
   id
 });
 
+const setMinDate = (date) => ({
+  type: SET_MIN_DATE,
+  date,
+});
+
+const setMaxDate = (date) => ({
+  type: SET_MAX_DATE,
+  date,
+});
+
 export default {
   addQuery,
   removeQuery,
   completeQuery,
+  setMinDate,
+  setMaxDate,
 };
-
-
-// what do I need to do here?
-// okay, user inputs a query.
-// check the database to see if we have the file in range.
-// if we do, return the files in range.
-// if we don't, alert the user that we're querying.
-// save files from instagram into database.
-// display files from database.

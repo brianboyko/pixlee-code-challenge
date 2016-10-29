@@ -8,7 +8,7 @@ import appStatus from './appStatus';
 import images from './images';
 import queries from './queries';
 
-const appReducer = combineReducers(Object.assign({}, { routing: routerReducer }, appStatus, images));
+const appReducer = combineReducers(Object.assign({}, { routing: routerReducer }, appStatus, images, queries));
 
 const rootReducer = (state, action) => appReducer(state, action);
 
