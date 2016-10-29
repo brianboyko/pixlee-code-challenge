@@ -10,15 +10,14 @@ import {
 
 } from '../constants/index';
 
-const insertQuery = (tagName, startDate, endDate) => {
 
+const addQuery = (query) => {
+  return {
+    type: ADD_QUERY,
+    query,
+  };
 };
 
-
-const addQuery = (query) => ({
-  type: ADD_QUERY,
-  query,
-});
 
 const removeQuery = (id) => ({
   type: REMOVE_QUERY,

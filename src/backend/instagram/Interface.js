@@ -24,6 +24,7 @@ const getFromIGByTag = (tagName) => new Promise(function(resolve, reject) {
     }
   }, (err, response, body) => {
     if (err) {
+      console.log("err in getFromIGByTag", err)
       reject(err);
     } else {
       resolve(JSON.parse(body));
@@ -35,6 +36,8 @@ const getFromIGByTag = (tagName) => new Promise(function(resolve, reject) {
 const getFromFullURL = (fullURL) => new Promise(function(resolve, reject) {
   request.get(fullURL, (err, response, body) => {
     if (err) {
+      console.log("err in getFromFullUrl", err)
+
       reject(err);
     } else {
       resolve(JSON.parse(body));
@@ -70,6 +73,7 @@ const getThisManyPhotos = (numPhotos, tagName, previous, isThrottled = false) =>
   let getNext = isThrottled ? (...args) => throttle(getFromFullURL, args) : getFromFullURL;
   if (!previous) {
     getInit(tagName).then((igResp) => {
+      console.log("igResp", igResp);
       if (igResp.data.length >= numPhotos || igResp.data.length < 20) {
         resolve(igResp);
       } else {
@@ -134,9 +138,11 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
     let getNext = isThrottled ? (...args) => throttle(getFromFullURL, args) : getFromFullURL;
 
     const recGetPhotos = (prev) => new Promise(function(resolve, reject) {
+      console.log('.')
       if (!prev) {
         getInit(tagName).then((igResp) => {
           if (igResp.data[igResp.data.length - 1].created_time <= startDate || igResp.data.length < 20) {
+            console.log('done')
             resolve(igResp);
             return;
           } else {
@@ -147,6 +153,8 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
         getNext(prev.pagination.next_url).then((igResp) => {
           let bundle = consolidate(prev, igResp);
           if (bundle.data[bundle.data.length - 1].created_time <= startDate || bundle.data.length === 0) {
+            console.log('bundle done')
+
             resolve(bundle);
           } else {
             resolve(recGetPhotos(bundle));

@@ -21,6 +21,7 @@ export default (knex) => {
   const LOAD = Infinity;
 
   const startQuery = (tagName, { startDate, endDate }, userEmail, res) => new Promise(function(resolve, reject) {
+    console.log("arguments", tagName, { startDate, endDate }, userEmail)
     let queryId; // closure ensures we have access to this throughout the "then" chain.
     let confirmationEmailInfo;
     let resultsEmailInfo;
@@ -35,6 +36,11 @@ export default (knex) => {
       .then((count) => {
         inProg = count;
         let placement = parseInt(inProg[0].count) + 1;
+        console.log("should send back:", {
+          placement: placement,
+          email: userEmail,
+          id: queryId,
+        })
         res.send({
           placement: placement,
           email: userEmail,
