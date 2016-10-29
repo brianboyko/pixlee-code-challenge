@@ -5,7 +5,6 @@ import Hero from '../containers/Hero';
 
 const Main = (props) => (
   <div>
-    I am okay with this.
     <Hero />
   </div>
 );

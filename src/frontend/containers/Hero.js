@@ -31,17 +31,19 @@ class Hero extends Component {
   render () {
     return (
       <div>
-        <TextField
-          hintText="bacon"
-          floatingLabelText="Search for Hashtag"
-          onChange={this.handleHashtag} />
-        <RaisedButton onClick={this.getSearch} label="Search" />
-        <br />
-        {this.props.images.map((img) => <PhotoCard data={img} />)}
-        This is sample text
-        <PhotoGrid photos={this.props.images} />
-        {this.state.tagName}
-        {this.props.isLoading ? <CircularProgress /> : null}
+        <div style={{float:'left'}}>
+          <TextField
+            hintText="bacon"
+            floatingLabelText="Search for Hashtag"
+            onChange={this.handleHashtag}
+          />
+          <RaisedButton onClick={this.getSearch} label="Search" />
+          {this.props.isLoading ? <CircularProgress /> : null}
+        </div>
+        <div style={{width: '610px', padding:"10px 5px 10px 5px", backgroundColor: "#AAAAAA", float:'right'}}>
+          {this.props.images ? null: ' '}
+          {this.props.images.map((img, index) => <PhotoCard key={"card" + index} data={img} />)}
+        </div>
       </div>
     );
   }
