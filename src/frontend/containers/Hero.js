@@ -6,6 +6,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 
 import * as actions from '../actions/index';
 import PhotoGrid from '../components/PhotoGrid';
+import PhotoCard from '../components/PhotoCard';
 
 class Hero extends Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class Hero extends Component {
           onChange={this.handleHashtag} />
         <RaisedButton onClick={this.getSearch} label="Search" />
         <br />
+        {this.props.images.map((img) => <PhotoCard data={img} />)}
         This is sample text
         <PhotoGrid photos={this.props.images} />
         {this.state.tagName}

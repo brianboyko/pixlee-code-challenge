@@ -26,7 +26,6 @@ const PhotoGrid = (props) => (
         <GridTile
           key={pic.link}
           title={pic.caption.text}
-          actionIcon={<IconButton><StarBorder color={"white"} /></IconButton>}
         >
           <img alt={pic.caption.text} src={pic.images.low_resolution.url} />
         </GridTile>
