@@ -1,6 +1,7 @@
+'use strict'
 // knexfile.js must go in / (root);
 
-let databaseURL = process.env.DATABASE_URL || 'postgres://postgres:postgres@127.0.0.1:5432/pixlee_dev'
+var databaseURL = process.env.DATABASE_URL || 'postgres://postgres:postgres@127.0.0.1:5432/pixlee_dev'
 
 
 

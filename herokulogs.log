@@ -1,0 +1,101 @@
+2016-10-30T22:32:13.106422+00:00 app[web.1]:  @ ./~/har-validator/lib/schemas/index.js 15:10-34
+2016-10-30T22:32:13.106423+00:00 app[web.1]: 
+2016-10-30T22:32:13.106424+00:00 app[web.1]: ERROR in ./~/har-validator/lib/schemas/index.js
+2016-10-30T22:32:13.106424+00:00 app[web.1]: Module not found: Error: Cannot resolve module 'json-loader' in /app/node_modules/har-validator/lib/schemas
+2016-10-30T22:32:13.106425+00:00 app[web.1]:  @ ./~/har-validator/lib/schemas/index.js 16:11-36
+2016-10-30T22:32:13.106425+00:00 app[web.1]: 
+2016-10-30T22:32:13.106426+00:00 app[web.1]: ERROR in ./~/har-validator/lib/schemas/index.js
+2016-10-30T22:32:13.106427+00:00 app[web.1]: Module not found: Error: Cannot resolve module 'json-loader' in /app/node_modules/har-validator/lib/schemas
+2016-10-30T22:32:13.106427+00:00 app[web.1]:  @ ./~/har-validator/lib/schemas/index.js 17:12-38
+2016-10-30T22:32:13.106428+00:00 app[web.1]: 
+2016-10-30T22:32:13.106428+00:00 app[web.1]: ERROR in ./~/har-validator/lib/schemas/index.js
+2016-10-30T22:32:13.106429+00:00 app[web.1]: Module not found: Error: Cannot resolve module 'json-loader' in /app/node_modules/har-validator/lib/schemas
+2016-10-30T22:32:13.106430+00:00 app[web.1]:  @ ./~/har-validator/lib/schemas/index.js 18:11-36
+2016-10-30T22:32:13.967568+00:00 app[web.1]: 
+2016-10-30T22:32:13.967579+00:00 app[web.1]: > pixlee-code-challenge@0.2.0 serve /app
+2016-10-30T22:32:13.967581+00:00 app[web.1]: > npm run build:backend && node ./bin/server/server.js
+2016-10-30T22:32:13.967581+00:00 app[web.1]: 
+2016-10-30T22:32:14.777370+00:00 app[web.1]: 
+2016-10-30T22:32:14.777384+00:00 app[web.1]: > pixlee-code-challenge@0.2.0 build:backend /app
+2016-10-30T22:32:14.777385+00:00 app[web.1]: > babel src/backend -d bin/server
+2016-10-30T22:32:14.777386+00:00 app[web.1]: 
+2016-10-30T22:32:16.641868+00:00 app[web.1]: src/backend/api.js -> bin/server/api.js
+2016-10-30T22:32:17.007037+00:00 app[web.1]: src/backend/database/controllers/query.js -> bin/server/database/controllers/query.js
+2016-10-30T22:32:17.035707+00:00 app[web.1]: src/backend/database/db.js -> bin/server/database/db.js
+2016-10-30T22:32:17.079027+00:00 app[web.1]: src/backend/database/models/IgUsers.js -> bin/server/database/models/IgUsers.js
+2016-10-30T22:32:17.117556+00:00 app[web.1]: src/backend/database/models/Images.js -> bin/server/database/models/Images.js
+2016-10-30T22:32:17.153667+00:00 app[web.1]: src/backend/database/models/Intermediates.js -> bin/server/database/models/Intermediates.js
+2016-10-30T22:32:17.272395+00:00 app[web.1]: src/backend/database/models/Media.js -> bin/server/database/models/Media.js
+2016-10-30T22:32:17.399099+00:00 app[web.1]: src/backend/database/models/Queries.js -> bin/server/database/models/Queries.js
+2016-10-30T22:32:17.474215+00:00 app[web.1]: src/backend/database/models/Tags.js -> bin/server/database/models/Tags.js
+2016-10-30T22:32:17.540844+00:00 app[web.1]: src/backend/database/models/Videos.js -> bin/server/database/models/Videos.js
+2016-10-30T22:32:18.058599+00:00 app[web.1]: src/backend/instagram/Interface.js -> bin/server/instagram/Interface.js
+2016-10-30T22:32:18.124513+00:00 app[web.1]: src/backend/mailer/mailer.js -> bin/server/mailer/mailer.js
+2016-10-30T22:32:18.281700+00:00 app[web.1]: src/backend/migrations/20161022003041_initial_migration.js -> bin/server/migrations/20161022003041_initial_migration.js
+2016-10-30T22:32:18.309194+00:00 app[web.1]: src/backend/router.js -> bin/server/router.js
+2016-10-30T22:32:18.356933+00:00 app[web.1]: src/backend/server.js -> bin/server/server.js
+2016-10-30T22:32:18.643895+00:00 app[web.1]: /app/knexfile.js:3
+2016-10-30T22:32:18.643908+00:00 app[web.1]: ^^^
+2016-10-30T22:32:18.643906+00:00 app[web.1]: let databaseURL = process.env.DATABASE_URL || 'postgres://postgres:postgres@127.0.0.1:5432/pixlee_dev'
+2016-10-30T22:32:18.643909+00:00 app[web.1]: SyntaxError: Block-scoped declarations (let, const, function, class) not yet supported outside strict mode
+2016-10-30T22:32:18.643908+00:00 app[web.1]: 
+2016-10-30T22:32:18.643912+00:00 app[web.1]:     at Object.Module._extensions..js (module.js:422:10)
+2016-10-30T22:32:18.643910+00:00 app[web.1]:     at exports.runInThisContext (vm.js:53:16)
+2016-10-30T22:32:18.643911+00:00 app[web.1]:     at Module._compile (module.js:387:25)
+2016-10-30T22:32:18.643913+00:00 app[web.1]:     at Module.load (module.js:357:32)
+2016-10-30T22:32:18.643914+00:00 app[web.1]:     at Module.require (module.js:367:17)
+2016-10-30T22:32:18.643913+00:00 app[web.1]:     at Function.Module._load (module.js:314:12)
+2016-10-30T22:32:18.643915+00:00 app[web.1]:     at require (internal/module.js:20:19)
+2016-10-30T22:32:18.643917+00:00 app[web.1]:     at Module._compile (module.js:413:34)
+2016-10-30T22:32:18.643916+00:00 app[web.1]:     at Object.<anonymous> (/app/bin/server/database/db.js:7:17)
+2016-10-30T22:32:18.669147+00:00 app[web.1]: npm ERR! Linux 3.13.0-100-generic
+2016-10-30T22:32:18.643917+00:00 app[web.1]:     at Object.Module._extensions..js (module.js:422:10)
+2016-10-30T22:32:18.654632+00:00 app[web.1]: 
+2016-10-30T22:32:18.669713+00:00 app[web.1]: npm ERR! argv "/app/.heroku/node/bin/node" "/app/.heroku/node/bin/npm" "run" "serve"
+2016-10-30T22:32:18.670268+00:00 app[web.1]: npm ERR! node v5.11.1
+2016-10-30T22:32:18.671976+00:00 app[web.1]: npm ERR! Failed at the pixlee-code-challenge@0.2.0 serve script 'npm run build:backend && node ./bin/server/server.js'.
+2016-10-30T22:32:18.672409+00:00 app[web.1]: npm ERR! If you do, this is most likely a problem with the pixlee-code-challenge package,
+2016-10-30T22:32:18.670553+00:00 app[web.1]: npm ERR! npm  v3.8.6
+2016-10-30T22:32:18.671013+00:00 app[web.1]: npm ERR! code ELIFECYCLE
+2016-10-30T22:32:18.671315+00:00 app[web.1]: npm ERR! pixlee-code-challenge@0.2.0 serve: `npm run build:backend && node ./bin/server/server.js`
+2016-10-30T22:32:18.671763+00:00 app[web.1]: npm ERR! 
+2016-10-30T22:32:18.671547+00:00 app[web.1]: npm ERR! Exit status 1
+2016-10-30T22:32:18.672779+00:00 app[web.1]: npm ERR! Tell the author that this fails on your system:
+2016-10-30T22:32:18.672203+00:00 app[web.1]: npm ERR! Make sure you have the latest version of node.js and npm installed.
+2016-10-30T22:32:18.672973+00:00 app[web.1]: npm ERR!     npm run build:backend && node ./bin/server/server.js
+2016-10-30T22:32:18.672607+00:00 app[web.1]: npm ERR! not with npm itself.
+2016-10-30T22:32:18.673738+00:00 app[web.1]: npm ERR!     npm owner ls pixlee-code-challenge
+2016-10-30T22:32:18.673538+00:00 app[web.1]: npm ERR! Or if that isn't available, you can get their info via:
+2016-10-30T22:32:18.673152+00:00 app[web.1]: npm ERR! You can get information on how to open an issue for this project with:
+2016-10-30T22:32:18.679376+00:00 app[web.1]: 
+2016-10-30T22:32:18.673333+00:00 app[web.1]: npm ERR!     npm bugs pixlee-code-challenge
+2016-10-30T22:32:18.679645+00:00 app[web.1]: npm ERR! Please include the following file with any support request:
+2016-10-30T22:32:18.673925+00:00 app[web.1]: npm ERR! There is likely additional logging output above.
+2016-10-30T22:32:18.694826+00:00 app[web.1]: 
+2016-10-30T22:32:18.709479+00:00 app[web.1]: npm ERR! Failed at the pixlee-code-challenge@0.2.0 start script 'npm run build:frontend && npm run serve'.
+2016-10-30T22:32:18.709868+00:00 app[web.1]: npm ERR! If you do, this is most likely a problem with the pixlee-code-challenge package,
+2016-10-30T22:32:18.679801+00:00 app[web.1]: npm ERR!     /app/npm-debug.log
+2016-10-30T22:32:18.707205+00:00 app[web.1]: npm ERR! Linux 3.13.0-100-generic
+2016-10-30T22:32:18.707659+00:00 app[web.1]: npm ERR! argv "/app/.heroku/node/bin/node" "/app/.heroku/node/bin/npm" "run" "start"
+2016-10-30T22:32:18.708727+00:00 app[web.1]: npm ERR! code ELIFECYCLE
+2016-10-30T22:32:18.709116+00:00 app[web.1]: npm ERR! Exit status 1
+2016-10-30T22:32:18.709308+00:00 app[web.1]: npm ERR! 
+2016-10-30T22:32:18.708120+00:00 app[web.1]: npm ERR! node v5.11.1
+2016-10-30T22:32:18.708460+00:00 app[web.1]: npm ERR! npm  v3.8.6
+2016-10-30T22:32:18.717134+00:00 app[web.1]: npm ERR!     /app/npm-debug.log
+2016-10-30T22:32:18.708924+00:00 app[web.1]: npm ERR! pixlee-code-challenge@0.2.0 start: `npm run build:frontend && npm run serve`
+2016-10-30T22:32:18.710036+00:00 app[web.1]: npm ERR! not with npm itself.
+2016-10-30T22:32:18.710413+00:00 app[web.1]: npm ERR!     npm run build:frontend && npm run serve
+2016-10-30T22:32:18.710980+00:00 app[web.1]: npm ERR! Or if that isn't available, you can get their info via:
+2016-10-30T22:32:18.711167+00:00 app[web.1]: npm ERR!     npm owner ls pixlee-code-challenge
+2016-10-30T22:32:18.716734+00:00 app[web.1]: 
+2016-10-30T22:32:18.709698+00:00 app[web.1]: npm ERR! Make sure you have the latest version of node.js and npm installed.
+2016-10-30T22:32:18.711332+00:00 app[web.1]: npm ERR! There is likely additional logging output above.
+2016-10-30T22:32:18.710224+00:00 app[web.1]: npm ERR! Tell the author that this fails on your system:
+2016-10-30T22:32:18.710582+00:00 app[web.1]: npm ERR! You can get information on how to open an issue for this project with:
+2016-10-30T22:32:18.710790+00:00 app[web.1]: npm ERR!     npm bugs pixlee-code-challenge
+2016-10-30T22:32:18.716982+00:00 app[web.1]: npm ERR! Please include the following file with any support request:
+2016-10-30T22:32:18.788293+00:00 heroku[web.1]: State changed from starting to crashed
+2016-10-30T22:32:18.802626+00:00 heroku[web.1]: Process exited with status 1
+2016-10-30T22:32:20.440516+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=pixleecodechallenge.herokuapp.com request_id=6accef7e-51e1-4491-8bec-4374c8380715 fwd="99.156.92.32" dyno= connect= service= status=503 bytes=
+2016-10-30T22:32:21.061348+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=pixleecodechallenge.herokuapp.com request_id=aeceba1f-cebd-476e-90df-0ad57e33039a fwd="99.156.92.32" dyno= connect= service= status=503 bytes=
