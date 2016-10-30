@@ -1,3 +1,4 @@
+'use strict';
 import request from 'request';
 
 import {
@@ -9,8 +10,6 @@ import {
 import AppStatus from './appStatus';
 
 const setLoading = AppStatus.setLoading;
-
-const ROOT_URL = process.env.ROOT_URL || "http://localhost:3000";
 
 const loadImages = (images) => ({
   type: LOAD_IMAGES,
@@ -28,7 +27,7 @@ const clearImages = () => ({
 
 const getLatest = (tagName) => new Promise((resolve, reject) => {
   request.get({
-    url: `${ROOT_URL}/api/getLatest/${tagName}`,
+    url: `${process.env.ROOT_URL}/api/getLatest/${tagName}`,
     withCredentials: false,
     headers: {
       "Access-Control-Allow-Credentials": false,

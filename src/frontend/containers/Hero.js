@@ -57,7 +57,7 @@ class Hero extends Component {
 
     request({
       method: 'POST',
-      url: process.env.ROOT_URL + process.env.PORT + '/api/createcollection',
+      url: 'api/createcollection',
       headers: {
         'cache-control': 'no-cache',
         'content-type': 'application/json'
