@@ -6,7 +6,6 @@ import router from './router';
 import api from './api';
 
 const PORT = process.env.PORT || 3000;
-process.env.NODE_ENV = "development";
 
 const app = express();
 app.use(cors());
