@@ -21,9 +21,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const ROOT = process.env.ROOT_URL || 'http://localhost:';
-const PORT = process.env.PORT || 3000;
-
 class Results extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +31,7 @@ class Results extends Component {
 
     request({
       method: 'GET',
-      url: ROOT + PORT + '/api/getCollection/' + this.props.params.queryId,
+      url: process.env.ROOT_URL + process.env.PORT + '/api/getCollection/' + this.props.params.queryId,
       headers: {
         'cache-control': 'no-cache',
         'content-type': 'application/json'
