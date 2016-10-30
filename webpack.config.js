@@ -29,15 +29,7 @@ module.exports = {
     net: 'empty',
     tls: 'empty'
   },
-  plugins: [ // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false
-    //   },
-    //   output: {
-    //     comments: false
-    //   }
-    // }),
-    new webpack.DefinePlugin({
+  plugins: [ new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
     })
   ]

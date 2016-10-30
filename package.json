@@ -21,7 +21,7 @@
     "code-challenge"
   ],
   "author": "Brian Boyko",
-  "license": "MIT",
+  "license": "CC BY-NC-SA 4.0",
   "bugs": {
     "url": "https://github.com/brianboyko/pixlee-code-challenge/issues"
   },
@@ -59,7 +59,6 @@
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "express": "^4.14.0",
-    "grommet": "^1.0.0",
     "image-loader": "0.0.1",
     "jquery": "^3.1.1",
     "knex": "^0.12.6",

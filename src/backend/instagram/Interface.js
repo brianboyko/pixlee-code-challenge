@@ -2,7 +2,7 @@ import request from 'request';
 import moment from 'moment';
 
 const ITOKEN = '272855367.b6f7db4.27aee70b486a4fd7b1b5546c1da0453d';
-const ROOT_URL = 'https://api.instagram.com/v1/tags/';
+const INSTAGRAM_URL = 'https://api.instagram.com/v1/tags/';
 const REQ_LIMIT = 450;
 const HOUR = 3600000;
 
@@ -18,7 +18,7 @@ const throttle = (fn, args) => new Promise(function(resolve) {
 
 const getFromIGByTag = (tagName) => new Promise(function(resolve, reject) {
   request.get({
-    url: ROOT_URL + tagName + '/media/recent',
+    url: INSTAGRAM_URL + tagName + '/media/recent',
     qs: {
       access_token: ITOKEN
     }
@@ -54,7 +54,7 @@ const consolidate = (firstData, nextData) => {
 
 const getTagData = (tagName) => new Promise(function(resolve, reject) {
   request.get({
-    url: ROOT_URL + tagName,
+    url: INSTAGRAM_URL + tagName,
     qs: {
       access_token: ITOKEN
     }

@@ -67,13 +67,12 @@ export default (knex) => {
       .then(() => sendResultsEmail(tagName, { startDate, endDate }, userEmail, queryId))
       .then((info) => {
         resultsEmailInfo = info;
-        let resolution = {
+        resolve({
           resultsEmailInfo,
           confirmationEmailInfo,
           queryId,
           mediaIds,
-        }
-        resolve(resolution);
+        });
       })
       .catch((err) => {
         console.log("catch in queries.create:", err);
