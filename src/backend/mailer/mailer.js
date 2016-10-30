@@ -1,3 +1,4 @@
+'use strict';
 import nodemailer from 'nodemailer';
 import moment from 'moment';
 
@@ -39,7 +40,7 @@ const sendResultsEmail = (tagName, { startDate, endDate }, userEmail, queryId) =
   let mailText = `Thanks for waiting! Your query for photos tagged with #${tagName} between ` +
     moment(startDate).format('Do MMMM YYYY, h:mm:ss a') + " and " +
     moment(endDate).format('Do MMMM YYYY, h:mm:ss a') + "has completed. \n\n " +
-    `You can access the photos at ` + (process.env.ROOT_URL || "http://localhost:3000") + `/queryresults/${queryId}.`;
+    `You can access the photos at ` + process.env.ROOT_URL + `/queryresults/${queryId}.`;
 
   let mailOptions = {
     from: '"Pixlee-code-challenge" <whichlang.challenge@gmail.com>',

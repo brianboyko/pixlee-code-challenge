@@ -1,3 +1,4 @@
+'use strict';
 // src/backend/routes.js
 import express from 'express';
 

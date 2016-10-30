@@ -1,3 +1,4 @@
+'use strict';
 // Tags model
 export default (knex) => {
 

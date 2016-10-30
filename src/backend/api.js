@@ -1,3 +1,4 @@
+'use strict';
 // src/backend/api.js
 import moment from 'moment';
 import knex from './database/db';

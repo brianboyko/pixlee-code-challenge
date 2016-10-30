@@ -1,3 +1,4 @@
+'use strict';
 // it's been a while since I used Postgres.  May have to dig into my old projects.
 import config from '../../../knexfile.js';
 import Knex from 'knex';

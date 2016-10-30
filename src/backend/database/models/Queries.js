@@ -1,3 +1,4 @@
+'use strict';
 // Tags model
 import moment from 'moment';
 import Tags from './Tags';

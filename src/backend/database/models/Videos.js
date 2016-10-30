@@ -1,4 +1,5 @@
-// images model
+'use strict';
+// videos model
 export default (knex) => {
   const create = (video) => knex('videos').insert({
     low_res: video.low_resolution.url,

@@ -1,3 +1,4 @@
+'use strict';
 import request from 'request';
 import moment from 'moment';
 

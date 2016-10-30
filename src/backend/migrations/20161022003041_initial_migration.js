@@ -1,3 +1,4 @@
+'use strict';
 const createTable_tags = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('tags', (table) => {
     table.increments();

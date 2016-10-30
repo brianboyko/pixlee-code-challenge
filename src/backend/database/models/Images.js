@@ -1,3 +1,4 @@
+'use strict';
 // images model
 export default (knex) => {
   const create = (image) => knex('images').insert({

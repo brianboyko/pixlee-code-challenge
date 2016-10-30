@@ -1,3 +1,4 @@
+'use strict';
 // media model
 
 import moment from 'moment';

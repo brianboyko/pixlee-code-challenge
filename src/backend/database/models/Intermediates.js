@@ -1,4 +1,5 @@
-// models for intermediat tables: queries_media and media_tags
+'use strict';
+// models for intermediate tables: queries_media and media_tags
 
 const makeIntermediate = (tableName) => (knex) => {
   const create = (obj) => knex(tableName).insert(obj).returning('id');

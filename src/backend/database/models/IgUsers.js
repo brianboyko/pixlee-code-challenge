@@ -1,3 +1,4 @@
+'use strict';
 // ig_users model
 
 export default (knex) => {
