@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
 const ArchiveCard = (props) => (
       <Card>
         <CardHeader
-        title={props.user.username}
-        subtitle={"Created: " + moment.unix(props.media.created_time).format("dddd, MMMM Do YYYY, h:mm:ss a")}
-        avatar={props.user.profile_picture}
+        title={props.user.ig_username}
+        subtitle={"Created: " + moment(props.media.created_time).format("dddd, MMMM Do YYYY, h:mm:ss a")}
+        avatar={props.user.ig_profilepic}
         />
         <CardMedia
         overlay={<CardTitle subtitle={"Comments: " + props.media.number_comments + ", Likes: " + props.media.number_likes}/>}
