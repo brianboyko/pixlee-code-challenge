@@ -54,12 +54,10 @@ class Hero extends Component {
       email: this.state.email,
       complete: false,
     });
-    const ROOT = process.env.ROOT_URL || 'http://localhost:'
-    const PORT = process.env.PORT || 3000;
 
     request({
       method: 'POST',
-      url: ROOT + PORT + '/api/createcollection',
+      url: process.env.ROOT_URL + process.env.PORT + '/api/createcollection',
       headers: {
         'cache-control': 'no-cache',
         'content-type': 'application/json'
