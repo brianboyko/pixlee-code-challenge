@@ -38,7 +38,9 @@ class Results extends Component {
       },
       json: true,
     }, (err, response, body) => {
-
+      if(err){
+        console.log(err);
+      }
       this.props.actions.loadImages(body);
     });
   }
