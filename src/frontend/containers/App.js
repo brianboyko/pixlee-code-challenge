@@ -12,14 +12,6 @@ import * as actions from '../actions/index';
 const App = (props) => (
   <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
     <div>
-      <Drawer
-        open={props.draweropen}
-        docked={false}
-        onRequestChange={props.actions.closeDrawer}
-      >
-        <MenuItem onClick={props.actions.closeDrawer}>Menu Item</MenuItem>
-        <MenuItem onClick={props.actions.closeDrawer}>Menu Item 2</MenuItem>
-      </Drawer>
       <Header />
       {props.children}
     </div>

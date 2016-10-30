@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import reduxify from 'reduxify';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import moment from 'moment';
 
 import { css, StyleSheet } from 'aphrodite';
@@ -12,13 +13,20 @@ const styles = StyleSheet.create({
     width: '640px',
     maxWidth: '640px',
     padding: '20px',
-    margin: '0px 20px 0px 20px',
+    margin: '20px auto',
     backgroundColor: 'rgba(187, 187, 187, 0.5)',
+  },
+  container: {
+    textAlign: 'center',
+    margin: 'auto',
+  },
+  card: {
+    marginBottom: '10px',
   }
 });
 
 const ArchiveCard = (props) => (
-      <Card>
+      <Card className={css(styles.card)}>
         <CardHeader
         title={props.user.ig_username}
         subtitle={"Created: " + moment(props.media.created_time).format("dddd, MMMM Do YYYY, h:mm:ss a")}
@@ -32,6 +40,9 @@ const ArchiveCard = (props) => (
         <CardText>
           <div>{props.media.caption_text}</div>
         </CardText>
+        <CardActions>
+          <a href={props.media.link_url} target="_blank"><FlatButton label="Go To Instagram Link"/></a>
+        </CardActions>
       </Card>
 );
 
@@ -46,7 +57,6 @@ class Archive extends Component {
   }
 
   handleAdvance () {
-    console.log(">>")
     if(this.props.images.length > (this.state.page + 1) * 100){
       this.setState({page: this.state.page + 1})
     }
@@ -60,7 +70,7 @@ class Archive extends Component {
 
   render () {
     return (
-      <div>
+      <div className={css(styles.container)}>
         <div>
           <RaisedButton label="Previous 100" onClick={this.handleRewind} disabled={this.state.page < 1}/>
           <RaisedButton label="Next 100" onClick={this.handleAdvance} disabled={(this.state.page + 1) * 100 >= this.props.images.length} />

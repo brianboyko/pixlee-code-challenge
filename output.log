@@ -1,0 +1,171 @@
+
+> pixlee-code-challenge@0.2.0 start /home/brianboyko/source/pixlee-code-challenge
+> npm run build:frontend && npm run serve
+
+
+> pixlee-code-challenge@0.2.0 build:frontend /home/brianboyko/source/pixlee-code-challenge
+> node node_modules/.bin/webpack
+
+Hash: b90f0c3a3b6d72d3376b
+Version: webpack 1.13.3
+Time: 4132ms
+        Asset     Size  Chunks             Chunk Names
+app.bundle.js  4.37 MB       0  [emitted]  main
+    + 852 hidden modules
+
+> pixlee-code-challenge@0.2.0 serve /home/brianboyko/source/pixlee-code-challenge
+> npm run build:backend && node ./bin/server/server.js
+
+
+> pixlee-code-challenge@0.2.0 build:backend /home/brianboyko/source/pixlee-code-challenge
+> babel src/backend -d bin/server
+
+src/backend/api.js -> bin/server/api.js
+src/backend/database/controllers/query.js -> bin/server/database/controllers/query.js
+src/backend/database/controllers/tags.js -> bin/server/database/controllers/tags.js
+src/backend/database/db.js -> bin/server/database/db.js
+src/backend/database/models/IgUsers.js -> bin/server/database/models/IgUsers.js
+src/backend/database/models/Images.js -> bin/server/database/models/Images.js
+src/backend/database/models/Intermediates.js -> bin/server/database/models/Intermediates.js
+src/backend/database/models/Media.js -> bin/server/database/models/Media.js
+src/backend/database/models/Queries.js -> bin/server/database/models/Queries.js
+src/backend/database/models/Tags.js -> bin/server/database/models/Tags.js
+src/backend/instagram/Interface.js -> bin/server/instagram/Interface.js
+src/backend/mailer/mailer.js -> bin/server/mailer/mailer.js
+src/backend/migrations/20161022003041_initial_migration.js -> bin/server/migrations/20161022003041_initial_migration.js
+src/backend/router.js -> bin/server/router.js
+src/backend/server.js -> bin/server/server.js
+Server is listening on port 3000
+req.body { tagName: 'video',
+  startDate: 1477717200000,
+  endDate: 1477803600000,
+  userEmail: 'brian.boyko@gmail.com' }
+startQuery video { startDate: 1477717200000, endDate: 1477803600000 } brian.boyko@gmail.com
+inside creates in the model
+tagName video
+startDate 1477717200000
+endDate 1477803600000
+getting here
+insertable { tag_id: 3,
+  earliest_date: '2016-10-29T05:00:00.000Z',
+  latest_date: '2016-10-30T05:00:00.000Z',
+  completed: false,
+  user_email: 'brian.boyko@gmail.com',
+  time_requested: '2016-10-30T08:38:26.900Z' }
+inside queries.create then
+should send back: { placement: 3, email: 'brian.boyko@gmail.com', id: 8 }
+getPhotosInDateRange is running video 1477717200 1477803600
+. 0video
+. 20video
+. 40video
+. 60video
+. 80video
+. 100video
+. 120video
+. 140video
+. 160video
+. 180video
+. 200video
+. 220video
+. 240video
+. 260video
+. 280video
+. 300video
+. 320video
+. 340video
+. 360video
+. 380video
+. 400video
+. 420video
+. 440video
+. 460video
+. 480video
+. 500video
+. 520video
+. 540video
+. 560video
+. 580video
+. 600video
+. 620video
+. 640video
+. 660video
+. 680video
+. 700video
+. 720video
+. 740video
+. 760video
+. 780video
+. 800video
+. 820video
+. 840video
+. 860video
+. 880video
+. 900video
+. 920video
+. 940video
+. 960video
+. 980video
+. 1000video
+. 1020video
+. 1040video
+. 1060video
+. 1080video
+. 1100video
+. 1120video
+. 1140video
+. 1160video
+. 1180video
+. 1200video
+. 1220video
+. 1240video
+. 1260video
+. 1280video
+. 1300video
+. 1320video
+. 1340video
+. 1360video
+. 1380video
+. 1400video
+. 1420video
+. 1440video
+. 1460video
+. 1480video
+. 1500video
+. 1520video
+. 1540video
+. 1560video
+. 1580video
+. 1600video
+. 1620video
+. 1640video
+. 1660video
+. 1680video
+. 1700video
+. 1720video
+. 1740video
+. 1760video
+. 1780video
+. 1800video
+. 1820video
+. 1840video
+. 1860video
+. 1880video
+. 1900video
+. 1920video
+. 1940video
+. 1960video
+. 1980video
+. 2000video
+. 2020video
+. 2040video
+. 2060video
+. 2080video
+. 2100video
+. 2120video
+. 2140video
+. 2160video
+. 2180video
+. 2200video
+. 2220video
+. 2240video
+err in getFromFullURL:  { [Error: read ECONNRESET] code: 'ECONNRESET', errno: 'ECONNRESET', syscall: 'read' }

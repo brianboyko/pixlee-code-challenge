@@ -24,6 +24,8 @@ const getFromIGByTag = (tagName) => new Promise(function(resolve, reject) {
     }
   }, (err, response, body) => {
     if (err) {
+      console.log("err in getFromIGByTag: ", err)
+
       reject(err);
     } else {
       resolve(JSON.parse(body));
@@ -31,10 +33,13 @@ const getFromIGByTag = (tagName) => new Promise(function(resolve, reject) {
   });
 });
 
-
+// if we've used up our Instagram token, we get this err:
+/* err in getFromFullURL:  { [Error: read ECONNRESET] code: 'ECONNRESET', errno: 'ECONNRESET', syscall: 'read' }
+*/
 const getFromFullURL = (fullURL) => new Promise(function(resolve, reject) {
   request.get(fullURL, (err, response, body) => {
     if (err) {
+      console.log("err in getFromFullURL: ", err)
       reject(err);
     } else {
       resolve(JSON.parse(body));
@@ -117,24 +122,13 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
 
   const getPhotosInDateRange = (tagName, { startDate, endDate }, isThrottled = false) => {
     console.log("getPhotosInDateRange is running", tagName, startDate, endDate)
-    // don't run this if there's no change in the date.
-    if (startDate === endDate){
-      return null;
-    }
-    // the start date is the EARLIEST point in time. This prevents infinite loops
-    // especially when testing with Postman.
-    if (startDate > endDate){
-      let temp = endDate;
-      endDate = startDate,
-      startDate = temp;
-    }
 
     // throttle the functions if we need to.
     let getInit = isThrottled ? (...args) => throttle(getFromIGByTag, args) : getFromIGByTag;
     let getNext = isThrottled ? (...args) => throttle(getFromFullURL, args) : getFromFullURL;
 
     const recGetPhotos = (prev) => new Promise(function(resolve, reject) {
-      console.log(". " + prev ? prev.data.length : 0);
+      console.log(". " + (prev ? prev.data.length : 0) + tagName);
       if (!prev) {
         getInit(tagName).then((igResp) => {
           if (igResp.data[igResp.data.length - 1].created_time <= startDate || igResp.data.length < 20) {

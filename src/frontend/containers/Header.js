@@ -9,7 +9,6 @@ import SVGMenuIcon from 'material-ui/svg-icons/navigation/menu';
 const Header = (props) => (
   <AppBar
     title="Pixlee Code Challenge"
-    iconElementLeft={<IconButton onClick={props.actions.toggleDrawer}><SVGMenuIcon/></IconButton>}
   />
 );
 

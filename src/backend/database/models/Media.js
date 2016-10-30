@@ -14,6 +14,10 @@ export default (knex) => {
 
   const create = (media) => {
 
+    if(media.type === "video"){
+      console.log("video type");
+      console.log(JSON.stringify(media)); 
+    }
     const addImage = () => new Promise(function(resolve, reject) {
       resolve(images.create(media.images));
     });

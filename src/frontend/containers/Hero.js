@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import CircularProgress from 'material-ui/CircularProgress';
-import Divider from 'material-ui/Divider';
+import Paper from 'material-ui/Paper';
 import { DateRange } from 'react-date-range';
 import { css, StyleSheet } from 'aphrodite'
 import * as actions from '../actions/index';
@@ -18,7 +18,12 @@ const styles = StyleSheet.create({
     backgroundAttachement: 'fixed',
     backgroundSize: '100% auto',
     padding: '10px',
+    margin: 'auto',
   },
+  container: {
+    textAlign: 'center',
+    margin: 'auto',
+  }
 })
 
 
@@ -91,32 +96,24 @@ class Hero extends Component {
   render () {
     return (
       <div className={css(styles.main)}>
-        <div>
+        <div className={css(styles.container)}>
+          <Paper>{this.state.status}</Paper>
           <TextField
             hintText="bacon"
-            floatingLabelText="Search for Hashtag"
+            floatingLabelText="Hashtag (required)"
             onChange={this.handleHashtag}
             value={this.state.tagName}
 
           />
-          <Divider />
-
-          {this.props.isLoading ? <CircularProgress /> : null}
-        </div>
-
-
-        <RaisedButton onClick={this.getSearch} label="Search for Most Recent Images" />
-          <DateRange onInit={this.handleRange} onChange={this.handleRange}/>
           <TextField
-            hintText="Email"
-            floatingLabelText="Type your e-mail for notification (required)"
+            hintText="brian.boyko@gmail.com"
+            floatingLabelText="Email (required)"
             onChange={this.handleEmail}
             value={this.state.email}
           />
-        <RaisedButton onClick={this.queueSearch} label="Make a request to search for dates" />
-        {this.state.status}
-        <Divider/>
-        <Display />
+          <DateRange onInit={this.handleRange} onChange={this.handleRange}/>
+          <RaisedButton onClick={this.queueSearch} label="Make a request to search for dates" />
+        </div>
       </div>
     );
   }

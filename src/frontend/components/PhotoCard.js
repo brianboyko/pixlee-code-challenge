@@ -15,7 +15,7 @@ const styles = {
 };
 
 
-const ArchivePhotoCard = (props) => (
+const PhotoCard = (props) => (
       <Card>
         <CardHeader
         title={props.data.user.username}
@@ -33,10 +33,9 @@ const ArchivePhotoCard = (props) => (
           <div>{props.data.caption.text}</div>
         </CardText>
         <CardActions>
-          <FlatButton label="Action1" />
-          <FlatButton label="Action2" />
+          <a href={props.data.link} target="_blank"><FlatButton label="View entry on Instagram" /></a>
         </CardActions>
       </Card>
     );
 
-export default ArchivePhotoCard;
+export default PhotoCard;
