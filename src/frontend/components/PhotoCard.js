@@ -15,7 +15,7 @@ const styles = {
 };
 
 
-const PhotoCard = (props) => (
+const ArchivePhotoCard = (props) => (
       <Card>
         <CardHeader
         title={props.data.user.username}
@@ -39,4 +39,4 @@ const PhotoCard = (props) => (
       </Card>
     );
 
-export default PhotoCard;
+export default ArchivePhotoCard;
