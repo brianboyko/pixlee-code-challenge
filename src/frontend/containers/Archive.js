@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: '10px',
+  },
+  caption: {
+    textAlign: 'left',
   }
 });
 
@@ -32,17 +35,20 @@ const ArchiveCard = (props) => (
         subtitle={"Created: " + moment(props.media.created_time).format("dddd, MMMM Do YYYY, h:mm:ss a")}
         avatar={props.user.ig_profilepic}
         />
-        <CardMedia
-        overlay={<CardTitle subtitle={"Comments: " + props.media.number_comments + ", Likes: " + props.media.number_likes}/>}
-        >
-          {props.media.type === "video" ?
-          <video width="400" controls>
-            <source src={props.videos.standard_url} type="video/mp4"/>
+        { props.media.type === "video" ?
+          <video width="640" controls>
+            <source src={props.videos.standard_res} type="video/mp4"/>
             Your browser does not support HTML5 video.
-          </video>: <img src={props.images.standard_url} /> }
-        </CardMedia>
+          </video> :
+          <CardMedia
+          overlay={<CardTitle subtitle={"Comments: " + props.media.number_comments + ", Likes: " + props.media.number_likes}/>}
+          >
+          <img src={props.images.standard_url} />
+          </CardMedia>
+        }
         <CardText>
-          <div>{props.media.caption_text}</div>
+          {props.media.type === 'video' ? <div>{"Comments: " + props.media.number_comments + ", Likes: " + props.media.number_likes}</div> : null }
+          <div className={css(styles.caption)}>{props.media.caption_text}</div>
         </CardText>
         <CardActions>
           <a href={props.media.link_url} target="_blank"><FlatButton label="Go To Instagram Link"/></a>
@@ -81,7 +87,7 @@ class Archive extends Component {
         </div>
         <div className={css(styles.displayArea)}>
           {this.props.images ? null : "No data loaded"}
-          {this.props.images.slice(this.state.page * 100, (this.state.page + 1) * 100).map((img, index) => <ArchiveCard key={"card" + index} images={img.images[0]} media={img.media} user={img.user[0]} />)}
+          {this.props.images.slice(this.state.page * 100, (this.state.page + 1) * 100).map((img, index) => <ArchiveCard key={"card" + index} images={img.images[0]} media={img.media} user={img.user[0]} videos={img.videos ? img.videos[0] : null}/>)}
         </div>
       </div>
     )
