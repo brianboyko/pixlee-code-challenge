@@ -27,9 +27,7 @@ PostgreSQL database.
 
 process.env.NODE_ENV === 'production';
 process.env.ROOT_URL === <the URL hosting the application>
-process.env.DB_HOST === <the host address for the Postgresql database>
-process.env.DB_USER === <the username for the pgdb>
-process.env.DB_PASS === <the password for the pgdb>
+process.env.DATABASE_URL === <the connection string of the database>
 
 ## API:
 

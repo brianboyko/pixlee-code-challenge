@@ -6,9 +6,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import Paper from 'material-ui/Paper';
 import { DateRange } from 'react-date-range';
-import { css, StyleSheet } from 'aphrodite'
+import { css, StyleSheet } from 'aphrodite';
 import * as actions from '../actions/index';
-import Display from './Display';
 
 
 const styles = StyleSheet.create({
