@@ -51,7 +51,7 @@ export default (knex) => {
       })
       .then((info) => {
         confirmationEmailInfo = info;
-        return getPhotosInDateRange(tagName, { startDate, endDate }, (inProg[0].count > LOAD));
+        return getPhotosInDateRange(tagName, { startDate: moment(startDate).unix(), endDate: moment(endDate).unix() }, (inProg[0].count > LOAD));
       })
       .then((photos) =>Promise.all(photos.data.map((photo) => media.create(photo))))
       .then((ids) => {

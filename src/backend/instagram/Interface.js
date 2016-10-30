@@ -95,7 +95,6 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
     let getMany = isThrottled ?
       (numPhotos, tagName, previous) => getThisManyPhotos(numPhotos, tagName, previous, true) :
       getThisManyPhotos;
-
       Promise.all([
         getData(tagName),
         getMany(100, tagName)
@@ -117,6 +116,7 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
     });
 
   const getPhotosInDateRange = (tagName, { startDate, endDate }, isThrottled = false) => {
+    console.log("getPhotosInDateRange is running", tagName, startDate, endDate)
     // don't run this if there's no change in the date.
     if (startDate === endDate){
       return null;
@@ -134,9 +134,11 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
     let getNext = isThrottled ? (...args) => throttle(getFromFullURL, args) : getFromFullURL;
 
     const recGetPhotos = (prev) => new Promise(function(resolve, reject) {
+      console.log(". " + prev ? prev.data.length : 0);
       if (!prev) {
         getInit(tagName).then((igResp) => {
           if (igResp.data[igResp.data.length - 1].created_time <= startDate || igResp.data.length < 20) {
+            console.log("done once");
             resolve(igResp);
             return;
           } else {
@@ -147,6 +149,7 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
         getNext(prev.pagination.next_url).then((igResp) => {
           let bundle = consolidate(prev, igResp);
           if (bundle.data[bundle.data.length - 1].created_time <= startDate || bundle.data.length === 0) {
+            console.log('done bundle')
             resolve(bundle);
           } else {
             resolve(recGetPhotos(bundle));
