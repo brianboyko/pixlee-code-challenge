@@ -59,7 +59,6 @@ describe("api", function() {
           if (err) {
             reject(err);
           }
-          console.log(body);
           resolve(body);
         });
       });
