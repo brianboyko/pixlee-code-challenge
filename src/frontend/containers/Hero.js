@@ -70,7 +70,9 @@ class Hero extends Component {
       },
       json: true,
     }, (err, response, body) => {
-
+      if (err) {
+        console.log(err);
+      }
       this.setState({status: `Thank you. Your placement is ${body.placement}. We will send an e-mail to ${body.email} when the application is finished processing. Reference Code ${body.id}`})
     });
 

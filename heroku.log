@@ -1,0 +1,101 @@
+2016-10-30T23:17:52.508422+00:00 heroku[slug-compiler]: Slug compilation finished
+2016-10-30T23:17:53.005413+00:00 heroku[web.1]: Restarting
+2016-10-30T23:17:53.005644+00:00 heroku[web.1]: State changed from up to starting
+2016-10-30T23:17:55.813109+00:00 heroku[web.1]: Stopping all processes with SIGTERM
+2016-10-30T23:17:55.969985+00:00 heroku[web.1]: Starting process with command `npm run start`
+2016-10-30T23:17:56.544010+00:00 heroku[web.1]: Process exited with status 143
+2016-10-30T23:17:58.221749+00:00 app[web.1]: 
+2016-10-30T23:17:58.221763+00:00 app[web.1]: > pixlee-code-challenge@0.2.0 start /app
+2016-10-30T23:17:58.221764+00:00 app[web.1]: 
+2016-10-30T23:17:58.221764+00:00 app[web.1]: > npm run build:frontend && npm run serve
+2016-10-30T23:17:58.820612+00:00 app[web.1]: 
+2016-10-30T23:17:58.820623+00:00 app[web.1]: > pixlee-code-challenge@0.2.0 build:frontend /app
+2016-10-30T23:17:58.820624+00:00 app[web.1]: > node node_modules/.bin/webpack
+2016-10-30T23:17:58.820625+00:00 app[web.1]: 
+2016-10-30T23:18:07.630051+00:00 app[web.1]: Hash: 6520d14e4a4e5e9a79f7
+2016-10-30T23:18:07.630062+00:00 app[web.1]: Version: webpack 1.13.3
+2016-10-30T23:18:07.630064+00:00 app[web.1]:         Asset     Size  Chunks             Chunk Names
+2016-10-30T23:18:07.630063+00:00 app[web.1]: Time: 8450ms
+2016-10-30T23:18:07.630065+00:00 app[web.1]:     + 812 hidden modules
+2016-10-30T23:18:07.630065+00:00 app[web.1]: app.bundle.js  4.17 MB       0  [emitted]  main
+2016-10-30T23:18:08.175875+00:00 app[web.1]: 
+2016-10-30T23:18:08.175893+00:00 app[web.1]: > pixlee-code-challenge@0.2.0 serve /app
+2016-10-30T23:18:08.175895+00:00 app[web.1]: > npm run build:backend && node ./bin/server/server.js
+2016-10-30T23:18:08.175895+00:00 app[web.1]: 
+2016-10-30T23:18:08.751883+00:00 app[web.1]: 
+2016-10-30T23:18:08.751898+00:00 app[web.1]: > pixlee-code-challenge@0.2.0 build:backend /app
+2016-10-30T23:18:08.751899+00:00 app[web.1]: > babel src/backend -d bin/server
+2016-10-30T23:18:08.751904+00:00 app[web.1]: 
+2016-10-30T23:18:09.691552+00:00 app[web.1]: src/backend/api.js -> bin/server/api.js
+2016-10-30T23:18:09.997840+00:00 app[web.1]: src/backend/database/controllers/query.js -> bin/server/database/controllers/query.js
+2016-10-30T23:18:10.023099+00:00 app[web.1]: src/backend/database/db.js -> bin/server/database/db.js
+2016-10-30T23:18:10.063913+00:00 app[web.1]: src/backend/database/models/IgUsers.js -> bin/server/database/models/IgUsers.js
+2016-10-30T23:18:10.107372+00:00 app[web.1]: src/backend/database/models/Images.js -> bin/server/database/models/Images.js
+2016-10-30T23:18:10.146067+00:00 app[web.1]: src/backend/database/models/Intermediates.js -> bin/server/database/models/Intermediates.js
+2016-10-30T23:18:10.237970+00:00 app[web.1]: src/backend/database/models/Media.js -> bin/server/database/models/Media.js
+2016-10-30T23:18:10.331116+00:00 app[web.1]: src/backend/database/models/Queries.js -> bin/server/database/models/Queries.js
+2016-10-30T23:18:10.376432+00:00 app[web.1]: src/backend/database/models/Tags.js -> bin/server/database/models/Tags.js
+2016-10-30T23:18:10.410107+00:00 app[web.1]: src/backend/database/models/Videos.js -> bin/server/database/models/Videos.js
+2016-10-30T23:18:11.018127+00:00 app[web.1]: src/backend/migrations/20161022003041_initial_migration.js -> bin/server/migrations/20161022003041_initial_migration.js
+2016-10-30T23:18:10.835400+00:00 app[web.1]: src/backend/instagram/Interface.js -> bin/server/instagram/Interface.js
+2016-10-30T23:18:10.902659+00:00 app[web.1]: src/backend/mailer/mailer.js -> bin/server/mailer/mailer.js
+2016-10-30T23:18:11.060226+00:00 app[web.1]: src/backend/server.js -> bin/server/server.js
+2016-10-30T23:18:11.034288+00:00 app[web.1]: src/backend/router.js -> bin/server/router.js
+2016-10-30T23:18:11.810745+00:00 heroku[web.1]: State changed from starting to up
+2016-10-30T23:18:11.725986+00:00 app[web.1]: Server is listening on port 31791
+2016-10-30T23:18:13.946606+00:00 heroku[router]: at=info method=GET path="/" host=pixleecodechallenge.herokuapp.com request_id=9596082a-6f94-4f8a-bd11-5aad587be8ca fwd="99.156.92.32" dyno=web.1 connect=0ms service=19ms status=200 bytes=601
+2016-10-30T23:18:14.179858+00:00 heroku[router]: at=info method=GET path="/styles.css" host=pixleecodechallenge.herokuapp.com request_id=3164ffd1-5e22-4120-a9d6-a7ff01d1fc6f fwd="99.156.92.32" dyno=web.1 connect=0ms service=7ms status=200 bytes=564
+2016-10-30T23:18:14.350351+00:00 heroku[router]: at=info method=GET path="/bin/app/app.bundle.js" host=pixleecodechallenge.herokuapp.com request_id=7bb39d65-2a63-482c-a9d3-770b2238d383 fwd="99.156.92.32" dyno=web.1 connect=0ms service=93ms status=200 bytes=4200305
+2016-10-30T23:18:17.751462+00:00 heroku[router]: at=info method=GET path="/static/img/dots-background.png" host=pixleecodechallenge.herokuapp.com request_id=d0f6a65d-03bd-425f-ae1c-7286d8f9b66d fwd="99.156.92.32" dyno=web.1 connect=0ms service=5ms status=200 bytes=58086
+2016-10-30T23:34:59.068519+00:00 heroku[api]: Deploy 5d32cac by brian.boyko@gmail.com
+2016-10-30T23:34:59.068557+00:00 heroku[api]: Release v13 created by brian.boyko@gmail.com
+2016-10-30T23:34:59.257903+00:00 heroku[slug-compiler]: Slug compilation started
+2016-10-30T23:34:59.257908+00:00 heroku[slug-compiler]: Slug compilation finished
+2016-10-30T23:34:59.295653+00:00 heroku[web.1]: Restarting
+2016-10-30T23:34:59.296460+00:00 heroku[web.1]: State changed from up to starting
+2016-10-30T23:35:02.148516+00:00 heroku[web.1]: Starting process with command `npm run start`
+2016-10-30T23:35:02.581465+00:00 heroku[web.1]: Stopping all processes with SIGTERM
+2016-10-30T23:35:03.506647+00:00 heroku[web.1]: Process exited with status 143
+2016-10-30T23:35:04.198093+00:00 app[web.1]: 
+2016-10-30T23:35:04.198106+00:00 app[web.1]: > pixlee-code-challenge@0.2.0 start /app
+2016-10-30T23:35:04.198107+00:00 app[web.1]: > npm run build:frontend && npm run serve
+2016-10-30T23:35:04.198108+00:00 app[web.1]: 
+2016-10-30T23:35:04.888553+00:00 app[web.1]: 
+2016-10-30T23:35:04.888570+00:00 app[web.1]: > pixlee-code-challenge@0.2.0 build:frontend /app
+2016-10-30T23:35:04.888571+00:00 app[web.1]: > node node_modules/.bin/webpack
+2016-10-30T23:35:04.888572+00:00 app[web.1]: 
+2016-10-30T23:35:17.863653+00:00 app[web.1]: Hash: 6520d14e4a4e5e9a79f7
+2016-10-30T23:35:17.863668+00:00 app[web.1]:         Asset     Size  Chunks             Chunk Names
+2016-10-30T23:35:17.863669+00:00 app[web.1]: app.bundle.js  4.17 MB       0  [emitted]  main
+2016-10-30T23:35:17.863669+00:00 app[web.1]:     + 812 hidden modules
+2016-10-30T23:35:17.863667+00:00 app[web.1]: Time: 12366ms
+2016-10-30T23:35:17.863665+00:00 app[web.1]: Version: webpack 1.13.3
+2016-10-30T23:35:18.531049+00:00 app[web.1]: 
+2016-10-30T23:35:18.531063+00:00 app[web.1]: > pixlee-code-challenge@0.2.0 serve /app
+2016-10-30T23:35:18.531064+00:00 app[web.1]: > npm run build:backend && node ./bin/server/server.js
+2016-10-30T23:35:18.531065+00:00 app[web.1]: 
+2016-10-30T23:35:19.365285+00:00 app[web.1]: 
+2016-10-30T23:35:19.365300+00:00 app[web.1]: > pixlee-code-challenge@0.2.0 build:backend /app
+2016-10-30T23:35:19.365301+00:00 app[web.1]: > babel src/backend -d bin/server
+2016-10-30T23:35:19.365302+00:00 app[web.1]: 
+2016-10-30T23:35:20.922448+00:00 app[web.1]: src/backend/api.js -> bin/server/api.js
+2016-10-30T23:35:21.497511+00:00 app[web.1]: src/backend/database/controllers/query.js -> bin/server/database/controllers/query.js
+2016-10-30T23:35:21.542972+00:00 app[web.1]: src/backend/database/db.js -> bin/server/database/db.js
+2016-10-30T23:35:21.618958+00:00 app[web.1]: src/backend/database/models/IgUsers.js -> bin/server/database/models/IgUsers.js
+2016-10-30T23:35:21.721430+00:00 app[web.1]: src/backend/database/models/Images.js -> bin/server/database/models/Images.js
+2016-10-30T23:35:21.783905+00:00 app[web.1]: src/backend/database/models/Intermediates.js -> bin/server/database/models/Intermediates.js
+2016-10-30T23:35:21.957473+00:00 app[web.1]: src/backend/database/models/Media.js -> bin/server/database/models/Media.js
+2016-10-30T23:35:22.122777+00:00 app[web.1]: src/backend/database/models/Queries.js -> bin/server/database/models/Queries.js
+2016-10-30T23:35:22.213219+00:00 app[web.1]: src/backend/database/models/Tags.js -> bin/server/database/models/Tags.js
+2016-10-30T23:35:22.257796+00:00 app[web.1]: src/backend/database/models/Videos.js -> bin/server/database/models/Videos.js
+2016-10-30T23:35:22.996456+00:00 app[web.1]: src/backend/instagram/Interface.js -> bin/server/instagram/Interface.js
+2016-10-30T23:35:23.098848+00:00 app[web.1]: src/backend/mailer/mailer.js -> bin/server/mailer/mailer.js
+2016-10-30T23:35:23.301619+00:00 app[web.1]: src/backend/migrations/20161022003041_initial_migration.js -> bin/server/migrations/20161022003041_initial_migration.js
+2016-10-30T23:35:23.333947+00:00 app[web.1]: src/backend/router.js -> bin/server/router.js
+2016-10-30T23:35:23.395855+00:00 app[web.1]: src/backend/server.js -> bin/server/server.js
+2016-10-30T23:35:24.473303+00:00 app[web.1]: Server is listening on port 19832
+2016-10-30T23:35:24.653505+00:00 heroku[web.1]: State changed from starting to up
+2016-10-30T23:35:25.819559+00:00 heroku[router]: at=info method=GET path="/" host=pixleecodechallenge.herokuapp.com request_id=437e9f53-ddc0-45b5-a079-728312206213 fwd="99.156.92.32" dyno=web.1 connect=0ms service=63ms status=200 bytes=601
+2016-10-30T23:35:26.089132+00:00 heroku[router]: at=info method=GET path="/styles.css" host=pixleecodechallenge.herokuapp.com request_id=4048bf71-cbaf-43c8-bc25-b623d023b58b fwd="99.156.92.32" dyno=web.1 connect=0ms service=39ms status=200 bytes=564
+2016-10-30T23:35:26.164116+00:00 heroku[router]: at=info method=GET path="/bin/app/app.bundle.js" host=pixleecodechallenge.herokuapp.com request_id=b1efea52-d22d-434c-af0e-6bf9a7cf7407 fwd="99.156.92.32" dyno=web.1 connect=0ms service=113ms status=200 bytes=4200305
+2016-10-30T23:35:29.736237+00:00 heroku[router]: at=info method=GET path="/static/img/dots-background.png" host=pixleecodechallenge.herokuapp.com request_id=2c8c3c8f-b5ed-40e3-be53-908b92d14b1d fwd="99.156.92.32" dyno=web.1 connect=0ms service=4ms status=200 bytes=58086
