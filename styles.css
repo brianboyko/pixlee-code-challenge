@@ -3,7 +3,7 @@
 body {
   font-family: "Catamaran", "Roboto", "Helvetica", "Arial", sans;
   margin: 0;
-  background-color: rgba(121, 233, 249, 0.86);
+  background-color: rgb(48, 164, 161);
 }
 
 #root {

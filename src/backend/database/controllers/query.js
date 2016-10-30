@@ -4,9 +4,11 @@ import Queries from '../models/Queries';
 import Media from '../models/Media';
 import Images from '../models/Images';
 import IgUsers from '../models/IgUsers';
+import Videos from '../models/Videos';
 import { QueriesMedia } from '../models/Intermediates';
 import Interface from '../../instagram/Interface';
 import Mailer from '../../mailer/mailer';
+
 const { sendConfirmationEmail, sendResultsEmail } = Mailer;
 
 const { getPhotosInDateRange } = Interface;
@@ -18,10 +20,10 @@ export default (knex) => {
   const media = Media(knex);
   const images = Images(knex);
   const igUsers = IgUsers(knex);
+  const videos = Videos(knex);
   const LOAD = Infinity;
 
   const startQuery = (tagName, { startDate, endDate }, userEmail, res) => new Promise(function(resolve, reject) {
-    console.log("startQuery", tagName, { startDate, endDate }, userEmail)
     let queryId; // closure ensures we have access to this throughout the "then" chain.
     let confirmationEmailInfo;
     let resultsEmailInfo;
@@ -30,18 +32,17 @@ export default (knex) => {
 
     queries.create(tagName, { startDate, endDate }, userEmail)
       .then((ids) => {
-        console.log("inside queries.create then")
+        if(ids[0] === null) {
+          console.log('ids[0] === null queryId')
+        }
         queryId = ids[0];
         return queries.countInProgress();
       })
       .then((count) => {
         inProg = count;
         let placement = parseInt(inProg[0].count) + 1;
-        console.log("should send back:", {
-          placement: placement,
-          email: userEmail,
-          id: queryId,
-        })
+        // we send back the confirmation email info now, even though there's more
+        // processing in the function to do.
         res.send({
           placement: placement,
           email: userEmail,
@@ -51,10 +52,17 @@ export default (knex) => {
       })
       .then((info) => {
         confirmationEmailInfo = info;
-        return getPhotosInDateRange(tagName, { startDate: moment(startDate).unix(), endDate: moment(endDate).unix() }, (inProg[0].count > LOAD));
+        return getPhotosInDateRange(tagName, {
+          startDate: moment(startDate).unix(),
+          endDate: moment(endDate).unix()
+        }, (inProg[0].count > LOAD));
       })
-      .then((photos) =>Promise.all(photos.data.map((photo) => media.create(photo))))
+      .then((photos) => Promise.all(photos.data.map((photo) => media.create(photo))))
       .then((ids) => {
+        console.log("ids: ", ids)
+        if(ids[0] === null) {
+          console.log('ids[0] === null (photoID)')
+        }
         mediaIds = ids.map((id) => id[0]);
         return Promise.all(mediaIds.map(
           (mediaId) => queriesMedia.create({
@@ -66,14 +74,18 @@ export default (knex) => {
       .then(() => sendResultsEmail(tagName, { startDate, endDate }, userEmail, queryId))
       .then((info) => {
         resultsEmailInfo = info;
-        resolve({
+        let resolution = {
           resultsEmailInfo,
           confirmationEmailInfo,
           queryId,
           mediaIds,
-        });
+        }
+        resolve(resolution);
       })
-      .catch((err) => reject(err));
+      .catch((err) => {
+        console.log("catch in queries.create:", err);
+        reject(err);
+      });
 });
 
   const retrieveQuery = (id, res) => new Promise(function(resolve, reject) {
@@ -102,18 +114,23 @@ export default (knex) => {
           mRecord,
           images.read.byId(mRecord.image_id),
           igUsers.read.byId(mRecord.ig_users_id),
+          () => mRecord.video_id ? videos.read.byId(mRecord.video_id) : null,
         ])));
       })
       .then((results) => results.map((result) => ({
         media: result[0],
         images: result[1],
-        user: result[2]
+        user: result[2],
+        videos: result[3],
       })))
       .then((data) => {
         res.send(data);
         resolve(data);
       })
-      .catch((e) => reject(e));
+      .catch((err) => {
+        console.log("catch in queries.retrieveQuery:", err);
+        reject(err);
+      });
   });
 
   return {

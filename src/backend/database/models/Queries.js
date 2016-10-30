@@ -7,12 +7,6 @@ export default(knex) => {
   const tags = Tags(knex);
 
   const create = (tagName, { startDate, endDate }, userEmail) => {
-    console.log("inside creates in the model")
-
-    console.log("tagName", tagName);
-    console.log("startDate", startDate);
-    console.log("endDate", endDate);
-    console.log("getting here")
     return tags.getOrAdd(tagName)
       .then(({ id }) => {
         let insertable = {
@@ -23,7 +17,6 @@ export default(knex) => {
           user_email: userEmail,
           time_requested: moment(new Date()).toISOString(),
         };
-        console.log("insertable", insertable)
         return knex('queries')
           .insert(insertable)
           .returning('id');

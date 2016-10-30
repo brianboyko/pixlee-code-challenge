@@ -23,6 +23,12 @@ const styles = StyleSheet.create({
   container: {
     textAlign: 'center',
     margin: 'auto',
+  },
+  databox: {
+    width: '500px',
+    textAlign: 'left',
+    margin: '40px auto',
+    padding: '20px',
   }
 })
 
@@ -31,8 +37,8 @@ class Hero extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tagName: "bacon",
-      email: "brian.boyko@gmail.com",
+      tagName: "",
+      email: "",
       status: "",
     };
     this.getSearch = this.getSearch.bind(this);
@@ -67,9 +73,7 @@ class Hero extends Component {
       },
       json: true,
     }, (err, response, body) => {
-      console.log("err", err);
-      console.log("response", response);
-      console.log("body", body);
+
       this.setState({status: `Thank you. Your placement is ${body.placement}. We will send an e-mail to ${body.email} when the application is finished processing. Reference Code ${body.id}`})
     });
 
@@ -112,7 +116,14 @@ class Hero extends Component {
             value={this.state.email}
           />
           <DateRange onInit={this.handleRange} onChange={this.handleRange}/>
-          <RaisedButton onClick={this.queueSearch} label="Make a request to search for dates" />
+          <Paper zDepth={4} className={css(styles.databox)}>
+            <div>Current selections: </div>
+            <div>Hashtag: {this.state.tagName}</div>
+            <div>From: {this.props.minDate ? this.props.minDate.format("dddd, MMMM Do YYYY, h:mm:ss a") : null}</div>
+            <div>To: {this.props.maxDate ? this.props.maxDate.format("dddd, MMMM Do YYYY, h:mm:ss a") : null}</div>
+            <div>Email: {this.state.email}</div>
+          </Paper>
+          <RaisedButton onClick={this.queueSearch} label="Make a request to search for dates" disabled={(!this.state.tagName || !this.props.minDate || !this.props.maxDate || !this.state.email)} />
         </div>
       </div>
     );

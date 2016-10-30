@@ -31,12 +31,12 @@ const completeQuery = (id) => ({
 
 const setMinDate = (date) => ({
   type: SET_MIN_DATE,
-  date,
+  date: date.startOf('day'),
 });
 
 const setMaxDate = (date) => ({
   type: SET_MAX_DATE,
-  date,
+  date: date.endOf('day'),
 });
 
 export default {

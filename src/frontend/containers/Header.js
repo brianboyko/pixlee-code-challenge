@@ -1,15 +1,20 @@
-import reduxify from 'reduxify';
 import React, { Component } from 'react';
-import { css, StyleSheet } from 'aphrodite';
-import * as actions from '../actions/index';
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import SVGMenuIcon from 'material-ui/svg-icons/navigation/menu';
+import Paper from 'material-ui/Paper';
+
+const styles = {
+  header: {
+    fontFamily: "Catamaran",
+    fontSize: '40px',
+    textAlign: 'center',
+    padding: '20px',
+    width: '100%',
+    backgroundColor: 'rgb(48, 164, 161)',
+    color: "white",
+  }
+};
 
 const Header = (props) => (
-  <AppBar
-    title="Pixlee Code Challenge"
-  />
+  <Paper style={styles.header}>Pixlee Code Challenge</Paper>
 );
 
-export default reduxify(actions, ['images'], Header);
+export default Header

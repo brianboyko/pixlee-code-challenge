@@ -25,6 +25,17 @@ const createTable_images = (knex) => new Promise(function(resolve, reject) {
   .catch((e) => reject(e));
 });
 
+const createTable_videos = (knex) => new Promise(function(resolve, reject) {
+  knex.schema.createTable('videos', (table) => {
+    table.increments();
+    table.text("low_res");
+    table.text("standard_res");
+    table.text("low_band");
+  })
+  .then(() => resolve())
+  .catch((e) => reject(e));
+});
+
 const createTable_ig_users = (knex) => new Promise(function(resolve, reject) {
   knex.schema.createTable('ig_users', (table) => {
     table.increments();
@@ -58,6 +69,7 @@ const createTable_media = (knex) => new Promise(function(resolve, reject) {
     table.timestamp("created_time");
     table.integer("ig_users_id").references('id').inTable('ig_users').onDelete('CASCADE');
     table.integer("image_id").references('id').inTable('images').onDelete('CASCADE');
+    table.integer("video_id").references('id').inTable('videos').nullable();
     table.timestamp("caption_created_time").nullable();
     table.string("type");
     table.text("caption_text").nullable();
@@ -96,6 +108,7 @@ exports.up = (knex) => Promise.all([
       createTable_tags(knex),
       createTable_images(knex),
       createTable_ig_users(knex),
+      createTable_videos(knex),
       createTable_queries(knex),
       createTable_media(knex),
       createTable_media_tags(knex),
@@ -108,6 +121,7 @@ exports.down = (knex) => Promise.all([
     'media',
     'tags',
     'queries',
+    'videos',
     'tags_queries',
     'queries_media',
     'media_tags',

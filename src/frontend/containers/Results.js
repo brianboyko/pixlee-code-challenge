@@ -41,9 +41,7 @@ class Results extends Component {
       },
       json: true,
     }, (err, response, body) => {
-      console.log("err", err);
-      console.log("response", response);
-      console.log("body", body);
+
       this.props.actions.loadImages(body);
     });
   }

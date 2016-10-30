@@ -2,6 +2,7 @@
 
 import moment from 'moment';
 import Images from './Images';
+import Videos from './Videos';
 import IgUsers from './IgUsers';
 import { MediaTags, QueriesMedia } from './Intermediates';
 
@@ -11,22 +12,28 @@ export default (knex) => {
   const igUsers = IgUsers(knex);
   const mediaTags = MediaTags(knex);
   const queriesMedia = QueriesMedia(knex);
+  const videos = Videos(knex);
 
   const create = (media) => {
 
-    if(media.type === "video"){
-      console.log("video type");
-      console.log(JSON.stringify(media)); 
-    }
+
     const addImage = () => new Promise(function(resolve, reject) {
       resolve(images.create(media.images));
     });
     const addUser = () => new Promise(function(resolve, reject) {
       resolve(igUsers.create(media.user));
     });
+    const addVideo = () => new Promise(function(resolve, reject) {
+      if(media.type === "video"){
+        resolve(videos.create(media.videos));
+      } else {
+        resolve(null);
+      }
+    });
 
 
-    return Promise.all([addImage(), addUser()])
+
+    return Promise.all([addImage(), addUser(), addVideo()])
       .then((ids) => knex('media').insert({
           number_likes: media.likes.count,
           number_comments: media.comments.count,
@@ -38,6 +45,7 @@ export default (knex) => {
           link_url: media.link,
           image_id: ids[0][0],
           ig_users_id: ids[1][0],
+          video_id: ids[2] ? ids[2][0] : null,
           caption_text: media.caption ? media.caption.text : null,
           caption_created_time: media.caption ? moment.unix(parseInt(media.caption.created_time)).toISOString() : null,
         })
@@ -47,7 +55,7 @@ export default (knex) => {
 
   const read = {
     byId: (id) => knex('media').where({ id }).select(),
-    byCreatedTime: (range) => knex('media').whereBetween('creted_time', [range.startDate, range.endDate]),
+    byCreatedTime: (range) => knex('media').whereBetween('created_time', [range.startDate, range.endDate]),
   };
 
   // 'delete' is a reserved keyword.

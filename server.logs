@@ -1,0 +1,82 @@
+
+> pixlee-code-challenge@0.2.0 start /home/brianboyko/source/pixlee-code-challenge
+> npm run build:frontend && npm run serve
+
+
+> pixlee-code-challenge@0.2.0 build:frontend /home/brianboyko/source/pixlee-code-challenge
+> node node_modules/.bin/webpack
+
+Hash: 4ff35862e498119b09e5
+Version: webpack 1.13.3
+Time: 4078ms
+        Asset     Size  Chunks             Chunk Names
+app.bundle.js  4.35 MB       0  [emitted]  main
+    + 849 hidden modules
+
+> pixlee-code-challenge@0.2.0 serve /home/brianboyko/source/pixlee-code-challenge
+> npm run build:backend && node ./bin/server/server.js
+
+
+> pixlee-code-challenge@0.2.0 build:backend /home/brianboyko/source/pixlee-code-challenge
+> babel src/backend -d bin/server
+
+src/backend/api.js -> bin/server/api.js
+src/backend/database/controllers/query.js -> bin/server/database/controllers/query.js
+src/backend/database/db.js -> bin/server/database/db.js
+src/backend/database/models/IgUsers.js -> bin/server/database/models/IgUsers.js
+src/backend/database/models/Images.js -> bin/server/database/models/Images.js
+src/backend/database/models/Intermediates.js -> bin/server/database/models/Intermediates.js
+src/backend/database/models/Media.js -> bin/server/database/models/Media.js
+src/backend/database/models/Queries.js -> bin/server/database/models/Queries.js
+src/backend/database/models/Tags.js -> bin/server/database/models/Tags.js
+src/backend/database/models/Videos.js -> bin/server/database/models/Videos.js
+src/backend/instagram/Interface.js -> bin/server/instagram/Interface.js
+src/backend/mailer/mailer.js -> bin/server/mailer/mailer.js
+src/backend/migrations/20161022003041_initial_migration.js -> bin/server/migrations/20161022003041_initial_migration.js
+src/backend/router.js -> bin/server/router.js
+src/backend/server.js -> bin/server/server.js
+Server is listening on port 3000
+start and end dates:  1477803600 1477889999
+. 0thundercats
+. 20thundercats
+done bundle
+ids:  [ [ 21 ],
+  [ 22 ],
+  [ 23 ],
+  [ 24 ],
+  [ 25 ],
+  [ 29 ],
+  [ 26 ],
+  [ 27 ],
+  [ 28 ],
+  [ 30 ],
+  [ 31 ],
+  [ 32 ],
+  [ 33 ],
+  [ 34 ],
+  [ 38 ],
+  [ 35 ],
+  [ 36 ],
+  [ 37 ],
+  [ 39 ],
+  [ 40 ],
+  [ 41 ],
+  [ 42 ],
+  [ 43 ],
+  [ 44 ],
+  [ 45 ],
+  [ 46 ],
+  [ 47 ],
+  [ 48 ],
+  [ 49 ],
+  [ 50 ],
+  [ 51 ],
+  [ 52 ],
+  [ 53 ],
+  [ 54 ],
+  [ 55 ],
+  [ 56 ],
+  [ 57 ],
+  [ 58 ],
+  [ 59 ],
+  [ 60 ] ]

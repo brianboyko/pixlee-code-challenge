@@ -1,4 +1,5 @@
 // ig_users model
+
 export default (knex) => {
 
   const create = (user) =>  knex('ig_users').insert({

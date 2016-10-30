@@ -24,8 +24,6 @@ const getFromIGByTag = (tagName) => new Promise(function(resolve, reject) {
     }
   }, (err, response, body) => {
     if (err) {
-      console.log("err in getFromIGByTag: ", err)
-
       reject(err);
     } else {
       resolve(JSON.parse(body));
@@ -39,7 +37,6 @@ const getFromIGByTag = (tagName) => new Promise(function(resolve, reject) {
 const getFromFullURL = (fullURL) => new Promise(function(resolve, reject) {
   request.get(fullURL, (err, response, body) => {
     if (err) {
-      console.log("err in getFromFullURL: ", err)
       reject(err);
     } else {
       resolve(JSON.parse(body));
@@ -80,7 +77,9 @@ const getThisManyPhotos = (numPhotos, tagName, previous, isThrottled = false) =>
       } else {
         resolve(getThisManyPhotos(numPhotos, tagName, igResp, isThrottled));
       }
-    }).catch((err) => reject(err));
+    }).catch((err) => {
+      reject(err)
+    });
   } else {
     getNext(previous.pagination.next_url).then((igResp) => {
       let bundle = consolidate(previous, igResp);
@@ -89,7 +88,9 @@ const getThisManyPhotos = (numPhotos, tagName, previous, isThrottled = false) =>
       } else {
         resolve(getThisManyPhotos(numPhotos, tagName, bundle, isThrottled));
       }
-    }).catch((err) => reject(err));
+    }).catch((err) => {
+      reject(err)
+    });
   }
 });
 
@@ -121,7 +122,7 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
     });
 
   const getPhotosInDateRange = (tagName, { startDate, endDate }, isThrottled = false) => {
-    console.log("getPhotosInDateRange is running", tagName, startDate, endDate)
+    console.log("start and end dates: ", startDate, endDate);
 
     // throttle the functions if we need to.
     let getInit = isThrottled ? (...args) => throttle(getFromIGByTag, args) : getFromIGByTag;
@@ -142,10 +143,11 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
       } else {
         getNext(prev.pagination.next_url).then((igResp) => {
           let bundle = consolidate(prev, igResp);
-          if (bundle.data[bundle.data.length - 1].created_time <= startDate || bundle.data.length === 0) {
+          if (bundle.data[bundle.data.length - 1].created_time <= startDate || bundle.data.length > 20) {
             console.log('done bundle')
             resolve(bundle);
           } else {
+            console.log("latest time: ", bundle.date[bundle.data.length -1], "startDate:", startDate)
             resolve(recGetPhotos(bundle));
           }
         }).catch((err) => reject(err));

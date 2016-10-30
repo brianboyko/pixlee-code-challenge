@@ -35,7 +35,11 @@ const ArchiveCard = (props) => (
         <CardMedia
         overlay={<CardTitle subtitle={"Comments: " + props.media.number_comments + ", Likes: " + props.media.number_likes}/>}
         >
-          <img src={props.images.standard_url} />
+          {props.media.type === "video" ?
+          <video width="400" controls>
+            <source src={props.videos.standard_url} type="video/mp4"/>
+            Your browser does not support HTML5 video.
+          </video>: <img src={props.images.standard_url} /> }
         </CardMedia>
         <CardText>
           <div>{props.media.caption_text}</div>

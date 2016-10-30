@@ -8,9 +8,11 @@ const { getFromIGByTag, getPhotosInDateRange } = Interface;
 
 export default (server, app) => {
   const queryController = QueryController(knex);
+
   app.get('/api/test', (req, res) => {
     res.send("I'm in L.A. My highlights look okay.");
   });
+
 
   app.post('/api/testpost', (req, res) => {
     res.send(req.body.data.toUpperCase());
@@ -19,21 +21,21 @@ export default (server, app) => {
   app.get('/api/getLatest/:tagname', function (req, res) {
     getFromIGByTag(req.params.tagname)
       .then((data) => JSON.stringify(data))
-      .then((jsonData) => res.send(jsonData));
+      .then((jsonData) => res.send(jsonData))
+      .catch((e) => console.log(e));
   });
 
   app.post('/api/createcollection', function (req, res) {
-    console.log("req.body", req.body);
     queryController.startQuery(
-        req.body.tagName,
-        { startDate: req.body.startDate, endDate: req.body.endDate },
-        req.body.userEmail,
-        res
-      );
+      req.body.tagName,
+      { startDate: req.body.startDate, endDate: req.body.endDate },
+      req.body.userEmail,
+      res
+    ).catch((e) => console.log(e));
   });
 
   app.get('/api/getCollection/:queryId', function (req, res) {
-    console.log("req.params.queryId", req.params.queryId)
-    queryController.retrieveQuery(req.params.queryId, res);
+    queryController.retrieveQuery(req.params.queryId, res)
+      .catch((e) => console.log(e));
   });
 };

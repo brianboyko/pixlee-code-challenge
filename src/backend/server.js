@@ -5,7 +5,6 @@ import http from 'http';
 import router from './router';
 import api from './api';
 
-const konsole = console;
 const PORT = process.env.PORT || 3000;
 process.env.NODE_ENV = "development";
 
@@ -21,7 +20,7 @@ app.use(bodyParser.urlencoded({
 const server = http.Server(app);
 
 server.listen(PORT, () => {
-  konsole.log(`Server is listening on port ${PORT}`);
+  console.log(`Server is listening on port ${PORT}`);
 });
 
 router(server, app);
