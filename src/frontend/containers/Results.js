@@ -31,7 +31,7 @@ class Results extends Component {
 
     request({
       method: 'GET',
-      url: process.env.ROOT_URL + process.env.PORT + '/api/getCollection/' + this.props.params.queryId,
+      url: document.location.href + '/api/getCollection/' + this.props.params.queryId,
       headers: {
         'cache-control': 'no-cache',
         'content-type': 'application/json'
