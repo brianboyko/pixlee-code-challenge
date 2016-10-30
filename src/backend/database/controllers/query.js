@@ -114,7 +114,7 @@ export default (knex) => {
           mRecord,
           images.read.byId(mRecord.image_id),
           igUsers.read.byId(mRecord.ig_users_id),
-          () => mRecord.video_id ? videos.read.byId(mRecord.video_id) : null,
+          (mRecord.video_id ? videos.read.byId(mRecord.video_id) : null),
         ])));
       })
       .then((results) => results.map((result) => ({
