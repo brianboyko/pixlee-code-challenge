@@ -32,9 +32,6 @@ export default (knex) => {
 
     queries.create(tagName, { startDate, endDate }, userEmail)
       .then((ids) => {
-        if(ids[0] === null) {
-          console.log('ids[0] === null queryId')
-        }
         queryId = ids[0];
         return queries.countInProgress();
       })
@@ -59,10 +56,6 @@ export default (knex) => {
       })
       .then((photos) => Promise.all(photos.data.map((photo) => media.create(photo))))
       .then((ids) => {
-        console.log("ids: ", ids)
-        if(ids[0] === null) {
-          console.log('ids[0] === null (photoID)')
-        }
         mediaIds = ids.map((id) => id[0]);
         return Promise.all(mediaIds.map(
           (mediaId) => queriesMedia.create({

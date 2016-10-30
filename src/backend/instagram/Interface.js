@@ -122,14 +122,11 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
     });
 
   const getPhotosInDateRange = (tagName, { startDate, endDate }, isThrottled = false) => {
-    console.log("start and end dates: ", startDate, endDate);
-
     // throttle the functions if we need to.
     let getInit = isThrottled ? (...args) => throttle(getFromIGByTag, args) : getFromIGByTag;
     let getNext = isThrottled ? (...args) => throttle(getFromFullURL, args) : getFromFullURL;
 
     const recGetPhotos = (prev) => new Promise(function(resolve, reject) {
-      console.log(". " + (prev ? prev.data.length : 0) + tagName);
       if (!prev) {
         getInit(tagName).then((igResp) => {
           if (igResp.data[igResp.data.length - 1].created_time <= startDate || igResp.data.length < 20) {
@@ -147,7 +144,6 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
             console.log('done bundle')
             resolve(bundle);
           } else {
-            console.log("latest time: ", bundle.date[bundle.data.length -1], "startDate:", startDate)
             resolve(recGetPhotos(bundle));
           }
         }).catch((err) => reject(err));

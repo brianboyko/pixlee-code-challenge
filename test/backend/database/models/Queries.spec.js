@@ -22,7 +22,7 @@ describe('./src/backend/database/models/Queries.js', function(){
 
     var test_id;
     it('creates a query record', function(done){
-      expect(queries.create("StephenFry", { startDate: 1477181705, endDate: 1477181800 }, 'stephen@fry.com')
+      expect(queries.create("StephenFry", { startDate: 1477181705000, endDate: 1477181800000 }, 'stephen@fry.com')
       .then((idResponse) => {
         test_id = idResponse[0];
         return idResponse[0];

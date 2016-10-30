@@ -48,6 +48,7 @@ describe('./src/backend/database/models/Media.js', function() {
           link_url: sampleRecord.link,
           caption_text: sampleRecord.caption.text,
           caption_created_time: moment.unix(sampleRecord.caption.created_time).toDate(),
+          video_id: null,
         })
         .notify(done);
     });
