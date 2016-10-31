@@ -198,16 +198,12 @@ export default {
   getFromFullURL,
   getTagData,
   getThisManyPhotos,
-  estimateNumberOfRequestsNeeded,
   getPhotosInDateRange,
   throttled: {
-    estimateTimeForRequest,
     getFromIGByTag: (...args) => throttle(getFromIGByTag, args),
     getFromFullURL: (...args) => throttle(getFromFullURL, args),
     getTagData: (...args) => throttle(getTagData, args),
     getThisManyPhotos: (numPhotos, tagName, previous) => getThisManyPhotos(numPhotos, tagName, previous, true),
-    estimateNumberOfRequestsNeeded: (tagName, { startDate, endDate }) =>
-      estimateNumberOfRequestsNeeded(tagName, { startDate, endDate }, true),
     getPhotosInDateRange: (tagName, { startDate, endDate }) =>
       getPhotosInDateRange(tagName, { startDate, endDate }, true),
   }
