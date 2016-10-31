@@ -55,37 +55,6 @@ describe("./src/backend/instagramInterface", function(){
     });
   });
 
-  describe('estimateNumberOfRequestsNeeded()', function(){
-    it('estimates the number of requests needed', function(done){
-      this.timeout(80000);
-      const HOUR = 3600000;
-      expect(
-        estimateNumberOfRequestsNeeded(
-          'nootnoot',
-          {
-            startDate: Date.now() - (2 * HOUR),
-            endDate: Date.now()
-          })
-      ).to.eventually.be.above(0).notify(done);
-    });
-  });
-
-  xdescribe('estimateTimeForRequest()', function(){
-    it('estimates the time for requests needed', function(done){
-      this.timeout(80000);
-      const HOUR = 3600000;
-      expect(
-        estimateTimeForRequest(
-          'nootnoot',
-          {
-            startDate: Date.now() - (2 * HOUR),
-            endDate: Date.now()
-          })
-          .then((mTime) => mTime.humanize())
-      ).to.eventually.be.a("string").notify(done);
-    });
-  });
-
   describe('getPhotosInDateRange()', function(){
     it('gets all the photos from the end of the date range', function(done){
       const HOUR = 3600000;

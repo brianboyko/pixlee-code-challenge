@@ -6,6 +6,13 @@ import moment from 'moment';
 const transporter = nodemailer
   .createTransport('smtps://whichlang.challenge%40gmail.com:whichlangchallenge@smtp.gmail.com');
 
+/**
+ * Sends an email
+ * @param  {object} options
+ * @return {Promise}
+ *   @resolve {object} -- info on success or failure
+ *   @reject {error};
+ */
 const sendMail = (options) => new Promise(function(resolve, reject) {
   transporter.sendMail(options, (err, info) => {
     if(err){
@@ -17,7 +24,14 @@ const sendMail = (options) => new Promise(function(resolve, reject) {
   });
 });
 
-
+/**
+ * sendConfirmationEmail sends the confirmation e-mail.
+ * @param  {string} tagName
+ * @param  {Number/Date.now()} startDate
+ * @param  {Number/Date.now()} endDate
+ * @param  {string} userEmail
+ * @return {sendMail}
+ */
 const sendConfirmationEmail = (tagName, { startDate, endDate }, userEmail) => {
   let mailText = `Hello! We are sending this e-mail to let you know that we are ` +
     `currently processing your query for photos tagged with #${tagName} between ` +
@@ -35,7 +49,15 @@ const sendConfirmationEmail = (tagName, { startDate, endDate }, userEmail) => {
   return sendMail(mailOptions);
 };
 
-
+/**
+ * sendResultsEmail sends the Results e-mail.
+ * @param  {string} tagName
+ * @param  {Number/Date.now()} startDate
+ * @param  {Number/Date.now()} endDate
+ * @param  {string} userEmail
+ * @param  {Number} queryId - id for the query.
+ * @return {sendMail}
+ */
 const sendResultsEmail = (tagName, { startDate, endDate }, userEmail, queryId) => {
   let mailText = `Thanks for waiting! Your query for photos tagged with #${tagName} between ` +
     moment(startDate).format('Do MMMM YYYY, h:mm:ss a') + " and " +

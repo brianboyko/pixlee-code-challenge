@@ -7,6 +7,15 @@ import Videos from './Videos';
 import IgUsers from './IgUsers';
 import { MediaTags, QueriesMedia } from './Intermediates';
 
+
+/**
+ * Media - model for 'media" table'
+ * @param  {object} knex - database connection
+ * @return {object}
+ *   @method {function} create
+ *   @method {function} read
+ *   @method {function} del
+ */
 export default (knex) => {
 
   const images = Images(knex);

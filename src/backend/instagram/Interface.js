@@ -9,6 +9,13 @@ const HOUR = 3600000;
 
 let currentLoad = 1; // this is going to be a system-level variable eventually that we will get from the server.
 
+/**
+ * throttle - delays the execution of a function.
+ * @param  {Function} fn   a function
+ * @param  {array}   args - that function's argument
+ * @return {Promise}
+ *   @resolves fn(args);
+ */
 const throttle = (fn, args) => new Promise(function(resolve) {
   setTimeout(() => {
     resolve(fn.apply(null, args));
@@ -16,7 +23,13 @@ const throttle = (fn, args) => new Promise(function(resolve) {
 });
 
 
-
+/**
+ * getFromIGByTag - gets the latest from Instagram, based on a tag.
+ * @param  {string} tagName
+ * @return {Promise}
+ *   @resolves {object} - data from the Instagram API
+ *   @rejects {error}
+ */
 const getFromIGByTag = (tagName) => new Promise(function(resolve, reject) {
   request.get({
     url: INSTAGRAM_URL + tagName + '/media/recent',
@@ -32,9 +45,16 @@ const getFromIGByTag = (tagName) => new Promise(function(resolve, reject) {
   });
 });
 
-// if we've used up our Instagram token, we get this err:
-/* err in getFromFullURL:  { [Error: read ECONNRESET] code: 'ECONNRESET', errno: 'ECONNRESET', syscall: 'read' }
-*/
+
+/**
+ * getFromFullURL - gets the next page of data from instagram based on a URL.
+ * @param  {string} fullURL - the next URL in instagram's pagination.
+ * @return {Promise}
+ *   @resolves {object} - data from the Instagram API
+ *   @rejects {error}
+ *     if we've used up our Instagram token, we get this err:
+ *     err in getFromFullURL:  { [Error: read ECONNRESET] code: 'ECONNRESET', errno: 'ECONNRESET', syscall: 'read' }
+ */
 const getFromFullURL = (fullURL) => new Promise(function(resolve, reject) {
   request.get(fullURL, (err, response, body) => {
     if (err) {
@@ -45,6 +65,12 @@ const getFromFullURL = (fullURL) => new Promise(function(resolve, reject) {
   });
 });
 
+/**
+ * consolidate - consolidates two responses from the API into one bundle.
+ * @param  {object} firstData
+ * @param  {object} nextData
+ * @return {object} - contains all the data of the first and next page in the API.
+ */
 const consolidate = (firstData, nextData) => {
   let smushObj = firstData;
   smushObj.pagination.next_max_id = nextData.pagination.next_max_id;
@@ -53,6 +79,13 @@ const consolidate = (firstData, nextData) => {
   return smushObj;
 };
 
+/**
+ * getTagData grabs the initial data from the Instagram APi for a particular tag.
+ * @param  {string} tagName
+ * @return {Promise}
+ *   @resolves {object} - data from Instagram
+ *   @rejects {error}
+ */
 const getTagData = (tagName) => new Promise(function(resolve, reject) {
   request.get({
     url: INSTAGRAM_URL + tagName,
@@ -68,6 +101,21 @@ const getTagData = (tagName) => new Promise(function(resolve, reject) {
   });
 });
 
+/**
+ * getThisManyPhotos -- DEPRECIATED
+ * As part of the research into the project, this was used to
+ * see if I could chain together requests to get a fixed number of
+ * photos. This is effectively dead code but might be useful in the future,
+ * especially if one is to grab, say, 100 photos unthrottled, followed by
+ * a throttled request for the next 100.
+ * @param  {Number}  numPhotos - the number of photos to grab
+ * @param  {string}  tagName
+ * @param  {object or undefined} previous - the results we have so far.
+ * @param  {Boolean} [isThrottled=false]
+ * @return {Promise}
+ *   @resolves {object} - data from Instagram
+ *   @rejects {error}
+ */
 const getThisManyPhotos = (numPhotos, tagName, previous, isThrottled = false) => new Promise((resolve, reject) => {
   let getInit = isThrottled ? (...args) => throttle(getFromIGByTag, args) : getFromIGByTag;
   let getNext = isThrottled ? (...args) => throttle(getFromFullURL, args) : getFromFullURL;
@@ -95,38 +143,28 @@ const getThisManyPhotos = (numPhotos, tagName, previous, isThrottled = false) =>
   }
 });
 
-
-const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrottled = false) =>
-  new Promise(function(resolve, reject) {
-    let getData = isThrottled ? (...args) => throttle(getTagData, args) : getTagData;
-    let getMany = isThrottled ?
-      (numPhotos, tagName, previous) => getThisManyPhotos(numPhotos, tagName, previous, true) :
-      getThisManyPhotos;
-      Promise.all([
-        getData(tagName),
-        getMany(100, tagName)
-      ])
-      .then((v) => ({ tagData: v[0], last100Photos: v[1] }))
-      .then(({ tagData, last100Photos }) => {
-        let number = last100Photos.data.length;
-        if (number < 100) {
-          resolve(Math.ceil(number / 20));
-        } else {
-          let latest = last100Photos.data[0].created_time;
-          let oldest = last100Photos.data[last100Photos.data.length - 1].created_time;
-          let timespan = (latest - oldest) / 5;
-          let timeLength = Date.now() - startDate;
-          resolve(Math.ceil(timeLength / timespan));
-        }
-      })
-      .catch((err) => reject(err));
-    });
-
+  /**
+   * getPhotosInDateRange - gets the photos in the date range.
+   * @param  {string}  tagName
+   * @param  {Moment}  startDate
+   * @param  {Moment}  endDate
+   * @param  {Boolean} [isThrottled=false]
+   * @return {function} recGetPhotos (which returns a promise which resolves photos from IG)
+   */
   const getPhotosInDateRange = (tagName, { startDate, endDate }, isThrottled = false) => {
     // throttle the functions if we need to.
     let getInit = isThrottled ? (...args) => throttle(getFromIGByTag, args) : getFromIGByTag;
     let getNext = isThrottled ? (...args) => throttle(getFromFullURL, args) : getFromFullURL;
 
+    /**
+     * recGetPhotos is a recursive function which has been declared here so that we
+     * can use getInit and getNext as the throttled or unthrottled versions of the functions
+     * through closure.
+     * @param  {object or undefined} prev - the previous bit of the bundle.
+     * @return {Promise}
+     *   @resolves {object} - photos from instagram
+     *   @rejects {error}
+     */
     const recGetPhotos = (prev) => new Promise(function(resolve, reject) {
       if (!prev) {
         getInit(tagName).then((igResp) => {
@@ -154,14 +192,6 @@ const estimateNumberOfRequestsNeeded = (tagName, { startDate, endDate }, isThrot
     return recGetPhotos();
 
   };
-
-
-const estimateTimeForRequest = (tagName, { startDate, endDate }) => new Promise(function(resolve, reject) {
-  estimateNumberOfRequestsNeeded(tagName, { startDate, endDate }, true).then((numReq) => {
-      return (HOUR * numReq) / (REQ_LIMIT * currentLoad);
-    })
-    .then((milliseconds) => resolve(moment.duration(milliseconds))).catch((err) => reject(err));
-});
 
 export default {
   getFromIGByTag,

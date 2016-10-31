@@ -14,6 +14,11 @@ const { sendConfirmationEmail, sendResultsEmail } = Mailer;
 
 const { getPhotosInDateRange } = Interface;
 
+/**
+ * default ("queryController");
+ * @param  {object} knex - Object containing the active connection to the postgres database;
+ * @return {object}      - methods "startQuery" and "retrieveQuery"
+ */
 export default (knex) => {
   const tags = Tags(knex);
   const queries = Queries(knex);
@@ -22,8 +27,29 @@ export default (knex) => {
   const images = Images(knex);
   const igUsers = IgUsers(knex);
   const videos = Videos(knex);
+  // This is the threshhold of simultanious connections to use before throttling. Disabled in this build.
   const LOAD = Infinity;
 
+  /**
+   * startQuery - creates and executes a query to the database as well as the Instagram API.
+   * @param  {string} tagName    - the name of the tag to search for.
+   * @param  {Moment} startDate  - the earliest date to search for.
+   * @param  {Moment} endDate    - the latest date to search for.
+   * @param  {string} userEmail  - the email address of the user (to send the results to);
+   * @param  {callback} res      - a callback to send the front-end data.
+   *                                 This is "res" of "req, res" that is provided by Express-built APIs.
+   *   @param {object}
+   *     @property {Number}      - placement in the queue
+   *     @property email         - the email address (sent back to confirm to the user (in case there was a typo.)
+   *     @property id            - the ID of the query in the 'queries' table of the postgres database.
+   * @return {Promise}           [description]
+   *   @resolves {Object} -- N.B.: the resolution here is only used during testing, the relevant callback is "res";
+   *     @property {object} resultsEmailInfo - information on whether the results email was successful
+   *     @property {object} confirmationEmailInfo - information on whether the confirmation email was successful.
+   *     @property {Number} queryId - the ID of the query in the 'queries table of the postgres database.
+   *     @property {Array} mediaIds - an array of ID numbers of matching media in the media table of the database.
+   *   @rejects {error}
+   */
   const startQuery = (tagName, { startDate, endDate }, userEmail, res) => new Promise(function(resolve, reject) {
     let queryId; // closure ensures we have access to this throughout the "then" chain.
     let confirmationEmailInfo;
@@ -81,6 +107,22 @@ export default (knex) => {
       });
 });
 
+  /**
+   * retriveQuery - retrieves the appropriate image urls from the database to display to the user.
+   * @param  {Number} id         - the ID number of the query in the queries table of the database.
+   * @param  {callback} res      - a callback to send the front-end data.
+   *                                 This is "res" of "req, res" that is provided by Express-built APIs.
+   *   @param {Array}
+   *     @elements {object}
+   *       @property {object} media - metadata about the image/video
+   *         // these singletons should likely be refactored in future builds.
+   *       @property {singleton Array w/Object} images - Data about the still images.
+   *       @property {singleton Array w/Object} user - Data about the user.
+   *       @property {singleton Array w/Object or null} videos - If there are videos, data about the videos.
+   * @return {Promise}
+   *   @resolves {Object} -- N.B.: the resolution here is only used during testing, the relevant callback is "res";
+   *   @rejects {error}
+   */
   const retrieveQuery = (id, res) => new Promise(function(resolve, reject) {
     let queryId;
     let startDate;

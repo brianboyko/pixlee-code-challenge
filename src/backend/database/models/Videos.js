@@ -1,5 +1,14 @@
 'use strict';
 // videos model
+
+/**
+ * IgUsers - Model for 'videos' table
+ * @param  {object} knex - database connection
+ * @return {object}
+ *   @method {function} create
+ *   @method {function} read
+ *   @method {function} del
+ */
 export default (knex) => {
   const create = (video) => knex('videos').insert({
     low_res: video.low_resolution.url,
